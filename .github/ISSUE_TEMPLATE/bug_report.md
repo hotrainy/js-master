@@ -14,4 +14,18 @@ I tried this code:
 <code>
 ```
 
-I ex
+I expected to see this happen: *explanation*
+
+Instead, this happened: *explanation*
+
+### Meta
+
+`rustc --version --verbose`:
+```
+<version>
+```
+
+
+`crate version in Cargo.toml`:
+```toml
+[depende
