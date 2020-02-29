@@ -28,4 +28,12 @@ Instead, this happened: *explanation*
 
 `crate version in Cargo.toml`:
 ```toml
-[depende
+[dependencies]
+stdsimd = 
+```
+<!-- If this specifies the repo at HEAD, please include the latest commit. -->
+
+
+<!--
+If a backtrace is available, please include a backtrace in the code block by
+sett
