@@ -36,4 +36,15 @@ stdsimd =
 
 <!--
 If a backtrace is available, please include a backtrace in the code block by
-sett
+setting `RUST_BACKTRACE=1` in your environment. e.g.
+`RUST_BACKTRACE=1 cargo build`.
+-->
+<details><summary>Backtrace</summary>
+<p>
+
+```
+<backtrace>
+```
+
+</p>
+</details>
