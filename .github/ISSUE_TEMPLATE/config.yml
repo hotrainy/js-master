@@ -1,1 +1,6 @@
-# This only controls whe
+# This only controls whether a tiny, hard-to-find "open a blank issue" link appears at the end of
+# the template list.
+blank_issues_enabled: true
+contact_links:
+  - name: Intrinsic Support
+    url: 
