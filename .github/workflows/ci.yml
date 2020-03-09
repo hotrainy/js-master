@@ -31,4 +31,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tar
+        target:
+          # We shouldn't really have any OS-specific code, so think of this as a list of architectures
+          - x86_64-unknown-linux-gnu
+          - i686-unknown-linux-gnu
+          
