@@ -44,4 +44,12 @@ jobs:
           - powerpc64-unknown-linux-gnu
           - riscv64gc-unknown-linux-gnu
           - s390x-unknown-linux-gnu
-          - sparc64-
+          - sparc64-unknown-linux-gnu
+          - wasm32-unknown-unknown
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Rust
+        run: |
+          rustup update nightly --no-self-update
+ 
