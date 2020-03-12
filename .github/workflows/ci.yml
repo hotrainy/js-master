@@ -52,4 +52,8 @@ jobs:
       - name: Setup Rust
         run: |
           rustup update nightly --no-self-update
- 
+          rustup default nightly
+          rustup target add ${{ matrix.target }}
+          rustup component add clippy
+      - name: Run Clippy
+        run: cargo clippy --all-targets --
