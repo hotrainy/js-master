@@ -72,4 +72,6 @@ jobs:
 
         exclude:
           # The macos runners seem to only reliably support up to `avx`.
-          - {
+          - { target: x86_64-apple-darwin, target_feature: +avx2 }
+          # These features are statically known to be present for all 64 bit
+          # macs, and thus are co
