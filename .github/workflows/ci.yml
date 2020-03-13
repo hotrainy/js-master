@@ -68,4 +68,8 @@ jobs:
         # `default` means we use the default target config for the target,
         # `native` means we run with `-Ctarget-cpu=native`, and anything else is
         # an arg to `-Ctarget-feature`
-        target_f
+        target_feature: [default, native, +sse3, +ssse3, +sse4.1, +sse4.2, +avx, +avx2]
+
+        exclude:
+          # The macos runners seem to only reliably support up to `avx`.
+          - {
