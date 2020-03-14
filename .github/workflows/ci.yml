@@ -81,4 +81,8 @@ jobs:
           - { target: i686-pc-windows-msvc, target_feature: native }
           - { target: i586-pc-windows-msvc, target_feature: native }
 
-      
+        include:
+          # Populate the `matrix.os` field
+          - { target: x86_64-apple-darwin,      os: macos-latest }
+          - { target: x86_64-unknown-linux-gnu, os: ubuntu-latest }
+    
