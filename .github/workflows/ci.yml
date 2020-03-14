@@ -77,4 +77,8 @@ jobs:
           # macs, and thus are covered by the `default` test
           - { target: x86_64-apple-darwin, target_feature: +sse3 }
           - { target: x86_64-apple-darwin, target_feature: +ssse3 }
-          # -
+          # -Ctarget-cpu=native sounds like bad-news if target != host
+          - { target: i686-pc-windows-msvc, target_feature: native }
+          - { target: i586-pc-windows-msvc, target_feature: native }
+
+      
