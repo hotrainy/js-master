@@ -87,4 +87,8 @@ jobs:
           - { target: x86_64-unknown-linux-gnu, os: ubuntu-latest }
           - { target: x86_64-pc-windows-msvc,   os: windows-latest }
           - { target: i686-pc-windows-msvc,     os: windows-latest }
-          - { target: i586-pc-windows-msvc,     os: window
+          - { target: i586-pc-windows-msvc,     os: windows-latest }
+
+          # These are globally available on all the other targets.
+          - { target: i586-pc-windows-msvc, target_feature: +sse, os: windows-latest }
+          - { target: i586-p
