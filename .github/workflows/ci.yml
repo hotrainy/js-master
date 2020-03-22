@@ -107,4 +107,8 @@ jobs:
       - name: Configure RUSTFLAGS
         shell: bash
         run: |
-          case "${{ matrix.target
+          case "${{ matrix.target_feature }}" in
+            default)
+              echo "RUSTFLAGS=-Dwarnings" >> $GITHUB_ENV;;
+            native)
+              echo "RUSTFLAGS=-Dwarnings -Ctarget-cpu=native" >
