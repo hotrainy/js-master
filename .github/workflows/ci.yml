@@ -94,4 +94,10 @@ jobs:
           - { target: i586-pc-windows-msvc, target_feature: +sse2, os: windows-latest }
 
           # Annoyingly, the x86_64-unknown-linux-gnu runner *almost* always has
-          # avx512vl, but occasionally doe
+          # avx512vl, but occasionally doesn't.  Maybe one day we can enable it.
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Rust
+        run: |
+          rustup update nightly -
