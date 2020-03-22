@@ -111,4 +111,11 @@ jobs:
             default)
               echo "RUSTFLAGS=-Dwarnings" >> $GITHUB_ENV;;
             native)
-              echo "RUSTFLAGS=-Dwarnings -Ctarget-cpu=native" >
+              echo "RUSTFLAGS=-Dwarnings -Ctarget-cpu=native" >> $GITHUB_ENV
+              ;;
+            *)
+              echo "RUSTFLAGS=-Dwarnings -Ctarget-feature=${{ matrix.target_feature }}" >> $GITHUB_ENV
+              ;;
+          esac
+
+    
