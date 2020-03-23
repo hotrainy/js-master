@@ -123,4 +123,9 @@ jobs:
         run: |
           rustc -Vv
 
-          echo "Caveat: not all target features are e
+          echo "Caveat: not all target features are expected to be logged"
+
+          echo "## Requested target configuration (RUSTFLAGS=$RUSTFLAGS)"
+          rustc --print=cfg --target=${{ matrix.target }} $RUSTFLAGS
+
+  
