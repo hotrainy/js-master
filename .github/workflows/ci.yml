@@ -128,4 +128,7 @@ jobs:
           echo "## Requested target configuration (RUSTFLAGS=$RUSTFLAGS)"
           rustc --print=cfg --target=${{ matrix.target }} $RUSTFLAGS
 
-  
+          echo "## Supported target configuration for --target=${{ matrix.target }}"
+          rustc --print=cfg --target=${{ matrix.target }} -Ctarget-cpu=native
+
+          echo "## Natively supported target
