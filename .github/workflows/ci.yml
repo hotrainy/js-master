@@ -118,4 +118,9 @@ jobs:
               ;;
           esac
 
-    
+      # Super useful for debugging why a SIGILL occurred.
+      - name: Dump target configuration and support
+        run: |
+          rustc -Vv
+
+          echo "Caveat: not all target features are e
