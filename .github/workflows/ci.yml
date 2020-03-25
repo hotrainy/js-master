@@ -131,4 +131,11 @@ jobs:
           echo "## Supported target configuration for --target=${{ matrix.target }}"
           rustc --print=cfg --target=${{ matrix.target }} -Ctarget-cpu=native
 
-          echo "## Natively supported target
+          echo "## Natively supported target configuration"
+          rustc --print=cfg -Ctarget-cpu=native
+
+      - name: Test (debug)
+        run: cargo test --verbose --target=${{ matrix.target }}
+
+      - name: Test (release)
+        run
