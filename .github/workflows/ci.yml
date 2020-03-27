@@ -138,4 +138,9 @@ jobs:
         run: cargo test --verbose --target=${{ matrix.target }}
 
       - name: Test (release)
-        run
+        run: cargo test --verbose --target=${{ matrix.target }} --release
+
+  wasm-tests:
+    name: "wasm (firefox, ${{ matrix.name }})"
+    runs-on: ubuntu-latest
+    strategy
