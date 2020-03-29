@@ -143,4 +143,9 @@ jobs:
   wasm-tests:
     name: "wasm (firefox, ${{ matrix.name }})"
     runs-on: ubuntu-latest
-    strategy
+    strategy:
+      matrix:
+        include:
+          - { name: default, RUSTFLAGS: "" }
+          - { name: simd128, RUSTFLAGS: "-C target-feature=+simd128" }
+    steps:
