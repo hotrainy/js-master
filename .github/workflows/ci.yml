@@ -170,4 +170,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      # TODO: Sadly, we cant configure target-fea
+      # TODO: Sadly, we cant configure target-feature in a meaningful way
+      # because `cross` doesn't tell qemu to enable any non-default cpu
+      # features, nor does it give us a way to do so.
+      #
+      # Ultima
