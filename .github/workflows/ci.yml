@@ -163,4 +163,11 @@ jobs:
       - name: Test (release)
         run: wasm-pack test --firefox --headless crates/core_simd --release
         env:
-            RUSTFLAGS: ${{ m
+            RUSTFLAGS: ${{ matrix.rustflags }}
+
+  cross-tests:
+    name: "${{ matrix.target }} (via cross)"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # TODO: Sadly, we cant configure target-fea
