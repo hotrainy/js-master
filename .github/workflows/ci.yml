@@ -159,4 +159,8 @@ jobs:
       - name: Test (debug)
         run: wasm-pack test --firefox --headless crates/core_simd
         env:
-            RUSTFLAGS: $
+            RUSTFLAGS: ${{ matrix.rustflags }}
+      - name: Test (release)
+        run: wasm-pack test --firefox --headless crates/core_simd --release
+        env:
+            RUSTFLAGS: ${{ m
