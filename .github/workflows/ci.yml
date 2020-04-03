@@ -174,4 +174,6 @@ jobs:
       # because `cross` doesn't tell qemu to enable any non-default cpu
       # features, nor does it give us a way to do so.
       #
-      # Ultima
+      # Ultimately, we'd like to do something like [rust-lang/stdarch][stdarch].
+      # This is a lot more complex... but in practice it's likely that we can just
+      # snarf the doc
