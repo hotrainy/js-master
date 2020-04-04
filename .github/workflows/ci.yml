@@ -179,4 +179,10 @@ jobs:
       # snarf the docker config from around [here][1000-dockerfiles].
       #
       # [stdarch]: https://github.com/rust-lang/stdarch/blob/a5db4eaf/.github/workflows/main.yml#L67
-      # [1000-dockerfiles]: https://github.c
+      # [1000-dockerfiles]: https://github.com/rust-lang/stdarch/tree/a5db4eaf/ci/docker
+
+      matrix:
+        target:
+          - i586-unknown-linux-gnu
+          # 32-bit arm has a few idiosyncracies like having subnormal flushing
+   
