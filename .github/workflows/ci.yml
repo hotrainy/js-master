@@ -176,4 +176,7 @@ jobs:
       #
       # Ultimately, we'd like to do something like [rust-lang/stdarch][stdarch].
       # This is a lot more complex... but in practice it's likely that we can just
-      # snarf the doc
+      # snarf the docker config from around [here][1000-dockerfiles].
+      #
+      # [stdarch]: https://github.com/rust-lang/stdarch/blob/a5db4eaf/.github/workflows/main.yml#L67
+      # [1000-dockerfiles]: https://github.c
