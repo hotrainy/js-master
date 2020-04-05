@@ -191,4 +191,8 @@ jobs:
           # Note: The issue above means neither of these mips targets will use
           # MSA (mips simd) but MIPS uses a nonstandard binary representation
           # for NaNs which makes it worth testing on despite that.
-          - mips-unknown-linu
+          - mips-unknown-linux-gnu
+          - mips64-unknown-linux-gnuabi64
+          - riscv64gc-unknown-linux-gnu
+          # TODO this test works, but it appears to time out
+          # - powerpc-unknow
