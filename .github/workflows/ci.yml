@@ -198,4 +198,11 @@ jobs:
           # - powerpc-unknown-linux-gnu
           # TODO this test is broken, but it appears to be a problem with QEMU, not us.
           # - powerpc64le-unknown-linux-gnu
-          # TODO enable this once a new version of cros
+          # TODO enable this once a new version of cross is released
+          # - powerpc64-unknown-linux-gnu
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Rust
+        run: |
+          rust
