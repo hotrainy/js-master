@@ -188,4 +188,7 @@ jobs:
           # to zero on by default. Ideally we'd set
           - armv7-unknown-linux-gnueabihf
           - aarch64-unknown-linux-gnu
-          # Note: The issue above means neither of these mips t
+          # Note: The issue above means neither of these mips targets will use
+          # MSA (mips simd) but MIPS uses a nonstandard binary representation
+          # for NaNs which makes it worth testing on despite that.
+          - mips-unknown-linu
