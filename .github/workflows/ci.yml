@@ -211,4 +211,6 @@ jobs:
           rustup component add rust-src
 
       - name: Install Cross
- 
+        # Equivalent to `cargo install cross`, but downloading a prebuilt
+        # binary. Ideally we wouldn't hardcode a version, but the version number
+        # being 
