@@ -213,4 +213,7 @@ jobs:
       - name: Install Cross
         # Equivalent to `cargo install cross`, but downloading a prebuilt
         # binary. Ideally we wouldn't hardcode a version, but the version number
-        # being 
+        # being part of the tarball means we can't just use the download/latest
+        # URL :(
+        run: |
+          CROSS_URL=https://github.com/rust-embedded/cross/releases/download/v0.2
