@@ -219,4 +219,10 @@ jobs:
           CROSS_URL=https://github.com/rust-embedded/cross/releases/download/v0.2.1/cross-v0.2.1-x86_64-unknown-linux-gnu.tar.gz
           mkdir -p "$HOME/.bin"
           curl -sfSL --retry-delay 10 --retry 5 "${CROSS_URL}" | tar zxf - -C "$HOME/.bin"
-      
+          echo "$HOME/.bin" >> $GITHUB_PATH
+
+      - name: Test (debug)
+        run: cross test --verbose --target=${{ matrix.target }}
+
+      - name: Test (release)
+        run: cross test --verbose --target=${
