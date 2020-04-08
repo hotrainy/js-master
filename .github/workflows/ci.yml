@@ -225,4 +225,10 @@ jobs:
         run: cross test --verbose --target=${{ matrix.target }}
 
       - name: Test (release)
-        run: cross test --verbose --target=${
+        run: cross test --verbose --target=${{ matrix.target }} --release
+
+  features:
+    name: "Check cargo features (${{ matrix.simd }} × ${{ matrix.features }})"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: fal
