@@ -231,4 +231,13 @@ jobs:
     name: "Check cargo features (${{ matrix.simd }} × ${{ matrix.features }})"
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: fal
+      fail-fast: false
+      matrix:
+        simd:
+          - ""
+          - "avx512"
+        features:
+          - ""
+          - "--features std"
+          - "--features generic_const_exprs"
+          - "-
