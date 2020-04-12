@@ -253,4 +253,7 @@ jobs:
           rustup update nightly --no-self-update
           rustup default nightly
       - name: Detect AVX512
-        run: echo "CPU_FEATURE=$(lscpu | grep -o avx512[a-z]* | sed s/
+        run: echo "CPU_FEATURE=$(lscpu | grep -o avx512[a-z]* | sed s/avx/+avx/ | tr '\n' ',' )" >> $GITHUB_ENV
+      - name: Check build
+        if: ${{ matrix.simd == '' }}
+        run: RUSTFLAGS="-Dwarnings" cargo check --all-targets --no-default-features ${{ matrix
