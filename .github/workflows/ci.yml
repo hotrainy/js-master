@@ -243,4 +243,9 @@ jobs:
           - "--features std --features generic_const_exprs"
           - "--features all_lane_counts"
           - "--features all_lane_counts --features std"
-          - "--features all_lane_counts -
+          - "--features all_lane_counts --features generic_const_exprs"
+          - "--features all_lane_counts --features std --features generic_const_exprs"
+
+    steps:
+      - uses: actions/checkout@v2
+      - nam
