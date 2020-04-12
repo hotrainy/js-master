@@ -256,4 +256,9 @@ jobs:
         run: echo "CPU_FEATURE=$(lscpu | grep -o avx512[a-z]* | sed s/avx/+avx/ | tr '\n' ',' )" >> $GITHUB_ENV
       - name: Check build
         if: ${{ matrix.simd == '' }}
-        run: RUSTFLAGS="-Dwarnings" cargo check --all-targets --no-default-features ${{ matrix
+        run: RUSTFLAGS="-Dwarnings" cargo check --all-targets --no-default-features ${{ matrix.features }}
+      - name: Check AVX
+        if: ${{ matrix.simd == 'avx512' && contains(env.CPU_FEATURE, 'avx512') }}
+        run: |
+          echo "Found AVX features: $CPU_FEATURE"
+          RUST
