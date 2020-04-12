@@ -248,4 +248,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - nam
+      - name: Setup Rust
+        run: |
+          rustup update nightly --no-self-update
+          rustup default nightly
+      - name: Detect AVX512
+        run: echo "CPU_FEATURE=$(lscpu | grep -o avx512[a-z]* | sed s/
