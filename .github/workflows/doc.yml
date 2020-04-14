@@ -5,4 +5,14 @@ on:
     branches:
       - master
 
-j
+jobs:
+  release:
+    name: Deploy Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Setup Rust
+    
