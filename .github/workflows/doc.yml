@@ -15,4 +15,11 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Setup Rust
-    
+        run: |
+          rustup update nightly --no-self-update
+          rustup default nightly
+
+      - name: Build Documentation
+        run: cargo doc --no-deps
+      
+      -
