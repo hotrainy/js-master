@@ -261,4 +261,4 @@ jobs:
         if: ${{ matrix.simd == 'avx512' && contains(env.CPU_FEATURE, 'avx512') }}
         run: |
           echo "Found AVX features: $CPU_FEATURE"
-          RUST
+          RUSTFLAGS="-Dwarnings -Ctarget-feature=$CPU_FEATURE" cargo check --all-targets --no-default-features ${{ matrix.features }}
