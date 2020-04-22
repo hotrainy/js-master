@@ -7,4 +7,4 @@ Because SIMD is a subject that many programmers haven't worked with before, we t
 
 ## Quick Background
 
-**SIMD** stands for *Single Instruction, Multiple Data*. In other words, SIMD is when the CPU performs a single action on mo
+**SIMD** stands for *Single Instruction, Multiple Data*. In other words, SIMD is when the CPU performs a single action on more than one logical piece of data at the same time. Instead of adding two registers that each contain one `f32` value and getting an `f32` as the result, you might add two registers 
