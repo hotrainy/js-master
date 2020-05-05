@@ -21,4 +21,6 @@ SIMD has a few special vocabulary terms you should know:
 
 * **Vectorize**: An operation that uses SIMD instructions to operate over a vector is often referred to as "vectorized".
 
-* **Autovectorization**: Also known as _implicit vectorization_. This is when a compiler can
+* **Autovectorization**: Also known as _implicit vectorization_. This is when a compiler can automatically recognize a situation where scalar instructions may be replaced with SIMD instructions, and use those instead.
+
+* **Scalar:** "Scalar" in mathematical contexts r
