@@ -23,4 +23,4 @@ SIMD has a few special vocabulary terms you should know:
 
 * **Autovectorization**: Also known as _implicit vectorization_. This is when a compiler can automatically recognize a situation where scalar instructions may be replaced with SIMD instructions, and use those instead.
 
-* **Scalar:** "Scalar" in mathematical contexts r
+* **Scalar:** "Scalar" in mathematical contexts refers to values that can be represented as a single element, mostly numbers like 6, 3.14, or -2. It can also be used to describe "scalar operations" that use strictly scalar values, like addition. This te
