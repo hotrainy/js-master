@@ -33,4 +33,6 @@ SIMD has a few special vocabulary terms you should know:
 
 * **Vertical:** When an operation is "vertical", each lane processes individually without regard to the other lanes in the same vector. For example, a "vertical add" between two vectors would add lane 0 in `a` with lane 0 in `b`, with the total in lane 0 of `out`, and then the same thing for lanes 1, 2, etc. Most SIMD operations are vertical operations, so if your problem is a vertical problem then you can probably solve it with SIMD.
 
-* **Reducing/Reduce:** When an operation is "red
+* **Reducing/Reduce:** When an operation is "reducing" (functions named `reduce_*`), the lanes within a single vector are merged using some operation such as addition, returning the merged value as a scalar. For instance, a reducing add would return the sum of all the lanes' values.
+
+* **Target Feature:** Rust calls a CPU architecture extension a `target_feature`. Proper SIMD requires various CPU exte
