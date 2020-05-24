@@ -35,4 +35,8 @@ SIMD has a few special vocabulary terms you should know:
 
 * **Reducing/Reduce:** When an operation is "reducing" (functions named `reduce_*`), the lanes within a single vector are merged using some operation such as addition, returning the merged value as a scalar. For instance, a reducing add would return the sum of all the lanes' values.
 
-* **Target Feature:** Rust calls a CPU architecture extension a `target_feature`. Proper SIMD requires various CPU exte
+* **Target Feature:** Rust calls a CPU architecture extension a `target_feature`. Proper SIMD requires various CPU extensions to be enabled (details below). Don't confuse this with `feature`, which is a Cargo crate concept.
+
+## Target Features
+
+When using SIMD, you should be familiar with the CPU 
