@@ -48,4 +48,6 @@ On `arm` and `aarch64` it's fairly simple. There's just one CPU feature that con
 On `x86` and `x86_64` it's slightly more complicated. The SIMD support is split into many levels:
 * 128-bit: `sse`, `sse2`, `sse3`, `ssse3` (not a typo!), `sse4.1`, `sse4.2`, `sse4a` (AMD only)
 * 256-bit (mostly): `avx`, `avx2`, `fma`
-* 512-bit (mostly): a *wide* range o
+* 512-bit (mostly): a *wide* range of `avx512` variations
+
+The list notes the bit widths available at each feature level, though the operations of the more advanced features can generally be used with the smaller register
