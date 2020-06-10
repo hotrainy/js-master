@@ -50,4 +50,10 @@ On `x86` and `x86_64` it's slightly more complicated. The SIMD support is split 
 * 256-bit (mostly): `avx`, `avx2`, `fma`
 * 512-bit (mostly): a *wide* range of `avx512` variations
 
-The list notes the bit widths available at each feature level, though the operations of the more advanced features can generally be used with the smaller register sizes as well. For example, new operations introduced in `avx` generally have a 128-bit form as well as a 256-bit form. This means that even if you only do 128-bit work you can 
+The list notes the bit widths available at each feature level, though the operations of the more advanced features can generally be used with the smaller register sizes as well. For example, new operations introduced in `avx` generally have a 128-bit form as well as a 256-bit form. This means that even if you only do 128-bit work you can still benefit from the later feature levels.
+
+> By default, the `i686` and `x86_64` Rust targets enable `sse` and `sse2`.
+
+### Selecting Additional Target Features
+
+If you want to enable su
