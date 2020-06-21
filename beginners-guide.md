@@ -62,4 +62,10 @@ If you know that you're targeting a specific CPU you can instead use the [target
 
 The [Steam Hardware Survey](https://store.steampowered.com/hwsurvey/Steam-Hardware-Software-Survey-Welcome-to-Steam) is one of the few places with data on how common various CPU features are. The dataset is limited to "the kinds of computers owned by people who play computer games", so the info only covers `x86`/`x86_64`, and it also probably skews to slightly higher quality computers than average. Still, we can see that the `sse` levels have very high support, `avx` and `avx2` are quite common as well, and the `avx-512` family is still so early in adoption you can barely find it in consumer grade stuff.
 
-## Running a program compiled for a CPU feature level that the CPU doesn't support is automatic undefined behavio
+## Running a program compiled for a CPU feature level that the CPU doesn't support is automatic undefined behavior.
+
+This means that if you build your program with `avx` support enabled and run it on a CPU without `avx` support, it's **instantly** undefined behavior.
+
+Even without an `unsafe` block in sight.
+
+T
