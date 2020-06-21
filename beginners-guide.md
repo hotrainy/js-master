@@ -74,4 +74,6 @@ This is why the various Rust targets *don't* enable many CPU feature flags by de
 
 So please select an appropriate CPU feature level when building your programs.
 
-## S
+## Size, Alignment, and Unsafe Code
+
+Most of the portable SIMD API is designed to allow the user to gloss over the details of different architectures and avoid using unsafe code. However, there are plenty 
