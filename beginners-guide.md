@@ -70,4 +70,8 @@ Even without an `unsafe` block in sight.
 
 This is no bug in Rust, or soundness hole in the type system. You just plain can't make a CPU do what it doesn't know how to do.
 
-This is why the various Rust targets *don't*
+This is why the various Rust targets *don't* enable many CPU feature flags by default: requiring a more advanced CPU makes the final binary *less* portable.
+
+So please select an appropriate CPU feature level when building your programs.
+
+## S
