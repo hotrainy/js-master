@@ -68,4 +68,6 @@ This means that if you build your program with `avx` support enabled and run it 
 
 Even without an `unsafe` block in sight.
 
-T
+This is no bug in Rust, or soundness hole in the type system. You just plain can't make a CPU do what it doesn't know how to do.
+
+This is why the various Rust targets *don't*
