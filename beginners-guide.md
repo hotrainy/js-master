@@ -80,4 +80,4 @@ Most of the portable SIMD API is designed to allow the user to gloss over the de
 
 Fortunately, most SIMD types have a fairly predictable size. `i32x4` is bit-equivalent to `[i32; 4]` and so can be bitcast to it, e.g. using [`mem::transmute`], though the API usually offers a safe cast you can use instead.
 
-However, this is not the same as alignment. Computer architectures generally prefer al
+However, this is not the same as alignment. Computer architectures generally prefer aligned accesses, especially when moving data between memory and vector registers, and while some support specialized operations that can bend the rules to help with this, unaligned access is stil
