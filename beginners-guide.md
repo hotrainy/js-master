@@ -87,4 +87,5 @@ When working with slices, data correctly aligned for SIMD can be acquired using 
 [`mem::transmute`]: https://doc.rust-lang.org/core/mem/fn.transmute.html
 [`mem::align_of`]: https://doc.rust-lang.org/core/mem/fn.align_of.html
 [`as_simd`]: https://doc.rust-lang.org/nightly/std/primitive.slice.html#method.as_simd
-[`as_simd_mut`]: https://doc.rust-lang.org/nigh
+[`as_simd_mut`]: https://doc.rust-lang.org/nightly/std/primitive.slice.html#method.as_simd_mut
+
