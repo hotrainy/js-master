@@ -85,4 +85,6 @@ However, this is not the same as alignment. Computer architectures generally pre
 When working with slices, data correctly aligned for SIMD can be acquired using the [`as_simd`] and [`as_simd_mut`] methods of the slice primitive.
 
 [`mem::transmute`]: https://doc.rust-lang.org/core/mem/fn.transmute.html
-[`mem::align_of`]:
+[`mem::align_of`]: https://doc.rust-lang.org/core/mem/fn.align_of.html
+[`as_simd`]: https://doc.rust-lang.org/nightly/std/primitive.slice.html#method.as_simd
+[`as_simd_mut`]: https://doc.rust-lang.org/nigh
