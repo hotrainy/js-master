@@ -249,3 +249,69 @@ pub fn simd_inv4x4(m: Matrix4x4) -> Option<Matrix4x4> {
     let mut m = m;
 
     m[0] = res0.to_array();
+    m[1] = res1.to_array();
+    m[2] = res2.to_array();
+    m[3] = res3.to_array();
+
+    Some(Matrix4x4(m))
+}
+
+#[cfg(test)]
+#[rustfmt::skip]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() {
+    let tests: &[(Matrix4x4, Option<Matrix4x4>)] = &[
+        // Identity:
+        (Matrix4x4([
+            [1., 0., 0., 0.],
+            [0., 1., 0., 0.],
+            [0., 0., 1., 0.],
+            [0., 0., 0., 1.],
+         ]),
+         Some(Matrix4x4([
+             [1., 0., 0., 0.],
+             [0., 1., 0., 0.],
+             [0., 0., 1., 0.],
+             [0., 0., 0., 1.],
+         ]))
+        ),
+        // None:
+        (Matrix4x4([
+            [1., 2., 3., 4.],
+            [12., 11., 10., 9.],
+            [5., 6., 7., 8.],
+            [16., 15., 14., 13.],
+        ]),
+         None
+        ),
+        // Other:
+        (Matrix4x4([
+            [1., 1., 1., 0.],
+            [0., 3., 1., 2.],
+            [2., 3., 1., 0.],
+            [1., 0., 2., 1.],
+        ]),
+         Some(Matrix4x4([
+             [-3., -0.5,   1.5,  1.0],
+             [ 1., 0.25, -0.25, -0.5],
+             [ 3., 0.25, -1.25, -0.5],
+             [-3., 0.0,    1.0,  1.0],
+         ]))
+        ),
+
+
+    ];
+
+        for &(input, output) in tests {
+            assert_eq!(scalar_inv4x4(input), output);
+            assert_eq!(simd_inv4x4(input), output);
+        }
+    }
+}
+
+fn main() {
+    // Empty main to make cargo happy
+}
