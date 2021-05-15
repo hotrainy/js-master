@@ -113,3 +113,82 @@ mod nbody {
                 let dx = bi.x - bj.x;
                 e -= bi.mass * bj.mass / (dx * dx).reduce_sum().sqrt()
             }
+        }
+        e
+    }
+
+    fn advance(bodies: &mut [Body; N_BODIES], dt: f64) {
+        const N: usize = N_BODIES * (N_BODIES - 1) / 2;
+
+        // compute distance between bodies:
+        let mut r = [f64x4::splat(0.); N];
+        {
+            let mut i = 0;
+            for j in 0..N_BODIES {
+                for k in j + 1..N_BODIES {
+                    r[i] = bodies[j].x - bodies[k].x;
+                    i += 1;
+                }
+            }
+        }
+
+        let mut mag = [0.0; N];
+        for i in (0..N).step_by(2) {
+            let d2s = f64x2::from_array([
+                (r[i] * r[i]).reduce_sum(),
+                (r[i + 1] * r[i + 1]).reduce_sum(),
+            ]);
+            let dmags = f64x2::splat(dt) / (d2s * d2s.sqrt());
+            mag[i] = dmags[0];
+            mag[i + 1] = dmags[1];
+        }
+
+        let mut i = 0;
+        for j in 0..N_BODIES {
+            for k in j + 1..N_BODIES {
+                let f = r[i] * Simd::splat(mag[i]);
+                bodies[j].v -= f * Simd::splat(bodies[k].mass);
+                bodies[k].v += f * Simd::splat(bodies[j].mass);
+                i += 1
+            }
+        }
+        for body in bodies {
+            body.x += Simd::splat(dt) * body.v
+        }
+    }
+
+    pub fn run(n: usize) -> (f64, f64) {
+        let mut bodies = BODIES;
+        offset_momentum(&mut bodies);
+        let energy_before = energy(&bodies);
+        for _ in 0..n {
+            advance(&mut bodies, 0.01);
+        }
+        let energy_after = energy(&bodies);
+
+        (energy_before, energy_after)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    // Good enough for demonstration purposes, not going for strictness here.
+    fn approx_eq_f64(a: f64, b: f64) -> bool {
+        (a - b).abs() < 0.00001
+    }
+    #[test]
+    fn test() {
+        const OUTPUT: [f64; 2] = [-0.169075164, -0.169087605];
+        let (energy_before, energy_after) = super::nbody::run(1000);
+        assert!(approx_eq_f64(energy_before, OUTPUT[0]));
+        assert!(approx_eq_f64(energy_after, OUTPUT[1]));
+    }
+}
+
+fn main() {
+    {
+        let (energy_before, energy_after) = nbody::run(1000);
+        println!("Energy before: {}", energy_before);
+        println!("Energy after:  {}", energy_after);
+    }
+}
