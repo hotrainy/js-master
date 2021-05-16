@@ -10,4 +10,10 @@ fn mult_av(v: &[f64], out: &mut [f64]) {
     assert!(v.len() == out.len());
     assert!(v.len() % 2 == 0);
 
-    for (i, out) i
+    for (i, out) in out.iter_mut().enumerate() {
+        let mut sum = f64x2::splat(0.0);
+
+        let mut j = 0;
+        while j < v.len() {
+            let b = f64x2::from_slice(&v[j..]);
+            let a = f64x2:
