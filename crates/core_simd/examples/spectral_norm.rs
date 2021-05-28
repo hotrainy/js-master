@@ -33,4 +33,10 @@ fn mult_atv(v: &[f64], out: &mut [f64]) {
 
         let mut j = 0;
         while j < v.len() {
-            let b = f64
+            let b = f64x2::from_slice(&v[j..]);
+            let a = f64x2::from_array([a(j, i), a(j + 1, i)]);
+            sum += b / a;
+            j += 2
+        }
+        *out = sum.reduce_sum();
+    }
