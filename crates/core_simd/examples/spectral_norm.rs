@@ -40,3 +40,12 @@ fn mult_atv(v: &[f64], out: &mut [f64]) {
         }
         *out = sum.reduce_sum();
     }
+}
+
+fn mult_atav(v: &[f64], out: &mut [f64], tmp: &mut [f64]) {
+    mult_av(v, tmp);
+    mult_atv(tmp, out);
+}
+
+pub fn spectral_norm(n: usize) -> f64 {
+    assert!(n % 2 == 0, "only ev
