@@ -48,4 +48,12 @@ fn mult_atav(v: &[f64], out: &mut [f64], tmp: &mut [f64]) {
 }
 
 pub fn spectral_norm(n: usize) -> f64 {
-    assert!(n % 2 == 0, "only ev
+    assert!(n % 2 == 0, "only even lengths are accepted");
+
+    let mut u = vec![1.0; n];
+    let mut v = u.clone();
+    let mut tmp = u.clone();
+
+    for _ in 0..10 {
+        mult_atav(&u, &mut v, &mut tmp);
+        mult_at
