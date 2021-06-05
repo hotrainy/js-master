@@ -56,4 +56,14 @@ pub fn spectral_norm(n: usize) -> f64 {
 
     for _ in 0..10 {
         mult_atav(&u, &mut v, &mut tmp);
-        mult_at
+        mult_atav(&v, &mut u, &mut tmp);
+    }
+    (dot(&u, &v) / dot(&v, &v)).sqrt()
+}
+
+fn dot(x: &[f64], y: &[f64]) -> f64 {
+    // This is auto-vectorized:
+    x.iter().zip(y).map(|(&x, &y)| x * y).sum()
+}
+
+#[cfg(test)
