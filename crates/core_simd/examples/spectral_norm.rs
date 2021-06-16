@@ -66,4 +66,12 @@ fn dot(x: &[f64], y: &[f64]) -> f64 {
     x.iter().zip(y).map(|(&x, &y)| x * y).sum()
 }
 
-#[cfg(test)
+#[cfg(test)]
+#[test]
+fn test() {
+    assert_eq!(&format!("{:.9}", spectral_norm(100)), "1.274219991");
+}
+
+fn main() {
+    // Empty main to make cargo happy
+}
