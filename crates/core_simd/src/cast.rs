@@ -7,4 +7,8 @@ use crate::simd::SimdElement;
 /// `simd_as` intrinsics.
 pub unsafe trait SimdCast: SimdElement {}
 
-// Safety: primitive number typ
+// Safety: primitive number types can be cast to other primitive number types
+unsafe impl SimdCast for i8 {}
+// Safety: primitive number types can be cast to other primitive number types
+unsafe impl SimdCast for i16 {}
+// Safety: p
