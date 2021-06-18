@@ -219,3 +219,10 @@ mask_alias! {
     isize : "pointer-sized" = {
         masksizex1 1
         masksizex2 2
+        masksizex4 4
+        masksizex8 8
+        masksizex16 16
+        masksizex32 32
+        masksizex64 64
+    }
+}
