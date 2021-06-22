@@ -11,4 +11,7 @@ pub unsafe trait SimdCast: SimdElement {}
 unsafe impl SimdCast for i8 {}
 // Safety: primitive number types can be cast to other primitive number types
 unsafe impl SimdCast for i16 {}
-// Safety: p
+// Safety: primitive number types can be cast to other primitive number types
+unsafe impl SimdCast for i32 {}
+// Safety: primitive number types can be cast to other primitive number types
+un
