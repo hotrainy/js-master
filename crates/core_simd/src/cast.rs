@@ -17,4 +17,8 @@ unsafe impl SimdCast for i32 {}
 unsafe impl SimdCast for i64 {}
 // Safety: primitive number types can be cast to other primitive number types
 unsafe impl SimdCast for isize {}
-// Safety: primitive number types can be cast to other primitive n
+// Safety: primitive number types can be cast to other primitive number types
+unsafe impl SimdCast for u8 {}
+// Safety: primitive number types can be cast to other primitive number types
+unsafe impl SimdCast for u16 {}
+// Safety: primitive nu
