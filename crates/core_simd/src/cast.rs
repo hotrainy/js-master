@@ -35,4 +35,11 @@ unsafe impl SimdCast for f64 {}
 /// Supporting trait for `Simd::cast_ptr`.  Typically doesn't need to be used directly.
 ///
 /// # Safety
-/// Implementing this trait asserts that the type is a valid vector element for the `simd_c
+/// Implementing this trait asserts that the type is a valid vector element for the `simd_cast_ptr`
+/// intrinsic.
+pub unsafe trait SimdCastPtr<T> {}
+
+// Safety: pointers can be cast to other pointer types
+unsafe impl<T, U> SimdCastPtr<T> for *const U
+where
+    U: core::ptr::Pointee,
