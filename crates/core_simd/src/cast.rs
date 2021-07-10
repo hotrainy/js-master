@@ -32,4 +32,7 @@ unsafe impl SimdCast for f32 {}
 // Safety: primitive number types can be cast to other primitive number types
 unsafe impl SimdCast for f64 {}
 
-/// Sup
+/// Supporting trait for `Simd::cast_ptr`.  Typically doesn't need to be used directly.
+///
+/// # Safety
+/// Implementing this trait asserts that the type is a valid vector element for the `simd_c
