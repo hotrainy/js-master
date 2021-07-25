@@ -43,3 +43,11 @@ pub unsafe trait SimdCastPtr<T> {}
 unsafe impl<T, U> SimdCastPtr<T> for *const U
 where
     U: core::ptr::Pointee,
+    T: core::ptr::Pointee<Metadata = U::Metadata>,
+{
+}
+// Safety: pointers can be cast to other pointer types
+unsafe impl<T, U> SimdCastPtr<T> for *mut U
+where
+    U: core::ptr::Pointee,
+    T: core
