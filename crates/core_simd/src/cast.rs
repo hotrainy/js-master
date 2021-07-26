@@ -50,4 +50,6 @@ where
 unsafe impl<T, U> SimdCastPtr<T> for *mut U
 where
     U: core::ptr::Pointee,
-    T: core
+    T: core::ptr::Pointee<Metadata = U::Metadata>,
+{
+}
