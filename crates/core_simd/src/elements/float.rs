@@ -224,3 +224,135 @@ macro_rules! impl_trait {
 
             #[inline]
             fn abs(self) -> Self {
+                // Safety: `self` is a float vector
+                unsafe { intrinsics::simd_fabs(self) }
+            }
+
+            #[inline]
+            fn recip(self) -> Self {
+                Self::splat(1.0) / self
+            }
+
+            #[inline]
+            fn to_degrees(self) -> Self {
+                // to_degrees uses a special constant for better precision, so extract that constant
+                self * Self::splat(Self::Scalar::to_degrees(1.))
+            }
+
+            #[inline]
+            fn to_radians(self) -> Self {
+                self * Self::splat(Self::Scalar::to_radians(1.))
+            }
+
+            #[inline]
+            fn is_sign_positive(self) -> Self::Mask {
+                !self.is_sign_negative()
+            }
+
+            #[inline]
+            fn is_sign_negative(self) -> Self::Mask {
+                let sign_bits = self.to_bits() & Simd::splat((!0 >> 1) + 1);
+                sign_bits.simd_gt(Simd::splat(0))
+            }
+
+            #[inline]
+            fn is_nan(self) -> Self::Mask {
+                self.simd_ne(self)
+            }
+
+            #[inline]
+            fn is_infinite(self) -> Self::Mask {
+                self.abs().simd_eq(Self::splat(Self::Scalar::INFINITY))
+            }
+
+            #[inline]
+            fn is_finite(self) -> Self::Mask {
+                self.abs().simd_lt(Self::splat(Self::Scalar::INFINITY))
+            }
+
+            #[inline]
+            fn is_subnormal(self) -> Self::Mask {
+                self.abs().simd_ne(Self::splat(0.0)) & (self.to_bits() & Self::splat(Self::Scalar::INFINITY).to_bits()).simd_eq(Simd::splat(0))
+            }
+
+            #[inline]
+            #[must_use = "method returns a new mask and does not mutate the original value"]
+            fn is_normal(self) -> Self::Mask {
+                !(self.abs().simd_eq(Self::splat(0.0)) | self.is_nan() | self.is_subnormal() | self.is_infinite())
+            }
+
+            #[inline]
+            fn signum(self) -> Self {
+                self.is_nan().select(Self::splat(Self::Scalar::NAN), Self::splat(1.0).copysign(self))
+            }
+
+            #[inline]
+            fn copysign(self, sign: Self) -> Self {
+                let sign_bit = sign.to_bits() & Self::splat(-0.).to_bits();
+                let magnitude = self.to_bits() & !Self::splat(-0.).to_bits();
+                Self::from_bits(sign_bit | magnitude)
+            }
+
+            #[inline]
+            fn simd_min(self, other: Self) -> Self {
+                // Safety: `self` and `other` are float vectors
+                unsafe { intrinsics::simd_fmin(self, other) }
+            }
+
+            #[inline]
+            fn simd_max(self, other: Self) -> Self {
+                // Safety: `self` and `other` are floating point vectors
+                unsafe { intrinsics::simd_fmax(self, other) }
+            }
+
+            #[inline]
+            fn simd_clamp(self, min: Self, max: Self) -> Self {
+                assert!(
+                    min.simd_le(max).all(),
+                    "each lane in `min` must be less than or equal to the corresponding lane in `max`",
+                );
+                let mut x = self;
+                x = x.simd_lt(min).select(min, x);
+                x = x.simd_gt(max).select(max, x);
+                x
+            }
+
+            #[inline]
+            fn reduce_sum(self) -> Self::Scalar {
+                // LLVM sum is inaccurate on i586
+                if cfg!(all(target_arch = "x86", not(target_feature = "sse2"))) {
+                    self.as_array().iter().sum()
+                } else {
+                    // Safety: `self` is a float vector
+                    unsafe { intrinsics::simd_reduce_add_ordered(self, 0.) }
+                }
+            }
+
+            #[inline]
+            fn reduce_product(self) -> Self::Scalar {
+                // LLVM product is inaccurate on i586
+                if cfg!(all(target_arch = "x86", not(target_feature = "sse2"))) {
+                    self.as_array().iter().product()
+                } else {
+                    // Safety: `self` is a float vector
+                    unsafe { intrinsics::simd_reduce_mul_ordered(self, 1.) }
+                }
+            }
+
+            #[inline]
+            fn reduce_max(self) -> Self::Scalar {
+                // Safety: `self` is a float vector
+                unsafe { intrinsics::simd_reduce_max(self) }
+            }
+
+            #[inline]
+            fn reduce_min(self) -> Self::Scalar {
+                // Safety: `self` is a float vector
+                unsafe { intrinsics::simd_reduce_min(self) }
+            }
+        }
+        )*
+    }
+}
+
+impl_trait! { f32 { bits: u32, mask: i32 }, f64 { bits: u64, mask: i64 } }
