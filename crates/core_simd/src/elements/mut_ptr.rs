@@ -25,4 +25,10 @@ pub trait SimdMutPtr: Copy + Sealed {
 
     /// Gets the "address" portion of the pointer.
     ///
-    /// This method discards pointer semantic metadata, so t
+    /// This method discards pointer semantic metadata, so the result cannot be
+    /// directly cast into a valid pointer.
+    ///
+    /// Equivalent to calling [`pointer::addr`] on each lane.
+    fn addr(self) -> Self::Usize;
+
+    /// Creates a new pointer wi
