@@ -257,3 +257,43 @@ macro_rules! impl_trait {
             }
 
             #[inline]
+            fn reduce_product(self) -> Self::Scalar {
+                // Safety: `self` is an integer vector
+                unsafe { intrinsics::simd_reduce_mul_ordered(self, 1) }
+            }
+
+            #[inline]
+            fn reduce_max(self) -> Self::Scalar {
+                // Safety: `self` is an integer vector
+                unsafe { intrinsics::simd_reduce_max(self) }
+            }
+
+            #[inline]
+            fn reduce_min(self) -> Self::Scalar {
+                // Safety: `self` is an integer vector
+                unsafe { intrinsics::simd_reduce_min(self) }
+            }
+
+            #[inline]
+            fn reduce_and(self) -> Self::Scalar {
+                // Safety: `self` is an integer vector
+                unsafe { intrinsics::simd_reduce_and(self) }
+            }
+
+            #[inline]
+            fn reduce_or(self) -> Self::Scalar {
+                // Safety: `self` is an integer vector
+                unsafe { intrinsics::simd_reduce_or(self) }
+            }
+
+            #[inline]
+            fn reduce_xor(self) -> Self::Scalar {
+                // Safety: `self` is an integer vector
+                unsafe { intrinsics::simd_reduce_xor(self) }
+            }
+        }
+        )*
+    }
+}
+
+impl_trait! { i8, i16, i32, i64, isize }
