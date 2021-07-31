@@ -20,4 +20,9 @@ pub trait SimdMutPtr: Copy + Sealed {
 
     /// Changes constness without changing the type.
     ///
-    /// Equivalent to calling [`pointer::cast_const`] 
+    /// Equivalent to calling [`pointer::cast_const`] on each lane.
+    fn cast_const(self) -> Self::ConstPtr;
+
+    /// Gets the "address" portion of the pointer.
+    ///
+    /// This method discards pointer semantic metadata, so t
