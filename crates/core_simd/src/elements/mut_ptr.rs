@@ -15,4 +15,9 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// Mask type used for manipulating this SIMD vector type.
     type Mask;
 
-    //
+    /// Returns `true` for each lane that is null.
+    fn is_null(self) -> Self::Mask;
+
+    /// Changes constness without changing the type.
+    ///
+    /// Equivalent to calling [`pointer::cast_const`] 
