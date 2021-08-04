@@ -36,4 +36,7 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// This performs the same operation as a cast, but copies the *address-space* and
     /// *provenance* of `self` to the new pointer.
     ///
-    //
+    /// Equivalent to calling [`pointer::with_addr`] on each lane.
+    fn with_addr(self, addr: Self::Usize) -> Self;
+
+    /// Gets the "address" portion of the pointer, and "exposes" the prove
