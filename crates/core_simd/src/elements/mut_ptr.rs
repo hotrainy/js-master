@@ -31,4 +31,9 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// Equivalent to calling [`pointer::addr`] on each lane.
     fn addr(self) -> Self::Usize;
 
-    /// Creates a new pointer wi
+    /// Creates a new pointer with the given address.
+    ///
+    /// This performs the same operation as a cast, but copies the *address-space* and
+    /// *provenance* of `self` to the new pointer.
+    ///
+    //
