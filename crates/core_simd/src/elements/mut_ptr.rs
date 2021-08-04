@@ -39,4 +39,8 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// Equivalent to calling [`pointer::with_addr`] on each lane.
     fn with_addr(self, addr: Self::Usize) -> Self;
 
-    /// Gets the "address" portion of the pointer, and "exposes" the prove
+    /// Gets the "address" portion of the pointer, and "exposes" the provenance part for future use
+    /// in [`Self::from_exposed_addr`].
+    fn expose_addr(self) -> Self::Usize;
+
+    /// Convert an address back to a pointer, picking up a previously "exposed
