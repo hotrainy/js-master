@@ -48,4 +48,9 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// Equivalent to calling [`core::ptr::from_exposed_addr_mut`] on each lane.
     fn from_exposed_addr(addr: Self::Usize) -> Self;
 
-    /// Calculates the offset from 
+    /// Calculates the offset from a pointer using wrapping arithmetic.
+    ///
+    /// Equivalent to calling [`pointer::wrapping_offset`] on each lane.
+    fn wrapping_offset(self, offset: Self::Isize) -> Self;
+
+    /// Calculates
