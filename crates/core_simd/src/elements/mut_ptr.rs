@@ -43,4 +43,9 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// in [`Self::from_exposed_addr`].
     fn expose_addr(self) -> Self::Usize;
 
-    /// Convert an address back to a pointer, picking up a previously "exposed
+    /// Convert an address back to a pointer, picking up a previously "exposed" provenance.
+    ///
+    /// Equivalent to calling [`core::ptr::from_exposed_addr_mut`] on each lane.
+    fn from_exposed_addr(addr: Self::Usize) -> Self;
+
+    /// Calculates the offset from 
