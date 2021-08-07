@@ -53,4 +53,8 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// Equivalent to calling [`pointer::wrapping_offset`] on each lane.
     fn wrapping_offset(self, offset: Self::Isize) -> Self;
 
-    /// Calculates
+    /// Calculates the offset from a pointer using wrapping arithmetic.
+    ///
+    /// Equivalent to calling [`pointer::wrapping_add`] on each lane.
+    fn wrapping_add(self, count: Self::Usize) -> Self;
+
