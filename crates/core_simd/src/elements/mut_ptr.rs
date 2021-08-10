@@ -67,4 +67,10 @@ pub trait SimdMutPtr: Copy + Sealed {
 impl<T, const LANES: usize> Sealed for Simd<*mut T, LANES> where LaneCount<LANES>: SupportedLaneCount
 {}
 
-impl<T, const LANES: usize> SimdMutPtr for Si
+impl<T, const LANES: usize> SimdMutPtr for Simd<*mut T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Usize = Simd<usize, LANES>;
+    type Isize = Simd<isize, LANES>;
+    type ConstPtr 
