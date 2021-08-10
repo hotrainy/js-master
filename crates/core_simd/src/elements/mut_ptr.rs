@@ -61,4 +61,10 @@ pub trait SimdMutPtr: Copy + Sealed {
     /// Calculates the offset from a pointer using wrapping arithmetic.
     ///
     /// Equivalent to calling [`pointer::wrapping_sub`] on each lane.
-    fn wrapping_sub(self, cou
+    fn wrapping_sub(self, count: Self::Usize) -> Self;
+}
+
+impl<T, const LANES: usize> Sealed for Simd<*mut T, LANES> where LaneCount<LANES>: SupportedLaneCount
+{}
+
+impl<T, const LANES: usize> SimdMutPtr for Si
