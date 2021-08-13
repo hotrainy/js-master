@@ -73,4 +73,9 @@ where
 {
     type Usize = Simd<usize, LANES>;
     type Isize = Simd<isize, LANES>;
-    type ConstPtr 
+    type ConstPtr = Simd<*const T, LANES>;
+    type Mask = Mask<isize, LANES>;
+
+    #[inline]
+    fn is_null(self) -> Self::Mask {
+        Simd::splat(core::ptr::null_mut()).simd_eq(sel
