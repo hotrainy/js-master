@@ -78,4 +78,14 @@ where
 
     #[inline]
     fn is_null(self) -> Self::Mask {
-        Simd::splat(core::ptr::null_mut()).simd_eq(sel
+        Simd::splat(core::ptr::null_mut()).simd_eq(self)
+    }
+
+    #[inline]
+    fn cast_const(self) -> Self::ConstPtr {
+        self.cast_ptr()
+    }
+
+    #[inline]
+    fn addr(self) -> Self::Usize {
+        // FIXME(strict_provenance_magic): I am mag
