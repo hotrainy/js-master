@@ -96,4 +96,8 @@ where
 
     #[inline]
     fn with_addr(self, addr: Self::Usize) -> Self {
-        // FIXME(strict_provenance_magic): I am magic and should be a compiler intrins
+        // FIXME(strict_provenance_magic): I am magic and should be a compiler intrinsic.
+        //
+        // In the mean-time, this operation is defined to be "as if" it was
+        // a wrapping_offset, so we can emulate it as such. This should properly
+   
