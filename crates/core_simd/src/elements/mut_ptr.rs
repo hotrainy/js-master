@@ -103,4 +103,14 @@ where
         // restore pointer provenance even under today's compiler.
         self.cast_ptr::<*mut u8>()
             .wrapping_offset(addr.cast::<isize>() - self.addr().cast::<isize>())
-      
+            .cast_ptr()
+    }
+
+    #[inline]
+    fn expose_addr(self) -> Self::Usize {
+        // Safety: `self` is a pointer vector
+        unsafe { intrinsics::simd_expose_addr(self) }
+    }
+
+    #[inline]
+    fn from_exposed
