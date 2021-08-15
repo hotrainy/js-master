@@ -88,4 +88,7 @@ where
 
     #[inline]
     fn addr(self) -> Self::Usize {
-        // FIXME(strict_provenance_magic): I am mag
+        // FIXME(strict_provenance_magic): I am magic and should be a compiler intrinsic.
+        // SAFETY: Pointer-to-integer transmutes are valid (if you are okay with losing the
+        // provenance).
+        unsafe { core::mem::transmute_cop
