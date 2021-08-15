@@ -100,4 +100,7 @@ where
         //
         // In the mean-time, this operation is defined to be "as if" it was
         // a wrapping_offset, so we can emulate it as such. This should properly
-   
+        // restore pointer provenance even under today's compiler.
+        self.cast_ptr::<*mut u8>()
+            .wrapping_offset(addr.cast::<isize>() - self.addr().cast::<isize>())
+      
