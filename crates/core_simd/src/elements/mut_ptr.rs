@@ -113,4 +113,10 @@ where
     }
 
     #[inline]
-    fn from_exposed
+    fn from_exposed_addr(addr: Self::Usize) -> Self {
+        // Safety: `self` is a pointer vector
+        unsafe { intrinsics::simd_from_exposed_addr(addr) }
+    }
+
+    #[inline]
+    fn wrapping_offset(self, count: Self::Isize
