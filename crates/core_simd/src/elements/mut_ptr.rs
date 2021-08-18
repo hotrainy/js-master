@@ -124,3 +124,10 @@ where
         unsafe { intrinsics::simd_arith_offset(self, count) }
     }
 
+    #[inline]
+    fn wrapping_add(self, count: Self::Usize) -> Self {
+        self.wrapping_offset(count.cast())
+    }
+
+    #[inline]
+    fn wrapping_sub(self, count: Self::Usize) ->
