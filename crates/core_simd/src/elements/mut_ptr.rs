@@ -119,4 +119,8 @@ where
     }
 
     #[inline]
-    fn wrapping_offset(self, count: Self::Isize
+    fn wrapping_offset(self, count: Self::Isize) -> Self {
+        // Safety: simd_arith_offset takes a vector of pointers and a vector of offsets
+        unsafe { intrinsics::simd_arith_offset(self, count) }
+    }
+
