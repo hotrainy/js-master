@@ -130,4 +130,7 @@ where
     }
 
     #[inline]
-    fn wrapping_sub(self, count: Self::Usize) ->
+    fn wrapping_sub(self, count: Self::Usize) -> Self {
+        self.wrapping_offset(-count.cast::<isize>())
+    }
+}
