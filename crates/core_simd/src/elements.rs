@@ -11,4 +11,5 @@ mod sealed {
 pub use const_ptr::*;
 pub use float::*;
 pub use int::*;
-pub u
+pub use mut_ptr::*;
+pub use uint::*;
