@@ -8,4 +8,7 @@ pub trait SimdPartialEq {
     type Mask;
 
     /// Test if each lane is equal to the corresponding lane in `other`.
-    #[mu
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn simd_eq(self, other: Self) -> Self::Mask;
+
+    /// Test if each lane is equal to the corresponding lane in 
