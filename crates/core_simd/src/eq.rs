@@ -17,4 +17,10 @@ pub trait SimdPartialEq {
 }
 
 macro_rules! impl_number {
-    { $($num
+    { $($number:ty),* } => {
+        $(
+        impl<const LANES: usize> SimdPartialEq for Simd<$number, LANES>
+        where
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+         
