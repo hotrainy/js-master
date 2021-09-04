@@ -23,4 +23,8 @@ macro_rules! impl_number {
         where
             LaneCount<LANES>: SupportedLaneCount,
         {
-         
+            type Mask = Mask<<$number as SimdElement>::Mask, LANES>;
+
+            #[inline]
+            fn simd_eq(self, other: Self) -> Self::Mask {
+                // Safety: `self` is a vector, and the result of the
