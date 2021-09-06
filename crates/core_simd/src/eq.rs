@@ -32,4 +32,8 @@ macro_rules! impl_number {
                 unsafe { Mask::from_int_unchecked(intrinsics::simd_eq(self, other)) }
             }
 
-            #[i
+            #[inline]
+            fn simd_ne(self, other: Self) -> Self::Mask {
+                // Safety: `self` is a vector, and the result of the comparison
+                // is always a valid mask.
+   
