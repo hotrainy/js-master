@@ -50,4 +50,10 @@ macro_rules! impl_mask {
         $(
         impl<const LANES: usize> SimdPartialEq for Mask<$integer, LANES>
         where
-            LaneCount<LANES>: Supporte
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+            type Mask = Self;
+
+            #[inline]
+            fn simd_eq(self, other: Self) -> Self::Mask {
+                // Safety: `self` is a vector, and the
