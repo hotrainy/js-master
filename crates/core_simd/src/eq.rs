@@ -56,4 +56,6 @@ macro_rules! impl_mask {
 
             #[inline]
             fn simd_eq(self, other: Self) -> Self::Mask {
-                // Safety: `self` is a vector, and the
+                // Safety: `self` is a vector, and the result of the comparison
+                // is always a valid mask.
+                unsafe { Self::from_int_unchecked(intrinsics::simd_eq(self.to_int(), other.to_int()
