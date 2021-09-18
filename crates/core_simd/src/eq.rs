@@ -81,4 +81,10 @@ where
     type Mask = Mask<isize, LANES>;
 
     #[inline]
-    fn simd_
+    fn simd_eq(self, other: Self) -> Self::Mask {
+        self.addr().simd_eq(other.addr())
+    }
+
+    #[inline]
+    fn simd_ne(self, other: Self) -> Self::Mask {
+        self.ad
