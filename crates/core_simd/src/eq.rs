@@ -64,4 +64,12 @@ macro_rules! impl_mask {
             #[inline]
             fn simd_ne(self, other: Self) -> Self::Mask {
                 // Safety: `self` is a vector, and the result of the comparison
-                // i
+                // is always a valid mask.
+                unsafe { Self::from_int_unchecked(intrinsics::simd_ne(self.to_int(), other.to_int())) }
+            }
+        }
+        )*
+    }
+}
+
+impl_mask! { i8, i16,
