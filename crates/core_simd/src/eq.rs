@@ -87,4 +87,12 @@ where
 
     #[inline]
     fn simd_ne(self, other: Self) -> Self::Mask {
-        self.ad
+        self.addr().simd_ne(other.addr())
+    }
+}
+
+impl<T, const LANES: usize> SimdPartialEq for Simd<*mut T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    
