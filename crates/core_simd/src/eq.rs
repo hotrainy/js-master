@@ -103,4 +103,7 @@ where
     }
 
     #[inline]
-    fn simd_ne
+    fn simd_ne(self, other: Self) -> Self::Mask {
+        self.addr().simd_ne(other.addr())
+    }
+}
