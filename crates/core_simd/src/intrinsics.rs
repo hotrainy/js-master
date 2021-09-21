@@ -4,4 +4,6 @@
 //! The LLVM assembly language is documented here: <https://llvm.org/docs/LangRef.html>
 //!
 //! A quick glossary of jargon that may appear in this module, mostly paraphrasing LLVM's LangRef:
-//! - poison: "undefined behavior as a value". specifically, it is like uninit memory (such as padding bytes). it is "safe"
+//! - poison: "undefined behavior as a value". specifically, it is like uninit memory (such as padding bytes). it is "safe" to create poison, BUT
+//!   poison MUST NOT be observed from safe code, as operations on poison return poison, like NaN. unlike NaN, which has defined comparisons,
+//!   poison is neither true nor f
