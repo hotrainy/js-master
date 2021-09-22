@@ -7,4 +7,6 @@
 //! - poison: "undefined behavior as a value". specifically, it is like uninit memory (such as padding bytes). it is "safe" to create poison, BUT
 //!   poison MUST NOT be observed from safe code, as operations on poison return poison, like NaN. unlike NaN, which has defined comparisons,
 //!   poison is neither true nor false, and LLVM may also convert it to undef (at which point it is both). so, it can't be conditioned on, either.
-//! - undef: "a value that is every value". functionally like poison, insofar as Rust is 
+//! - undef: "a value that is every value". functionally like poison, insofar as Rust is concerned. poison may become this. note:
+//!   this means that division by poison or undef is like division by zero, which means it inflicts...
+//! - "UB": poison and undef cover 
