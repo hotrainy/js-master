@@ -11,4 +11,7 @@
 //!   this means that division by poison or undef is like division by zero, which means it inflicts...
 //! - "UB": poison and undef cover most of what people call "UB". "UB" means this operation immediately invalidates the program:
 //!   LLVM is allowed to lower it to `ud2` or other opcodes that may cause an illegal instruction exception, and this is the "good end".
-//!   The "bad end" is that LLVM may reverse time to the moment control flow diverged on a path towards undefined b
+//!   The "bad end" is that LLVM may reverse time to the moment control flow diverged on a path towards undefined behavior,
+//!   and destroy the other branch, potentially deleting safe code and violating Rust's `unsafe` contract.
+//!
+//! Note that according to LLVM, vectors are not arrays, but
