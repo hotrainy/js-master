@@ -25,4 +25,11 @@ extern "platform-intrinsic" {
     /// add/fadd
     pub(crate) fn simd_add<T>(x: T, y: T) -> T;
 
-    /// sub/
+    /// sub/fsub
+    pub(crate) fn simd_sub<T>(lhs: T, rhs: T) -> T;
+
+    /// mul/fmul
+    pub(crate) fn simd_mul<T>(x: T, y: T) -> T;
+
+    /// udiv/sdiv/fdiv
+    /// ints and uint
