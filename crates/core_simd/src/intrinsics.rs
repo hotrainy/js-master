@@ -9,4 +9,5 @@
 //!   poison is neither true nor false, and LLVM may also convert it to undef (at which point it is both). so, it can't be conditioned on, either.
 //! - undef: "a value that is every value". functionally like poison, insofar as Rust is concerned. poison may become this. note:
 //!   this means that division by poison or undef is like division by zero, which means it inflicts...
-//! - "UB": poison and undef cover 
+//! - "UB": poison and undef cover most of what people call "UB". "UB" means this operation immediately invalidates the program:
+//!   LLVM is allowed to lower it to `ud2` or other opcodes that may cause an i
