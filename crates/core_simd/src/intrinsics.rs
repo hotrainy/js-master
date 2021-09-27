@@ -14,4 +14,8 @@
 //!   The "bad end" is that LLVM may reverse time to the moment control flow diverged on a path towards undefined behavior,
 //!   and destroy the other branch, potentially deleting safe code and violating Rust's `unsafe` contract.
 //!
-//! Note that according to LLVM, vectors are not arrays, but
+//! Note that according to LLVM, vectors are not arrays, but they are equivalent when stored to and loaded from memory.
+//!
+//! Unless stated otherwise, all intrinsics for binary operations require SIMD vectors of equal types and lengths.
+
+// These intrinsics 
