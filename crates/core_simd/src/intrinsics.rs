@@ -32,4 +32,7 @@ extern "platform-intrinsic" {
     pub(crate) fn simd_mul<T>(x: T, y: T) -> T;
 
     /// udiv/sdiv/fdiv
-    /// ints and uint
+    /// ints and uints: {s,u}div incur UB if division by zero occurs.
+    /// ints: sdiv is UB for int::MIN / -1.
+    /// floats: fdiv is never UB, but may create NaNs or infinities.
+    pub(crate) fn sim
