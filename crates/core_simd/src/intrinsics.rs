@@ -10,4 +10,5 @@
 //! - undef: "a value that is every value". functionally like poison, insofar as Rust is concerned. poison may become this. note:
 //!   this means that division by poison or undef is like division by zero, which means it inflicts...
 //! - "UB": poison and undef cover most of what people call "UB". "UB" means this operation immediately invalidates the program:
-//!   LLVM is allowed to lower it to `ud2` or other opcodes that may cause an i
+//!   LLVM is allowed to lower it to `ud2` or other opcodes that may cause an illegal instruction exception, and this is the "good end".
+//!   The "bad end" is that LLVM may reverse time to the moment control flow diverged on a path towards undefined b
