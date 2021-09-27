@@ -18,4 +18,6 @@
 //!
 //! Unless stated otherwise, all intrinsics for binary operations require SIMD vectors of equal types and lengths.
 
-// These intrinsics 
+// These intrinsics aren't linked directly from LLVM and are mostly undocumented, however they are
+// mostly lowered to the matching LLVM instructions by the compiler in a fairly straightforward manner.
+// The a
