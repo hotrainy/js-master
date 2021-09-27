@@ -35,4 +35,9 @@ extern "platform-intrinsic" {
     /// ints and uints: {s,u}div incur UB if division by zero occurs.
     /// ints: sdiv is UB for int::MIN / -1.
     /// floats: fdiv is never UB, but may create NaNs or infinities.
-    pub(crate) fn sim
+    pub(crate) fn simd_div<T>(lhs: T, rhs: T) -> T;
+
+    /// urem/srem/frem
+    /// ints and uints: {s,u}rem incur UB if division by zero occurs.
+    /// ints: srem is UB for int::MIN / -1.
+    /// floats: frem i
