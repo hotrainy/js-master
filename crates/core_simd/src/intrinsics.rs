@@ -44,4 +44,10 @@ extern "platform-intrinsic" {
     pub(crate) fn simd_rem<T>(lhs: T, rhs: T) -> T;
 
     /// shl
-    /// for (u)ints. poison i
+    /// for (u)ints. poison if rhs >= lhs::BITS
+    pub(crate) fn simd_shl<T>(lhs: T, rhs: T) -> T;
+
+    /// ints: ashr
+    /// uints: lshr
+    /// poison if rhs >= lhs::BITS
+    pub(crate) fn simd_shr<T>(lhs
