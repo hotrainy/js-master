@@ -40,4 +40,8 @@ extern "platform-intrinsic" {
     /// urem/srem/frem
     /// ints and uints: {s,u}rem incur UB if division by zero occurs.
     /// ints: srem is UB for int::MIN / -1.
-    /// floats: frem i
+    /// floats: frem is equivalent to libm::fmod in the "default" floating point environment, sans errno.
+    pub(crate) fn simd_rem<T>(lhs: T, rhs: T) -> T;
+
+    /// shl
+    /// for (u)ints. poison i
