@@ -50,4 +50,13 @@ extern "platform-intrinsic" {
     /// ints: ashr
     /// uints: lshr
     /// poison if rhs >= lhs::BITS
-    pub(crate) fn simd_shr<T>(lhs
+    pub(crate) fn simd_shr<T>(lhs: T, rhs: T) -> T;
+
+    /// and
+    pub(crate) fn simd_and<T>(x: T, y: T) -> T;
+
+    /// or
+    pub(crate) fn simd_or<T>(x: T, y: T) -> T;
+
+    /// xor
+    pub(crate) fn simd_xor
