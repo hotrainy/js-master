@@ -59,4 +59,8 @@ extern "platform-intrinsic" {
     pub(crate) fn simd_or<T>(x: T, y: T) -> T;
 
     /// xor
-    pub(crate) fn simd_xor
+    pub(crate) fn simd_xor<T>(x: T, y: T) -> T;
+
+    /// fptoui/fptosi/uitofp/sitofp
+    /// casting floats to integers is truncating, so it is safe to convert values like e.g. 1.5
+    /// but the truncated
