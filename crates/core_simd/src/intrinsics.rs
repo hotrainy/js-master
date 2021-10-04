@@ -63,4 +63,6 @@ extern "platform-intrinsic" {
 
     /// fptoui/fptosi/uitofp/sitofp
     /// casting floats to integers is truncating, so it is safe to convert values like e.g. 1.5
-    /// but the truncated
+    /// but the truncated value must fit in the target type or the result is poison.
+    /// use `simd_as` instead for a cast that performs a saturating conversion.
+    pub(crate) fn simd_cast<T,
