@@ -86,4 +86,8 @@ extern "platform-intrinsic" {
 
     // these return Simd<int, N> with the same BITS size as the inputs
     pub(crate) fn simd_eq<T, U>(x: T, y: T) -> U;
-    pub(cr
+    pub(crate) fn simd_ne<T, U>(x: T, y: T) -> U;
+    pub(crate) fn simd_lt<T, U>(x: T, y: T) -> U;
+    pub(crate) fn simd_le<T, U>(x: T, y: T) -> U;
+    pub(crate) fn simd_gt<T, U>(x: T, y: T) -> U;
+   
