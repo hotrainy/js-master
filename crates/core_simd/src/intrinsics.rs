@@ -69,3 +69,7 @@ extern "platform-intrinsic" {
     /// follows Rust's `T as U` semantics, including saturating float casts
     /// which amounts to the same as `simd_cast` for many cases
     #[cfg(not(bootstrap))]
+    pub(crate) fn simd_as<T, U>(x: T) -> U;
+
+    /// neg/fneg
+    /// ints: ultimately becomes a call to cg_ssa's BuilderMethods::neg. cg_llvm equates this to `simd_sub(Simd::splat(0), x)`.
