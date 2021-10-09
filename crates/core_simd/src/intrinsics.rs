@@ -81,4 +81,9 @@ extern "platform-intrinsic" {
     pub(crate) fn simd_fabs<T>(x: T) -> T;
 
     // minnum/maxnum
-    pub(crate) fn simd_fmin<T>(x: T, y: T)
+    pub(crate) fn simd_fmin<T>(x: T, y: T) -> T;
+    pub(crate) fn simd_fmax<T>(x: T, y: T) -> T;
+
+    // these return Simd<int, N> with the same BITS size as the inputs
+    pub(crate) fn simd_eq<T, U>(x: T, y: T) -> U;
+    pub(cr
