@@ -99,4 +99,7 @@ extern "platform-intrinsic" {
     /// llvm.masked.gather
     /// like a loop of pointer reads
     /// val: vector of values to select if a lane is masked
-    /// ptr: vector of p
+    /// ptr: vector of pointers to read from
+    /// mask: a "wide" mask of integers, selects as if simd_select(mask, read(ptr), val)
+    /// note, the LLVM intrinsic accepts a mask vector of <N x i1>
+    /// FI
