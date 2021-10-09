@@ -90,4 +90,8 @@ extern "platform-intrinsic" {
     pub(crate) fn simd_lt<T, U>(x: T, y: T) -> U;
     pub(crate) fn simd_le<T, U>(x: T, y: T) -> U;
     pub(crate) fn simd_gt<T, U>(x: T, y: T) -> U;
-   
+    pub(crate) fn simd_ge<T, U>(x: T, y: T) -> U;
+
+    // shufflevector
+    // idx: LLVM calls it a "shuffle mask vector constant", a vector of i32s
+    pub(crate) fn s
