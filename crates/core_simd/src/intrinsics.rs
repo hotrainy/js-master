@@ -74,4 +74,11 @@ extern "platform-intrinsic" {
     /// neg/fneg
     /// ints: ultimately becomes a call to cg_ssa's BuilderMethods::neg. cg_llvm equates this to `simd_sub(Simd::splat(0), x)`.
     /// floats: LLVM's fneg, which changes the floating point sign bit. Some arches have instructions for it.
-    /// Rust panics for Neg::neg(int::MIN) due to overflow, but it is not U
+    /// Rust panics for Neg::neg(int::MIN) due to overflow, but it is not UB in LLVM without `nsw`.
+    pub(crate) fn simd_neg<T>(x: T) -> T;
+
+    /// fabs
+    pub(crate) fn simd_fabs<T>(x: T) -> T;
+
+    // minnum/maxnum
+    pub(crate) fn simd_fmin<T>(x: T, y: T)
