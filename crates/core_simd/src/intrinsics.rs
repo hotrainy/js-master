@@ -94,4 +94,9 @@ extern "platform-intrinsic" {
 
     // shufflevector
     // idx: LLVM calls it a "shuffle mask vector constant", a vector of i32s
-    pub(crate) fn s
+    pub(crate) fn simd_shuffle<T, U, V>(x: T, y: T, idx: U) -> V;
+
+    /// llvm.masked.gather
+    /// like a loop of pointer reads
+    /// val: vector of values to select if a lane is masked
+    /// ptr: vector of p
