@@ -102,4 +102,6 @@ extern "platform-intrinsic" {
     /// ptr: vector of pointers to read from
     /// mask: a "wide" mask of integers, selects as if simd_select(mask, read(ptr), val)
     /// note, the LLVM intrinsic accepts a mask vector of <N x i1>
-    /// FI
+    /// FIXME: review this if/when we fix up our mask story in general?
+    pub(crate) fn simd_gather<T, U, V>(val: T, ptr: U, mask: V) -> T;
+    /// llvm.masked.scatter
