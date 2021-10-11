@@ -105,3 +105,8 @@ extern "platform-intrinsic" {
     /// FIXME: review this if/when we fix up our mask story in general?
     pub(crate) fn simd_gather<T, U, V>(val: T, ptr: U, mask: V) -> T;
     /// llvm.masked.scatter
+    /// like gather, but more spicy, as it writes instead of reads
+    pub(crate) fn simd_scatter<T, U, V>(val: T, ptr: U, mask: V);
+
+    // {s,u}add.sat
+    pub(crate)
