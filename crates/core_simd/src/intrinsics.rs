@@ -116,4 +116,7 @@ extern "platform-intrinsic" {
 
     // reductions
     // llvm.vector.reduce.{add,fadd}
- 
+    pub(crate) fn simd_reduce_add_ordered<T, U>(x: T, y: U) -> U;
+    // llvm.vector.reduce.{mul,fmul}
+    pub(crate) fn simd_reduce_mul_ordered<T, U>(x: T, y: U) -> U;
+    
