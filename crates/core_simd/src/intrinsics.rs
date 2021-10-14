@@ -109,4 +109,11 @@ extern "platform-intrinsic" {
     pub(crate) fn simd_scatter<T, U, V>(val: T, ptr: U, mask: V);
 
     // {s,u}add.sat
-    pub(crate)
+    pub(crate) fn simd_saturating_add<T>(x: T, y: T) -> T;
+
+    // {s,u}sub.sat
+    pub(crate) fn simd_saturating_sub<T>(lhs: T, rhs: T) -> T;
+
+    // reductions
+    // llvm.vector.reduce.{add,fadd}
+ 
