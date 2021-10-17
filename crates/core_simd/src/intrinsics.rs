@@ -131,4 +131,6 @@ extern "platform-intrinsic" {
 
     // truncate integer vector to bitmask
     // `fn simd_bitmask(vector) -> unsigned integer` takes a vector of integers and
-    // returns either 
+    // returns either an unsigned integer or array of `u8`.
+    // Every element in the vector becomes a single bit in the returned bitmask.
+    // If the vector has less than 8 lanes, a u8 is returned with zeroed trailing 
