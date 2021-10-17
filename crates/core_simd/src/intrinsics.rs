@@ -124,4 +124,7 @@ extern "platform-intrinsic" {
     #[allow(unused)]
     pub(crate) fn simd_reduce_any<T>(x: T) -> bool;
     pub(crate) fn simd_reduce_max<T, U>(x: T) -> U;
-    
+    pub(crate) fn simd_reduce_min<T, U>(x: T) -> U;
+    pub(crate) fn simd_reduce_and<T, U>(x: T) -> U;
+    pub(crate) fn simd_reduce_or<T, U>(x: T) -> U;
+    pub(crate) fn s
