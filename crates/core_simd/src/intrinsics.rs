@@ -133,4 +133,8 @@ extern "platform-intrinsic" {
     // `fn simd_bitmask(vector) -> unsigned integer` takes a vector of integers and
     // returns either an unsigned integer or array of `u8`.
     // Every element in the vector becomes a single bit in the returned bitmask.
-    // If the vector has less than 8 lanes, a u8 is returned with zeroed trailing 
+    // If the vector has less than 8 lanes, a u8 is returned with zeroed trailing bits.
+    // The bit order of the result depends on the byte endianness. LSB-first for little
+    // endian and MSB-first for big endian.
+    //
+    // UB if called on a vector wit
