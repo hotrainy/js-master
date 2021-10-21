@@ -146,4 +146,9 @@ extern "platform-intrinsic" {
     // logically equivalent to (yes & m) | (no & (m^-1),
     // but you can use it on floats.
     pub(crate) fn simd_select<M, T>(m: M, yes: T, no: T) -> T;
-    #[allow(unu
+    #[allow(unused)]
+    pub(crate) fn simd_select_bitmask<M, T>(m: M, yes: T, no: T) -> T;
+
+    /// getelementptr (without inbounds)
+    /// equivalent to wrapping_offset
+    pub(crate) fn simd_ari
