@@ -151,4 +151,9 @@ extern "platform-intrinsic" {
 
     /// getelementptr (without inbounds)
     /// equivalent to wrapping_offset
-    pub(crate) fn simd_ari
+    pub(crate) fn simd_arith_offset<T, U>(ptr: T, offset: U) -> T;
+
+    /// equivalent to `T as U` semantics, specifically for pointers
+    pub(crate) fn simd_cast_ptr<T, U>(ptr: T) -> U;
+
+    //
