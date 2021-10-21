@@ -142,4 +142,8 @@ extern "platform-intrinsic" {
     pub(crate) fn simd_bitmask<T, U>(x: T) -> U;
 
     // select
-    // first argument is a vector of integers, -1 (all bits 1) is "tru
+    // first argument is a vector of integers, -1 (all bits 1) is "true"
+    // logically equivalent to (yes & m) | (no & (m^-1),
+    // but you can use it on floats.
+    pub(crate) fn simd_select<M, T>(m: M, yes: T, no: T) -> T;
+    #[allow(unu
