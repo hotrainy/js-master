@@ -156,4 +156,9 @@ extern "platform-intrinsic" {
     /// equivalent to `T as U` semantics, specifically for pointers
     pub(crate) fn simd_cast_ptr<T, U>(ptr: T) -> U;
 
-    //
+    /// expose a pointer as an address
+    pub(crate) fn simd_expose_addr<T, U>(ptr: T) -> U;
+
+    /// convert an exposed address back to a pointer
+    pub(crate) fn simd_from_exposed_addr<T, U>(addr: T) -> U;
+}
