@@ -137,4 +137,9 @@ extern "platform-intrinsic" {
     // The bit order of the result depends on the byte endianness. LSB-first for little
     // endian and MSB-first for big endian.
     //
-    // UB if called on a vector wit
+    // UB if called on a vector with values other than 0 and -1.
+    #[allow(unused)]
+    pub(crate) fn simd_bitmask<T, U>(x: T) -> U;
+
+    // select
+    // first argument is a vector of integers, -1 (all bits 1) is "tru
