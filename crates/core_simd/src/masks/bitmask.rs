@@ -239,3 +239,13 @@ where
     type Output = Self;
     #[inline]
     #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn not(mut self) -> Self::Output {
+        for x in self.0.as_mut() {
+            *x = !*x;
+        }
+        if LANES % 8 > 0 {
+            *self.0.as_mut().last_mut().unwrap() &= u8::MAX >> (8 - LANES % 8);
+        }
+        self
+    }
+}
