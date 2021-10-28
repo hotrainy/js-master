@@ -182,3 +182,147 @@ where
     pub fn from_bitmask_array<const N: usize>(mut bitmask: [u8; N]) -> Self
     where
         super::Mask<T, LANES>: ToBitMaskArray,
+        [(); <super::Mask<T, LANES> as ToBitMaskArray>::BYTES]: Sized,
+    {
+        assert_eq!(<super::Mask<T, LANES> as ToBitMaskArray>::BYTES, N);
+
+        // Safety: N is the correct bitmask size
+        unsafe {
+            // LLVM assumes bit order should match endianness
+            if cfg!(target_endian = "big") {
+                for x in bitmask.as_mut() {
+                    *x = x.reverse_bits();
+                }
+            }
+
+            // Transmute to the bitmask type, previously asserted to be the same size
+            let bitmask: [u8; <super::Mask<T, LANES> as ToBitMaskArray>::BYTES] =
+                core::mem::transmute_copy(&bitmask);
+
+            // Compute the regular mask
+            Self::from_int_unchecked(intrinsics::simd_select_bitmask(
+                bitmask,
+                Self::splat(true).to_int(),
+                Self::splat(false).to_int(),
+            ))
+        }
+    }
+
+    #[inline]
+    pub(crate) fn to_bitmask_integer<U: ReverseBits>(self) -> U
+    where
+        super::Mask<T, LANES>: ToBitMask<BitMask = U>,
+    {
+        // Safety: U is required to be the appropriate bitmask type
+        let bitmask: U = unsafe { intrinsics::simd_bitmask(self.0) };
+
+        // LLVM assumes bit order should match endianness
+        if cfg!(target_endian = "big") {
+            bitmask.reverse_bits(LANES)
+        } else {
+            bitmask
+        }
+    }
+
+    #[inline]
+    pub(crate) fn from_bitmask_integer<U: ReverseBits>(bitmask: U) -> Self
+    where
+        super::Mask<T, LANES>: ToBitMask<BitMask = U>,
+    {
+        // LLVM assumes bit order should match endianness
+        let bitmask = if cfg!(target_endian = "big") {
+            bitmask.reverse_bits(LANES)
+        } else {
+            bitmask
+        };
+
+        // Safety: U is required to be the appropriate bitmask type
+        unsafe {
+            Self::from_int_unchecked(intrinsics::simd_select_bitmask(
+                bitmask,
+                Self::splat(true).to_int(),
+                Self::splat(false).to_int(),
+            ))
+        }
+    }
+
+    #[inline]
+    #[must_use = "method returns a new bool and does not mutate the original value"]
+    pub fn any(self) -> bool {
+        // Safety: use `self` as an integer vector
+        unsafe { intrinsics::simd_reduce_any(self.to_int()) }
+    }
+
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the original value"]
+    pub fn all(self) -> bool {
+        // Safety: use `self` as an integer vector
+        unsafe { intrinsics::simd_reduce_all(self.to_int()) }
+    }
+}
+
+impl<T, const LANES: usize> core::convert::From<Mask<T, LANES>> for Simd<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn from(value: Mask<T, LANES>) -> Self {
+        value.0
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitAnd for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitand(self, rhs: Self) -> Self {
+        // Safety: `self` is an integer vector
+        unsafe { Self(intrinsics::simd_and(self.0, rhs.0)) }
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitOr for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitor(self, rhs: Self) -> Self {
+        // Safety: `self` is an integer vector
+        unsafe { Self(intrinsics::simd_or(self.0, rhs.0)) }
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitXor for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitxor(self, rhs: Self) -> Self {
+        // Safety: `self` is an integer vector
+        unsafe { Self(intrinsics::simd_xor(self.0, rhs.0)) }
+    }
+}
+
+impl<T, const LANES: usize> core::ops::Not for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn not(self) -> Self::Output {
+        Self::splat(true) ^ self
+    }
+}
