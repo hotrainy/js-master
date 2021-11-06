@@ -17,4 +17,11 @@ where
 ///
 /// Each bit of the bitmask corresponds to a mask lane, starting with the LSB.
 pub trait ToBitMask: Sealed {
- 
+    /// The integer bitmask type.
+    type BitMask;
+
+    /// Converts a mask to a bitmask.
+    fn to_bitmask(self) -> Self::BitMask;
+
+    /// Converts a bitmask to a mask.
+    fn from_bitmask(bitmask: Self::BitM
