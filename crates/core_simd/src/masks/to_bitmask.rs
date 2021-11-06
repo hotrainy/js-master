@@ -8,4 +8,13 @@ pub use sealed::Sealed;
 
 impl<T, const LANES: usize> Sealed for Mask<T, LANES>
 where
-    T: Ma
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+}
+
+/// Converts masks to and from integer bitmasks.
+///
+/// Each bit of the bitmask corresponds to a mask lane, starting with the LSB.
+pub trait ToBitMask: Sealed {
+ 
