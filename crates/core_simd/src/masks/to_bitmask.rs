@@ -24,4 +24,10 @@ pub trait ToBitMask: Sealed {
     fn to_bitmask(self) -> Self::BitMask;
 
     /// Converts a bitmask to a mask.
-    fn from_bitmask(bitmask: Self::BitM
+    fn from_bitmask(bitmask: Self::BitMask) -> Self;
+}
+
+/// Converts masks to and from byte array bitmasks.
+///
+/// Each bit of the bitmask corresponds to a mask lane, starting with the LSB of the first byte.
+#[cfg(feature = 
