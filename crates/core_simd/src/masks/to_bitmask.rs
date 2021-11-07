@@ -30,4 +30,10 @@ pub trait ToBitMask: Sealed {
 /// Converts masks to and from byte array bitmasks.
 ///
 /// Each bit of the bitmask corresponds to a mask lane, starting with the LSB of the first byte.
-#[cfg(feature = 
+#[cfg(feature = "generic_const_exprs")]
+pub trait ToBitMaskArray: Sealed {
+    /// The length of the bitmask array.
+    const BYTES: usize;
+
+    /// Converts a mask to a bitmask.
+    fn to_b
