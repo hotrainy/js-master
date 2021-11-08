@@ -36,4 +36,10 @@ pub trait ToBitMaskArray: Sealed {
     const BYTES: usize;
 
     /// Converts a mask to a bitmask.
-    fn to_b
+    fn to_bitmask_array(self) -> [u8; Self::BYTES];
+
+    /// Converts a bitmask to a mask.
+    fn from_bitmask_array(bitmask: [u8; Self::BYTES]) -> Self;
+}
+
+macro_rules! impl_integer_intrinsic
