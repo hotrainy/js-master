@@ -48,4 +48,10 @@ macro_rules! impl_integer_intrinsic {
         impl<T: MaskElement> ToBitMask for Mask<T, $lanes> {
             type BitMask = $int;
 
-  
+            #[inline]
+            fn to_bitmask(self) -> $int {
+                self.0.to_bitmask_integer()
+            }
+
+            #[inline]
+            fn from_bi
