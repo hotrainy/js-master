@@ -42,4 +42,10 @@ pub trait ToBitMaskArray: Sealed {
     fn from_bitmask_array(bitmask: [u8; Self::BYTES]) -> Self;
 }
 
-macro_rules! impl_integer_intrinsic
+macro_rules! impl_integer_intrinsic {
+    { $(impl ToBitMask<BitMask=$int:ty> for Mask<_, $lanes:literal>)* } => {
+        $(
+        impl<T: MaskElement> ToBitMask for Mask<T, $lanes> {
+            type BitMask = $int;
+
+  
