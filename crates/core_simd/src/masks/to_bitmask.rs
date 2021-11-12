@@ -54,4 +54,13 @@ macro_rules! impl_integer_intrinsic {
             }
 
             #[inline]
-            fn from_bi
+            fn from_bitmask(bitmask: $int) -> Self {
+                Self(mask_impl::Mask::from_bitmask_integer(bitmask))
+            }
+        }
+        )*
+    }
+}
+
+impl_integer_intrinsic! {
+    impl ToBi
