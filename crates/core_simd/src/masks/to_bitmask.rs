@@ -63,4 +63,7 @@ macro_rules! impl_integer_intrinsic {
 }
 
 impl_integer_intrinsic! {
-    impl ToBi
+    impl ToBitMask<BitMask=u8> for Mask<_, 1>
+    impl ToBitMask<BitMask=u8> for Mask<_, 2>
+    impl ToBitMask<BitMask=u8> for Mask<_, 4>
+    impl ToBitMask<BitMask=u8> for Mask<_, 
