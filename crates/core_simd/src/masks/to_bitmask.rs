@@ -66,4 +66,10 @@ impl_integer_intrinsic! {
     impl ToBitMask<BitMask=u8> for Mask<_, 1>
     impl ToBitMask<BitMask=u8> for Mask<_, 2>
     impl ToBitMask<BitMask=u8> for Mask<_, 4>
-    impl ToBitMask<BitMask=u8> for Mask<_, 
+    impl ToBitMask<BitMask=u8> for Mask<_, 8>
+    impl ToBitMask<BitMask=u16> for Mask<_, 16>
+    impl ToBitMask<BitMask=u32> for Mask<_, 32>
+    impl ToBitMask<BitMask=u64> for Mask<_, 64>
+}
+
+/// Returns the minimum number of bytes in a bitmask with `lan
