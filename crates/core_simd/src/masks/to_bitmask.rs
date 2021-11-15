@@ -79,4 +79,11 @@ pub const fn bitmask_len(lanes: usize) -> usize {
 }
 
 #[cfg(feature = "generic_const_exprs")]
-i
+impl<T: MaskElement, const LANES: usize> ToBitMaskArray for Mask<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    const BYTES: usize = bitmask_len(LANES);
+
+    #[inline]
+    fn to_
