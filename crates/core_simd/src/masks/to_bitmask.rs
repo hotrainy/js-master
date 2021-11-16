@@ -86,4 +86,10 @@ where
     const BYTES: usize = bitmask_len(LANES);
 
     #[inline]
-    fn to_
+    fn to_bitmask_array(self) -> [u8; Self::BYTES] {
+        self.0.to_bitmask_array()
+    }
+
+    #[inline]
+    fn from_bitmask_array(bitmask: [u8; Self::BYTES]) -> Self {
+       
