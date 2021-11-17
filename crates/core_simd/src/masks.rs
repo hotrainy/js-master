@@ -355,3 +355,183 @@ where
 {
     type Output = Self;
     #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitand(self, rhs: bool) -> Self {
+        self & Self::splat(rhs)
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitAnd<Mask<T, LANES>> for bool
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Mask<T, LANES>;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitand(self, rhs: Mask<T, LANES>) -> Mask<T, LANES> {
+        Mask::splat(self) & rhs
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitOr for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitor(self, rhs: Self) -> Self {
+        Self(self.0 | rhs.0)
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitOr<bool> for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitor(self, rhs: bool) -> Self {
+        self | Self::splat(rhs)
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitOr<Mask<T, LANES>> for bool
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Mask<T, LANES>;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitor(self, rhs: Mask<T, LANES>) -> Mask<T, LANES> {
+        Mask::splat(self) | rhs
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitXor for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitxor(self, rhs: Self) -> Self::Output {
+        Self(self.0 ^ rhs.0)
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitXor<bool> for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitxor(self, rhs: bool) -> Self::Output {
+        self ^ Self::splat(rhs)
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitXor<Mask<T, LANES>> for bool
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Mask<T, LANES>;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitxor(self, rhs: Mask<T, LANES>) -> Self::Output {
+        Mask::splat(self) ^ rhs
+    }
+}
+
+impl<T, const LANES: usize> core::ops::Not for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Mask<T, LANES>;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn not(self) -> Self::Output {
+        Self(!self.0)
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitAndAssign for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn bitand_assign(&mut self, rhs: Self) {
+        self.0 = self.0 & rhs.0;
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitAndAssign<bool> for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn bitand_assign(&mut self, rhs: bool) {
+        *self &= Self::splat(rhs);
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitOrAssign for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn bitor_assign(&mut self, rhs: Self) {
+        self.0 = self.0 | rhs.0;
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitOrAssign<bool> for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn bitor_assign(&mut self, rhs: bool) {
+        *self |= Self::splat(rhs);
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitXorAssign for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn bitxor_assign(&mut self, rhs: Self) {
+        self.0 = self.0 ^ rhs.0;
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitXorAssign<bool> for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn bitxor_assign(&mut self, rhs: bool) {
+        *self ^= Self::splat(rhs);
+    }
+}
+
+macro_rules! impl_from {
+    { $from:ty  => $($to:ty),* } => {
+        $(
+        impl<const LANES: usize> From<Mask<$from, LANES>> for Mask<$to, LANES>
