@@ -151,3 +151,207 @@ where
         // Thus, an array of bools is also a valid array of bytes: [u8; N]
         // Since our masks are equal to integers where all bits are set,
         // we can simply convert them to i8s, and then bitand them by the
+        // bitpattern for Rust's "true" bool.
+        // This would be hypothetically valid as an "in-place" transmute,
+        // but these are "dependently-sized" types, so copy elision it is!
+        unsafe {
+            let mut bytes: Simd<i8, LANES> = intrinsics::simd_cast(self.to_int());
+            bytes &= Simd::splat(1i8);
+            mem::transmute_copy(&bytes)
+        }
+    }
+
+    /// Converts a vector of integers to a mask, where 0 represents `false` and -1
+    /// represents `true`.
+    ///
+    /// # Safety
+    /// All lanes must be either 0 or -1.
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    pub unsafe fn from_int_unchecked(value: Simd<T, LANES>) -> Self {
+        // Safety: the caller must confirm this invariant
+        unsafe { Self(mask_impl::Mask::from_int_unchecked(value)) }
+    }
+
+    /// Converts a vector of integers to a mask, where 0 represents `false` and -1
+    /// represents `true`.
+    ///
+    /// # Panics
+    /// Panics if any lane is not 0 or -1.
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    pub fn from_int(value: Simd<T, LANES>) -> Self {
+        assert!(T::valid(value), "all values must be either 0 or -1",);
+        // Safety: the validity has been checked
+        unsafe { Self::from_int_unchecked(value) }
+    }
+
+    /// Converts the mask to a vector of integers, where 0 represents `false` and -1
+    /// represents `true`.
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the original value"]
+    pub fn to_int(self) -> Simd<T, LANES> {
+        self.0.to_int()
+    }
+
+    /// Converts the mask to a mask of any other lane size.
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    pub fn cast<U: MaskElement>(self) -> Mask<U, LANES> {
+        Mask(self.0.convert())
+    }
+
+    /// Tests the value of the specified lane.
+    ///
+    /// # Safety
+    /// `lane` must be less than `LANES`.
+    #[inline]
+    #[must_use = "method returns a new bool and does not mutate the original value"]
+    pub unsafe fn test_unchecked(&self, lane: usize) -> bool {
+        // Safety: the caller must confirm this invariant
+        unsafe { self.0.test_unchecked(lane) }
+    }
+
+    /// Tests the value of the specified lane.
+    ///
+    /// # Panics
+    /// Panics if `lane` is greater than or equal to the number of lanes in the vector.
+    #[inline]
+    #[must_use = "method returns a new bool and does not mutate the original value"]
+    pub fn test(&self, lane: usize) -> bool {
+        assert!(lane < LANES, "lane index out of range");
+        // Safety: the lane index has been checked
+        unsafe { self.test_unchecked(lane) }
+    }
+
+    /// Sets the value of the specified lane.
+    ///
+    /// # Safety
+    /// `lane` must be less than `LANES`.
+    #[inline]
+    pub unsafe fn set_unchecked(&mut self, lane: usize, value: bool) {
+        // Safety: the caller must confirm this invariant
+        unsafe {
+            self.0.set_unchecked(lane, value);
+        }
+    }
+
+    /// Sets the value of the specified lane.
+    ///
+    /// # Panics
+    /// Panics if `lane` is greater than or equal to the number of lanes in the vector.
+    #[inline]
+    pub fn set(&mut self, lane: usize, value: bool) {
+        assert!(lane < LANES, "lane index out of range");
+        // Safety: the lane index has been checked
+        unsafe {
+            self.set_unchecked(lane, value);
+        }
+    }
+
+    /// Returns true if any lane is set, or false otherwise.
+    #[inline]
+    #[must_use = "method returns a new bool and does not mutate the original value"]
+    pub fn any(self) -> bool {
+        self.0.any()
+    }
+
+    /// Returns true if all lanes are set, or false otherwise.
+    #[inline]
+    #[must_use = "method returns a new bool and does not mutate the original value"]
+    pub fn all(self) -> bool {
+        self.0.all()
+    }
+}
+
+// vector/array conversion
+impl<T, const LANES: usize> From<[bool; LANES]> for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn from(array: [bool; LANES]) -> Self {
+        Self::from_array(array)
+    }
+}
+
+impl<T, const LANES: usize> From<Mask<T, LANES>> for [bool; LANES]
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn from(vector: Mask<T, LANES>) -> Self {
+        vector.to_array()
+    }
+}
+
+impl<T, const LANES: usize> Default for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    #[must_use = "method returns a defaulted mask with all lanes set to false (0)"]
+    fn default() -> Self {
+        Self::splat(false)
+    }
+}
+
+impl<T, const LANES: usize> PartialEq for Mask<T, LANES>
+where
+    T: MaskElement + PartialEq,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    #[must_use = "method returns a new bool and does not mutate the original value"]
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
+
+impl<T, const LANES: usize> PartialOrd for Mask<T, LANES>
+where
+    T: MaskElement + PartialOrd,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    #[must_use = "method returns a new Ordering and does not mutate the original value"]
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.0.partial_cmp(&other.0)
+    }
+}
+
+impl<T, const LANES: usize> fmt::Debug for Mask<T, LANES>
+where
+    T: MaskElement + fmt::Debug,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_list()
+            .entries((0..LANES).map(|lane| self.test(lane)))
+            .finish()
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitAnd for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn bitand(self, rhs: Self) -> Self {
+        Self(self.0 & rhs.0)
+    }
+}
+
+impl<T, const LANES: usize> core::ops::BitAnd<bool> for Mask<T, LANES>
+where
+    T: MaskElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    type Output = Self;
+    #[inline]
