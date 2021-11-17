@@ -92,4 +92,6 @@ where
 
     #[inline]
     fn from_bitmask_array(bitmask: [u8; Self::BYTES]) -> Self {
-       
+        Mask(mask_impl::Mask::from_bitmask_array(bitmask))
+    }
+}
