@@ -28,4 +28,8 @@ pub mod simd {
     pub use crate::core_simd::cast::*;
     pub use crate::core_simd::elements::*;
     pub use crate::core_simd::eq::*;
-    pub us
+    pub use crate::core_simd::lane_count::{LaneCount, SupportedLaneCount};
+    pub use crate::core_simd::masks::*;
+    pub use crate::core_simd::ord::*;
+    pub use crate::core_simd::swizzle::*;
+   
