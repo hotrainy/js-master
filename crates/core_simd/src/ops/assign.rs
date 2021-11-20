@@ -120,3 +120,6 @@ assign_ops! {
     {
         fn shr_assign(rhs: U) {
             shr
+        }
+    }
+}
