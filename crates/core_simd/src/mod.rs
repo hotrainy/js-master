@@ -22,4 +22,10 @@ mod vendor;
 
 #[doc = include_str!("core_simd_docs.md")]
 pub mod simd {
-    pub(crate) use crate::core_simd:
+    pub(crate) use crate::core_simd::intrinsics;
+
+    pub use crate::core_simd::alias::*;
+    pub use crate::core_simd::cast::*;
+    pub use crate::core_simd::elements::*;
+    pub use crate::core_simd::eq::*;
+    pub us
