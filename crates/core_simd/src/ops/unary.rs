@@ -4,4 +4,12 @@ use core::ops::{Neg, Not}; // unary ops
 
 macro_rules! neg {
     ($(impl<const LANES: usize> Neg for Simd<$scalar:ty, LANES>)*) => {
-        $(impl<const LANES: 
+        $(impl<const LANES: usize> Neg for Simd<$scalar, LANES>
+        where
+            $scalar: SimdElement,
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+            type Output = Self;
+
+            #[inline]
+    
