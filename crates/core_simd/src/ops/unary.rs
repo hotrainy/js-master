@@ -24,4 +24,10 @@ macro_rules! neg {
 neg! {
     impl<const LANES: usize> Neg for Simd<f32, LANES>
 
- 
+    impl<const LANES: usize> Neg for Simd<f64, LANES>
+
+    impl<const LANES: usize> Neg for Simd<i8, LANES>
+
+    impl<const LANES: usize> Neg for Simd<i16, LANES>
+
+    impl<con
