@@ -12,4 +12,7 @@ macro_rules! neg {
             type Output = Self;
 
             #[inline]
-    
+            #[must_use = "operator returns a new vector without mutating the input"]
+            fn neg(self) -> Self::Output {
+                // Safety: `self` is a signed vector
+  
