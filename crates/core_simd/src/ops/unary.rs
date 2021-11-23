@@ -38,4 +38,8 @@ neg! {
 }
 
 macro_rules! not {
-    ($(impl<const LANE
+    ($(impl<const LANES: usize> Not for Simd<$scalar:ty, LANES>)*) => {
+        $(impl<const LANES: usize> Not for Simd<$scalar, LANES>
+        where
+            $scalar: SimdElement,
+            LaneCount<LANES>:
