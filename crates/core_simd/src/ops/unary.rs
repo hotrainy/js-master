@@ -30,4 +30,12 @@ neg! {
 
     impl<const LANES: usize> Neg for Simd<i16, LANES>
 
-    impl<con
+    impl<const LANES: usize> Neg for Simd<i32, LANES>
+
+    impl<const LANES: usize> Neg for Simd<i64, LANES>
+
+    impl<const LANES: usize> Neg for Simd<isize, LANES>
+}
+
+macro_rules! not {
+    ($(impl<const LANE
