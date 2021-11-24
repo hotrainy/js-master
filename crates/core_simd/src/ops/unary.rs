@@ -42,4 +42,9 @@ macro_rules! not {
         $(impl<const LANES: usize> Not for Simd<$scalar, LANES>
         where
             $scalar: SimdElement,
-            LaneCount<LANES>:
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+            type Output = Self;
+
+            #[inline]
+            #[must_use = "operator returns a new vector without mutating the input"]
