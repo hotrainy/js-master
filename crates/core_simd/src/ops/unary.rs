@@ -48,3 +48,12 @@ macro_rules! not {
 
             #[inline]
             #[must_use = "operator returns a new vector without mutating the input"]
+            fn not(self) -> Self::Output {
+                self ^ (Simd::splat(!(0 as $scalar)))
+            }
+        })*
+    }
+}
+
+not! {
+    impl<const LANES: usize> Not for Simd<i8, LA
