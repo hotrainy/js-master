@@ -56,4 +56,12 @@ macro_rules! not {
 }
 
 not! {
-    impl<const LANES: usize> Not for Simd<i8, LA
+    impl<const LANES: usize> Not for Simd<i8, LANES>
+
+    impl<const LANES: usize> Not for Simd<i16, LANES>
+
+    impl<const LANES: usize> Not for Simd<i32, LANES>
+
+    impl<const LANES: usize> Not for Simd<i64, LANES>
+
+    impl<con
