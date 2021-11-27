@@ -64,4 +64,8 @@ not! {
 
     impl<const LANES: usize> Not for Simd<i64, LANES>
 
-    impl<con
+    impl<const LANES: usize> Not for Simd<isize, LANES>
+
+    impl<const LANES: usize> Not for Simd<u8, LANES>
+
+    impl<const LANES: usize> Not for Simd<u16, LANES>
