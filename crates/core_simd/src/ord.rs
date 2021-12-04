@@ -16,4 +16,10 @@ pub trait SimdPartialOrd: SimdPartialEq {
     #[must_use = "method returns a new mask and does not mutate the original value"]
     fn simd_gt(self, other: Self) -> Self::Mask;
 
-    /// Test if each lane is greater than or equal to the corresponding lane i
+    /// Test if each lane is greater than or equal to the corresponding lane in `other`.
+    #[must_use = "method returns a new mask and does not mutate the original value"]
+    fn simd_ge(self, other: Self) -> Self::Mask;
+}
+
+/// Parallel `Ord`.
+pub trait SimdOrd: SimdPartialOrd
