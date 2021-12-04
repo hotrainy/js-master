@@ -27,4 +27,8 @@ pub trait SimdOrd: SimdPartialOrd {
     #[must_use = "method returns a new vector and does not mutate the original value"]
     fn simd_max(self, other: Self) -> Self;
 
-    /
+    /// Returns the lane-wise minimum with `other`.
+    #[must_use = "method returns a new vector and does not mutate the original value"]
+    fn simd_min(self, other: Self) -> Self;
+
+    /// Restrict each lane to a cer
