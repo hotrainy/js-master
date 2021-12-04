@@ -22,4 +22,9 @@ pub trait SimdPartialOrd: SimdPartialEq {
 }
 
 /// Parallel `Ord`.
-pub trait SimdOrd: SimdPartialOrd
+pub trait SimdOrd: SimdPartialOrd {
+    /// Returns the lane-wise maximum with `other`.
+    #[must_use = "method returns a new vector and does not mutate the original value"]
+    fn simd_max(self, other: Self) -> Self;
+
+    /
