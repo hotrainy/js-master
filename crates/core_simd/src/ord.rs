@@ -35,4 +35,9 @@ pub trait SimdOrd: SimdPartialOrd {
     ///
     /// For each lane, returns `max` if `self` is greater than `max`, and `min` if `self` is
     /// less than `min`. Otherwise returns `self`.
-    //
+    ///
+    /// # Panics
+    ///
+    /// Panics if `min > max` on any lane.
+    #[must_use = "method returns a new vector and does not mutate the original value"]
+    fn simd_clamp(self, min: Self, max: Sel
