@@ -40,4 +40,12 @@ pub trait SimdOrd: SimdPartialOrd {
     ///
     /// Panics if `min > max` on any lane.
     #[must_use = "method returns a new vector and does not mutate the original value"]
-    fn simd_clamp(self, min: Self, max: Sel
+    fn simd_clamp(self, min: Self, max: Self) -> Self;
+}
+
+macro_rules! impl_integer {
+    { $($integer:ty),* } => {
+        $(
+        impl<const LANES: usize> SimdPartialOrd for Simd<$integer, LANES>
+        where
+ 
