@@ -31,4 +31,8 @@ pub trait SimdOrd: SimdPartialOrd {
     #[must_use = "method returns a new vector and does not mutate the original value"]
     fn simd_min(self, other: Self) -> Self;
 
-    /// Restrict each lane to a cer
+    /// Restrict each lane to a certain interval.
+    ///
+    /// For each lane, returns `max` if `self` is greater than `max`, and `min` if `self` is
+    /// less than `min`. Otherwise returns `self`.
+    //
