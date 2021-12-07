@@ -48,4 +48,8 @@ macro_rules! impl_integer {
         $(
         impl<const LANES: usize> SimdPartialOrd for Simd<$integer, LANES>
         where
- 
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+            #[inline]
+            fn simd_lt(self, other: Self) -> Self::Mask {
+                // Safety: `self` is a vector, and t
