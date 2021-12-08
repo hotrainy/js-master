@@ -58,4 +58,6 @@ macro_rules! impl_integer {
             }
 
             #[inline]
- 
+            fn simd_le(self, other: Self) -> Self::Mask {
+                // Safety: `self` is a vector, and the result of the comparison
+                // is always a 
