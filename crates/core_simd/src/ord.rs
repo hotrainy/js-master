@@ -66,4 +66,7 @@ macro_rules! impl_integer {
 
             #[inline]
             fn simd_gt(self, other: Self) -> Self::Mask {
-                // 
+                // Safety: `self` is a vector, and the result of the comparison
+                // is always a valid mask.
+                unsafe { Mask::from_int_unchecked(intrinsics::simd_gt(self, other)) }
+ 
