@@ -79,4 +79,9 @@ macro_rules! impl_integer {
             }
         }
 
-        impl<const LANES: usize
+        impl<const LANES: usize> SimdOrd for Simd<$integer, LANES>
+        where
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+            #[inline]
+            fn simd_max(self, other: Self) 
