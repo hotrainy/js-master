@@ -90,4 +90,10 @@ macro_rules! impl_integer {
 
             #[inline]
             fn simd_min(self, other: Self) -> Self {
-                self.simd_gt(
+                self.simd_gt(other).select(other, self)
+            }
+
+            #[inline]
+            fn simd_clamp(self, min: Self, max: Self) -> Self {
+                assert!(
+                    min.
