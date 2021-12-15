@@ -84,4 +84,10 @@ macro_rules! impl_integer {
             LaneCount<LANES>: SupportedLaneCount,
         {
             #[inline]
-            fn simd_max(self, other: Self) 
+            fn simd_max(self, other: Self) -> Self {
+                self.simd_lt(other).select(other, self)
+            }
+
+            #[inline]
+            fn simd_min(self, other: Self) -> Self {
+                self.simd_gt(
