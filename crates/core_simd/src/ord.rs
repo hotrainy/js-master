@@ -125,4 +125,9 @@ macro_rules! impl_float {
             #[inline]
             fn simd_le(self, other: Self) -> Self::Mask {
                 // Safety: `self` is a vector, and the result of the comparison
-                // is
+                // is always a valid mask.
+                unsafe { Mask::from_int_unchecked(intrinsics::simd_le(self, other)) }
+            }
+
+            #[inline]
+            fn si
