@@ -111,4 +111,10 @@ impl_integer! { u8, u16, u32, u64, usize, i8, i16, i32, i64, isize }
 macro_rules! impl_float {
     { $($float:ty),* } => {
         $(
-        impl<const LANES: usiz
+        impl<const LANES: usize> SimdPartialOrd for Simd<$float, LANES>
+        where
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+            #[inline]
+            fn simd_lt(self, other: Self) -> Self::Mask {
+        
