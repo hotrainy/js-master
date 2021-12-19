@@ -100,4 +100,15 @@ macro_rules! impl_integer {
                     "each lane in `min` must be less than or equal to the corresponding lane in `max`",
                 );
                 self.simd_max(min).simd_min(max)
-       
+            }
+        }
+        )*
+    }
+}
+
+impl_integer! { u8, u16, u32, u64, usize, i8, i16, i32, i64, isize }
+
+macro_rules! impl_float {
+    { $($float:ty),* } => {
+        $(
+        impl<const LANES: usiz
