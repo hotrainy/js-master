@@ -142,4 +142,14 @@ macro_rules! impl_float {
                 // is always a valid mask.
                 unsafe { Mask::from_int_unchecked(intrinsics::simd_ge(self, other)) }
             }
-    
+        }
+        )*
+    }
+}
+
+impl_float! { f32, f64 }
+
+macro_rules! impl_mask {
+    { $($integer:ty),* } => {
+        $(
+        impl<const LANES: usize> SimdPartialOrd for Mask<$integer, LAN
