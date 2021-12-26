@@ -152,4 +152,10 @@ impl_float! { f32, f64 }
 macro_rules! impl_mask {
     { $($integer:ty),* } => {
         $(
-        impl<const LANES: usize> SimdPartialOrd for Mask<$integer, LAN
+        impl<const LANES: usize> SimdPartialOrd for Mask<$integer, LANES>
+        where
+            LaneCount<LANES>: SupportedLaneCount,
+        {
+            #[inline]
+            fn simd_lt(self, other: Self) -> Self::Mask {
+                // Safety: `sel
