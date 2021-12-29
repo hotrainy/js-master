@@ -158,4 +158,6 @@ macro_rules! impl_mask {
         {
             #[inline]
             fn simd_lt(self, other: Self) -> Self::Mask {
-                // Safety: `sel
+                // Safety: `self` is a vector, and the result of the comparison
+                // is always a valid mask.
+                unsafe { Self::from_int_unchecked(intrinsics::simd_lt(self.to_int(), other.to_int())) }
