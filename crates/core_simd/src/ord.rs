@@ -195,4 +195,10 @@ macro_rules! impl_mask {
             }
 
             #[inline]
-            fn simd_min(self, other: Self
+            fn simd_min(self, other: Self) -> Self {
+                self.simd_lt(other).select_mask(other, self)
+            }
+
+            #[inline]
+            fn simd_clamp(self, min: Self, max: Self) -> Self {
+                
