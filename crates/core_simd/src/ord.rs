@@ -189,4 +189,10 @@ macro_rules! impl_mask {
         where
             LaneCount<LANES>: SupportedLaneCount,
         {
-            #[i
+            #[inline]
+            fn simd_max(self, other: Self) -> Self {
+                self.simd_gt(other).select_mask(other, self)
+            }
+
+            #[inline]
+            fn simd_min(self, other: Self
