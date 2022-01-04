@@ -214,4 +214,13 @@ macro_rules! impl_mask {
 
 impl_mask! { i8, i16, i32, i64, isize }
 
-impl<T, const LANES: usize> SimdPartialOrd for S
+impl<T, const LANES: usize> SimdPartialOrd for Simd<*const T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn simd_lt(self, other: Self) -> Self::Mask {
+        self.addr().simd_lt(other.addr())
+    }
+
+    #[in
