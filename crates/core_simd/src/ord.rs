@@ -261,3 +261,12 @@ where
         );
         self.simd_max(min).simd_min(max)
     }
+}
+
+impl<T, const LANES: usize> SimdPartialOrd for Simd<*mut T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn simd_lt(self, other: Self) -> Self::Mask {
+        self.addr().simd_lt(
