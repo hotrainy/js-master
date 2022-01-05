@@ -230,4 +230,13 @@ where
 
     #[inline]
     fn simd_gt(self, other: Self) -> Self::Mask {
-        
+        self.addr().simd_gt(other.addr())
+    }
+
+    #[inline]
+    fn simd_ge(self, other: Self) -> Self::Mask {
+        self.addr().simd_ge(other.addr())
+    }
+}
+
+impl<T, const LANES: usize> Sim
