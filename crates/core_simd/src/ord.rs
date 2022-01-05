@@ -245,4 +245,15 @@ where
 {
     #[inline]
     fn simd_max(self, other: Self) -> Self {
-        self.simd_lt(other).select(other, se
+        self.simd_lt(other).select(other, self)
+    }
+
+    #[inline]
+    fn simd_min(self, other: Self) -> Self {
+        self.simd_gt(other).select(other, self)
+    }
+
+    #[inline]
+    fn simd_clamp(self, min: Self, max: Self) -> Self {
+        assert!(
+  
