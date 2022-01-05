@@ -239,4 +239,10 @@ where
     }
 }
 
-impl<T, const LANES: usize> Sim
+impl<T, const LANES: usize> SimdOrd for Simd<*const T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    #[inline]
+    fn simd_max(self, other: Self) -> Self {
+        self.simd_lt(other).select(other, se
