@@ -223,4 +223,11 @@ where
         self.addr().simd_lt(other.addr())
     }
 
-    #[in
+    #[inline]
+    fn simd_le(self, other: Self) -> Self::Mask {
+        self.addr().simd_le(other.addr())
+    }
+
+    #[inline]
+    fn simd_gt(self, other: Self) -> Self::Mask {
+        
