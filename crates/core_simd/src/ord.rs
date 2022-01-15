@@ -303,4 +303,8 @@ where
     }
 
     #[inline]
-    fn simd_clamp(self, min: Self, max: Self) -> Self 
+    fn simd_clamp(self, min: Self, max: Self) -> Self {
+        assert!(
+            min.simd_le(max).all(),
+            "each lane in `min` must be less than or equal to the corresponding lane in `max`",
+    
