@@ -307,4 +307,7 @@ where
         assert!(
             min.simd_le(max).all(),
             "each lane in `min` must be less than or equal to the corresponding lane in `max`",
-    
+        );
+        self.simd_max(min).simd_min(max)
+    }
+}
