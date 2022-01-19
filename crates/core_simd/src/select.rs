@@ -13,4 +13,8 @@ where
     ///
     /// # Examples
     /// ```
-    /// # #![feature(
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::{Simd, Mask};
+    /// let a = Simd::from_array([0, 1, 2, 3]);
+    /// let b = Simd::from_array([4, 5, 6, 7]);
+    /// let mask = Mask::from_array([true, f
