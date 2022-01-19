@@ -8,4 +8,9 @@ where
 {
     /// Choose lanes from two vectors.
     ///
-    /// For each lane in the mask,
+    /// For each lane in the mask, choose the corresponding lane from `true_values` if
+    /// that lane mask is true, and `false_values` if that lane mask is false.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(
