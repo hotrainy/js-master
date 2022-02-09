@@ -33,4 +33,9 @@ where
     {
         // Safety: The mask has been cast to a vector of integers,
         // and the operands to select between are vectors of the same type and length.
-        unsa
+        unsafe { intrinsics::simd_select(self.to_int(), true_values, false_values) }
+    }
+
+    /// Choose lanes from two masks.
+    ///
+    /// For each lane in the mask, choos
