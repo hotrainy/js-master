@@ -17,4 +17,9 @@ where
     /// # use core::simd::{Simd, Mask};
     /// let a = Simd::from_array([0, 1, 2, 3]);
     /// let b = Simd::from_array([4, 5, 6, 7]);
-    /// let mask = Mask::from_array([true, f
+    /// let mask = Mask::from_array([true, false, false, true]);
+    /// let c = mask.select(a, b);
+    /// assert_eq!(c.to_array(), [0, 5, 6, 3]);
+    /// ```
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the 
