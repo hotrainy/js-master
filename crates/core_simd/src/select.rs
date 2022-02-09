@@ -29,4 +29,8 @@ where
         false_values: Simd<U, LANES>,
     ) -> Simd<U, LANES>
     where
-        U: Sim
+        U: SimdElement<Mask = T>,
+    {
+        // Safety: The mask has been cast to a vector of integers,
+        // and the operands to select between are vectors of the same type and length.
+        unsa
