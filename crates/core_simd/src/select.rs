@@ -22,4 +22,11 @@ where
     /// assert_eq!(c.to_array(), [0, 5, 6, 3]);
     /// ```
     #[inline]
-    #[must_use = "method returns a new vector and does not mutate the 
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+    pub fn select<U>(
+        self,
+        true_values: Simd<U, LANES>,
+        false_values: Simd<U, LANES>,
+    ) -> Simd<U, LANES>
+    where
+        U: Sim
