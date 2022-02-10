@@ -43,4 +43,8 @@ where
     ///
     /// # Examples
     /// ```
-    /// # #![feature(portable
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::Mask;
+    /// let a = Mask::<i32, 4>::from_array([true, true, false, false]);
+    /// let b = Mask::<i32, 4>::from_array([false, false, true, true]);
+    /// let ma
