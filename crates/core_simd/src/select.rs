@@ -47,4 +47,9 @@ where
     /// # use core::simd::Mask;
     /// let a = Mask::<i32, 4>::from_array([true, true, false, false]);
     /// let b = Mask::<i32, 4>::from_array([false, false, true, true]);
-    /// let ma
+    /// let mask = Mask::<i32, 4>::from_array([true, false, false, true]);
+    /// let c = mask.select_mask(a, b);
+    /// assert_eq!(c.to_array(), [true, false, true, false]);
+    /// ```
+    #[inline]
+    #[must
