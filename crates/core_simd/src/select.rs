@@ -52,4 +52,6 @@ where
     /// assert_eq!(c.to_array(), [true, false, true, false]);
     /// ```
     #[inline]
-    #[must
+    #[must_use = "method returns a new mask and does not mutate the original inputs"]
+    pub fn select_mask(self, true_values: Self, false_values: Self) -> Self {
+        self & true_values | !self & false_
