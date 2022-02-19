@@ -6,4 +6,11 @@ use crate::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
 /// When swizzling one vector, lanes are selected by a `const` array of `usize`,
 /// like [`Swizzle`].
 ///
-/// When swizzling two vectors, lanes are selected by 
+/// When swizzling two vectors, lanes are selected by a `const` array of [`Which`],
+/// like [`Swizzle2`].
+///
+/// # Examples
+///
+/// With a single SIMD vector, the const array specifies lane indices in that vector:
+/// ```
+/// # #![featu
