@@ -13,4 +13,9 @@ use crate::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
 ///
 /// With a single SIMD vector, the const array specifies lane indices in that vector:
 /// ```
-/// # #![featu
+/// # #![feature(portable_simd)]
+/// # use core::simd::{u32x2, u32x4, simd_swizzle};
+/// let v = u32x4::from_array([10, 11, 12, 13]);
+///
+/// // Keeping the same size
+/// let r: u32x4 = simd_swizzle!(v, [3, 0,
