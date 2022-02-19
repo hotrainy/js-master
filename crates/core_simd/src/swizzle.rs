@@ -26,3 +26,7 @@ use crate::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
 /// assert_eq!(r.to_array(), [13, 11]);
 /// ```
 ///
+/// With two input SIMD vectors, the const array uses `Which` to specify the source of each index:
+/// ```
+/// # #![feature(portable_simd)]
+/// # use core::simd::{u32x2, u32x4, simd_swizzle, Whi
