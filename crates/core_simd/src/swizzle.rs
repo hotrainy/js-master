@@ -29,4 +29,10 @@ use crate::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
 /// With two input SIMD vectors, the const array uses `Which` to specify the source of each index:
 /// ```
 /// # #![feature(portable_simd)]
-/// # use core::simd::{u32x2, u32x4, simd_swizzle, Whi
+/// # use core::simd::{u32x2, u32x4, simd_swizzle, Which};
+/// use Which::{First, Second};
+/// let a = u32x4::from_array([0, 1, 2, 3]);
+/// let b = u32x4::from_array([4, 5, 6, 7]);
+///
+/// // Keeping the same size
+/// let r: u32x4 = simd_swizzle!(a, b, [Firs
