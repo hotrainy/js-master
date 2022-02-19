@@ -54,4 +54,6 @@ where
     #[inline]
     #[must_use = "method returns a new mask and does not mutate the original inputs"]
     pub fn select_mask(self, true_values: Self, false_values: Self) -> Self {
-        self & true_values | !self & false_
+        self & true_values | !self & false_values
+    }
+}
