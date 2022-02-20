@@ -40,4 +40,12 @@ use crate::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
 ///
 /// // Changing the number of lanes
 /// let r: u32x2 = simd_swizzle!(a, b, [First(0), Second(0)]);
-/// asser
+/// assert_eq!(r.to_array(), [0, 4]);
+/// ```
+#[allow(unused_macros)]
+pub macro simd_swizzle {
+    (
+        $vector:expr, $index:expr $(,)?
+    ) => {
+        {
+            use $crate::simd::
