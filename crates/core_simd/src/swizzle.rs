@@ -35,4 +35,9 @@ use crate::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
 /// let b = u32x4::from_array([4, 5, 6, 7]);
 ///
 /// // Keeping the same size
-/// let r: u32x4 = simd_swizzle!(a, b, [Firs
+/// let r: u32x4 = simd_swizzle!(a, b, [First(0), First(1), Second(2), Second(3)]);
+/// assert_eq!(r.to_array(), [0, 1, 6, 7]);
+///
+/// // Changing the number of lanes
+/// let r: u32x2 = simd_swizzle!(a, b, [First(0), Second(0)]);
+/// asser
