@@ -48,4 +48,8 @@ pub macro simd_swizzle {
         $vector:expr, $index:expr $(,)?
     ) => {
         {
-            use $crate::simd::
+            use $crate::simd::Swizzle;
+            struct Impl;
+            impl<const LANES: usize> Swizzle<LANES, {$index.len()}> for Impl {
+                const INDEX: [usize; {$index.len()}] = $index;
+        
