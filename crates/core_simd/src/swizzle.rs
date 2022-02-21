@@ -52,4 +52,12 @@ pub macro simd_swizzle {
             struct Impl;
             impl<const LANES: usize> Swizzle<LANES, {$index.len()}> for Impl {
                 const INDEX: [usize; {$index.len()}] = $index;
-        
+            }
+            Impl::swizzle($vector)
+        }
+    },
+    (
+        $first:expr, $second:expr, $index:expr $(,)?
+    ) => {
+        {
+            use $crate::simd::{Which, Swizzle2};
