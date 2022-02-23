@@ -65,4 +65,12 @@ pub macro simd_swizzle {
             impl<const LANES: usize> Swizzle2<LANES, {$index.len()}> for Impl {
                 const INDEX: [Which; {$index.len()}] = $index;
             }
-            Impl::swiz
+            Impl::swizzle2($first, $second)
+        }
+    }
+}
+
+/// Specifies a lane index into one of two SIMD vectors.
+///
+/// This is an input type for [Swizzle2] and helper macros like [simd_swizzle].
+#[
