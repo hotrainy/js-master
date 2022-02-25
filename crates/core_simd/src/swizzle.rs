@@ -73,4 +73,8 @@ pub macro simd_swizzle {
 /// Specifies a lane index into one of two SIMD vectors.
 ///
 /// This is an input type for [Swizzle2] and helper macros like [simd_swizzle].
-#[
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum Which {
+    /// Index of a lane in the first input SIMD vector.
+    First(usize),
+    /// Index of a lane in
