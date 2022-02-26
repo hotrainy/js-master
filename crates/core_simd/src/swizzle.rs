@@ -82,4 +82,10 @@ pub enum Which {
 }
 
 /// Create a vector from the elements of another vector.
-pub trait Swizzle<const INPUT_LANES: usize, const OUTPUT_LANES: usize>
+pub trait Swizzle<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
+    /// Map from the lanes of the input vector to the output vector.
+    const INDEX: [usize; OUTPUT_LANES];
+
+    /// Create a new vector from the lanes of `vector`.
+    ///
+    /// Lane `i`
