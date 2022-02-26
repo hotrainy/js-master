@@ -77,4 +77,9 @@ pub macro simd_swizzle {
 pub enum Which {
     /// Index of a lane in the first input SIMD vector.
     First(usize),
-    /// Index of a lane in
+    /// Index of a lane in the second input SIMD vector.
+    Second(usize),
+}
+
+/// Create a vector from the elements of another vector.
+pub trait Swizzle<const INPUT_LANES: usize, const OUTPUT_LANES: usize>
