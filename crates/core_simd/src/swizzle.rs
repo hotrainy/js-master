@@ -88,4 +88,7 @@ pub trait Swizzle<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
 
     /// Create a new vector from the lanes of `vector`.
     ///
-    /// Lane `i`
+    /// Lane `i` of the output is `vector[Self::INDEX[i]]`.
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+    fn swizzle<T>(vector: Simd<T, INPUT
