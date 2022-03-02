@@ -95,4 +95,11 @@ pub trait Swizzle<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
     where
         T: SimdElement,
         LaneCount<INPUT_LANES>: SupportedLaneCount,
-        LaneCount<OUTPUT_LANES>: SupportedLane
+        LaneCount<OUTPUT_LANES>: SupportedLaneCount,
+    {
+        // Safety: `vector` is a vector, and `INDEX_IMPL` is a const array of u32.
+        unsafe { intrinsics::simd_shuffle(vector, vector, Self::INDEX_IMPL) }
+    }
+}
+
+/// Create a
