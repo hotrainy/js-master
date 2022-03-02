@@ -102,4 +102,6 @@ pub trait Swizzle<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
     }
 }
 
-/// Create a
+/// Create a vector from the elements of two other vectors.
+pub trait Swizzle2<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
+    /// Map from the lanes of the input vectors to the output vector
