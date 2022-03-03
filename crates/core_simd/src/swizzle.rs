@@ -105,3 +105,8 @@ pub trait Swizzle<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
 /// Create a vector from the elements of two other vectors.
 pub trait Swizzle2<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
     /// Map from the lanes of the input vectors to the output vector
+    const INDEX: [Which; OUTPUT_LANES];
+
+    /// Create a new vector from the lanes of `first` and `second`.
+    ///
+    /// Lane `i` is `first[j]` when `Self::INDEX[i]` is `First(j)`, or `secon
