@@ -109,4 +109,9 @@ pub trait Swizzle2<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
 
     /// Create a new vector from the lanes of `first` and `second`.
     ///
-    /// Lane `i` is `first[j]` when `Self::INDEX[i]` is `First(j)`, or `secon
+    /// Lane `i` is `first[j]` when `Self::INDEX[i]` is `First(j)`, or `second[j]` when it is
+    /// `Second(j)`.
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+    fn swizzle2<T>(
+        first:
