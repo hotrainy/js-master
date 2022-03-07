@@ -114,4 +114,9 @@ pub trait Swizzle2<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
     #[inline]
     #[must_use = "method returns a new vector and does not mutate the original inputs"]
     fn swizzle2<T>(
-        first:
+        first: Simd<T, INPUT_LANES>,
+        second: Simd<T, INPUT_LANES>,
+    ) -> Simd<T, OUTPUT_LANES>
+    where
+        T: SimdElement,
+        LaneCount<INPUT_LANES>: SupportedLa
