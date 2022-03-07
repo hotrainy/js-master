@@ -119,4 +119,8 @@ pub trait Swizzle2<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
     ) -> Simd<T, OUTPUT_LANES>
     where
         T: SimdElement,
-        LaneCount<INPUT_LANES>: SupportedLa
+        LaneCount<INPUT_LANES>: SupportedLaneCount,
+        LaneCount<OUTPUT_LANES>: SupportedLaneCount,
+    {
+        // Safety: `first` and `second` are vectors, and `INDEX_IMPL` is a const array of u32.
+        unsaf
