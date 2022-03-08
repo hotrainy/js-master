@@ -133,4 +133,8 @@ trait SwizzleImpl<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
     const INDEX_IMPL: [u32; OUTPUT_LANES];
 }
 
-imp
+impl<T, const INPUT_LANES: usize, const OUTPUT_LANES: usize> SwizzleImpl<INPUT_LANES, OUTPUT_LANES>
+    for T
+where
+    T: Swizzle<INPUT_LANES, OUTPUT_LANES> + ?Sized,
+{
