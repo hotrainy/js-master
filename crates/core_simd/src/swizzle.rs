@@ -123,4 +123,9 @@ pub trait Swizzle2<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
         LaneCount<OUTPUT_LANES>: SupportedLaneCount,
     {
         // Safety: `first` and `second` are vectors, and `INDEX_IMPL` is a const array of u32.
-        unsaf
+        unsafe { intrinsics::simd_shuffle(first, second, Self::INDEX_IMPL) }
+    }
+}
+
+/// The `simd_shuffle` intrinsic expects `u32`, so do error checking and conversion here.
+/
