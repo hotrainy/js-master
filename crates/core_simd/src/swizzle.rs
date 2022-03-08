@@ -138,3 +138,8 @@ impl<T, const INPUT_LANES: usize, const OUTPUT_LANES: usize> SwizzleImpl<INPUT_L
 where
     T: Swizzle<INPUT_LANES, OUTPUT_LANES> + ?Sized,
 {
+    const INDEX_IMPL: [u32; OUTPUT_LANES] = {
+        let mut output = [0; OUTPUT_LANES];
+        let mut i = 0;
+        while i < OUTPUT_LANES {
+            let index = Self::INDEX[i];
