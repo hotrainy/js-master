@@ -143,3 +143,6 @@ where
         let mut i = 0;
         while i < OUTPUT_LANES {
             let index = Self::INDEX[i];
+            assert!(index as u32 as usize == index);
+            assert!(index < INPUT_LANES, "source lane exceeds input lane count",);
+            output[i] = index 
