@@ -145,4 +145,13 @@ where
             let index = Self::INDEX[i];
             assert!(index as u32 as usize == index);
             assert!(index < INPUT_LANES, "source lane exceeds input lane count",);
-            output[i] = index 
+            output[i] = index as u32;
+            i += 1;
+        }
+        output
+    };
+}
+
+/// The `simd_shuffle` intrinsic expects `u32`, so do error checking and conversion here.
+/// This trait hides `INDEX_IMPL` from the public API.
+t
