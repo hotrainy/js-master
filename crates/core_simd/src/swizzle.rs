@@ -154,4 +154,8 @@ where
 
 /// The `simd_shuffle` intrinsic expects `u32`, so do error checking and conversion here.
 /// This trait hides `INDEX_IMPL` from the public API.
-t
+trait Swizzle2Impl<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
+    const INDEX_IMPL: [u32; OUTPUT_LANES];
+}
+
+impl<T, const INPUT_LANES: usize, const OUTPUT_LANES: usize> Swizzle2Impl<INPUT_LANES
