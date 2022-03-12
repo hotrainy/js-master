@@ -169,4 +169,8 @@ where
         while i < OUTPUT_LANES {
             let (offset, index) = match Self::INDEX[i] {
                 Which::First(index) => (false, index),
-                Which::Secon
+                Which::Second(index) => (true, index),
+            };
+            assert!(index < INPUT_LANES, "source lane exceeds input lane count",);
+
+            // lanes are indexed by the first vector, then secon
