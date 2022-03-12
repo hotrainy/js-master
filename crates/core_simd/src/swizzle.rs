@@ -165,4 +165,8 @@ where
 {
     const INDEX_IMPL: [u32; OUTPUT_LANES] = {
         let mut output = [0; OUTPUT_LANES];
-  
+        let mut i = 0;
+        while i < OUTPUT_LANES {
+            let (offset, index) = match Self::INDEX[i] {
+                Which::First(index) => (false, index),
+                Which::Secon
