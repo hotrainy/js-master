@@ -158,4 +158,11 @@ trait Swizzle2Impl<const INPUT_LANES: usize, const OUTPUT_LANES: usize> {
     const INDEX_IMPL: [u32; OUTPUT_LANES];
 }
 
-impl<T, const INPUT_LANES: usize, const OUTPUT_LANES: usize> Swizzle2Impl<INPUT_LANES
+impl<T, const INPUT_LANES: usize, const OUTPUT_LANES: usize> Swizzle2Impl<INPUT_LANES, OUTPUT_LANES>
+    for T
+where
+    T: Swizzle2<INPUT_LANES, OUTPUT_LANES> + ?Sized,
+{
+    const INDEX_IMPL: [u32; OUTPUT_LANES] = {
+        let mut output = [0; OUTPUT_LANES];
+  
