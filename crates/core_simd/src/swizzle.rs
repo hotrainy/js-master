@@ -215,4 +215,6 @@ where
     /// while the last `LANES - OFFSET` elements move to the front. After calling `rotate_lanes_left`,
     /// the element previously in lane `OFFSET` will become the first element in the slice.
     #[inline]
-    #[must_use = "method returns a 
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+    pub fn rotate_lanes_left<const OFFSET: usize>(self) -> Self {
+        const fn rotate_index<const OFFSET: usize, const LANES: usize>() -> 
