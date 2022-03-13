@@ -173,4 +173,9 @@ where
             };
             assert!(index < INPUT_LANES, "source lane exceeds input lane count",);
 
-            // lanes are indexed by the first vector, then secon
+            // lanes are indexed by the first vector, then second vector
+            let index = if offset { index + INPUT_LANES } else { index };
+            assert!(index as u32 as usize == index);
+            output[i] = index as u32;
+            i += 1;
+       
