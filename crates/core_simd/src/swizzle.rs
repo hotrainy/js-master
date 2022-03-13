@@ -192,4 +192,10 @@ where
     #[inline]
     #[must_use = "method returns a new vector and does not mutate the original inputs"]
     pub fn reverse(self) -> Self {
-        const fn reverse_index<const LANES: usize
+        const fn reverse_index<const LANES: usize>() -> [usize; LANES] {
+            let mut index = [0; LANES];
+            let mut i = 0;
+            while i < LANES {
+                index[i] = LANES - i - 1;
+                i += 1;
+            }
