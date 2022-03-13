@@ -199,3 +199,11 @@ where
                 index[i] = LANES - i - 1;
                 i += 1;
             }
+            index
+        }
+
+        struct Reverse;
+
+        impl<const LANES: usize> Swizzle<LANES, LANES> for Reverse {
+            const INDEX: [usize; LANES] = reverse_index::<LANES>();
+        }
