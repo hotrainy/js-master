@@ -207,3 +207,9 @@ where
         impl<const LANES: usize> Swizzle<LANES, LANES> for Reverse {
             const INDEX: [usize; LANES] = reverse_index::<LANES>();
         }
+
+        Reverse::swizzle(self)
+    }
+
+    /// Rotates the vector such that the first `OFFSET` elements of the slice move to the end
+    /// while the last `LANES - OFFSET` elements move to the front.
