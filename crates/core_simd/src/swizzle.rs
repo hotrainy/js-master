@@ -178,4 +178,15 @@ where
             assert!(index as u32 as usize == index);
             output[i] = index as u32;
             i += 1;
-       
+        }
+        output
+    };
+}
+
+impl<T, const LANES: usize> Simd<T, LANES>
+where
+    T: SimdElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    /// Reverse the order of the lanes in the vector.
+    
