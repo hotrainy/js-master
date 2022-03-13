@@ -189,4 +189,7 @@ where
     LaneCount<LANES>: SupportedLaneCount,
 {
     /// Reverse the order of the lanes in the vector.
-    
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+    pub fn reverse(self) -> Self {
+        const fn reverse_index<const LANES: usize
