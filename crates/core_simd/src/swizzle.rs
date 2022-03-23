@@ -230,4 +230,11 @@ where
 
         struct Rotate<const OFFSET: usize>;
 
-        impl<const OFFSET: usize, const LANES: usize> Swizzle<LANES, LANES> f
+        impl<const OFFSET: usize, const LANES: usize> Swizzle<LANES, LANES> for Rotate<OFFSET> {
+            const INDEX: [usize; LANES] = rotate_index::<OFFSET, LANES>();
+        }
+
+        Rotate::<OFFSET>::swizzle(self)
+    }
+
+    /// Rotates the vector such that the first
