@@ -237,4 +237,6 @@ where
         Rotate::<OFFSET>::swizzle(self)
     }
 
-    /// Rotates the vector such that the first
+    /// Rotates the vector such that the first `LANES - OFFSET` elements of the vector move to
+    /// the end while the last `OFFSET` elements move to the front. After calling `rotate_lanes_right`,
+    /// the element previo
