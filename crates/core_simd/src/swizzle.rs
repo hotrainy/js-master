@@ -239,4 +239,7 @@ where
 
     /// Rotates the vector such that the first `LANES - OFFSET` elements of the vector move to
     /// the end while the last `OFFSET` elements move to the front. After calling `rotate_lanes_right`,
-    /// the element previo
+    /// the element previously at index `LANES - OFFSET` will become the first element in the slice.
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+ 
