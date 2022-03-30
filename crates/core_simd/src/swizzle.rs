@@ -244,4 +244,9 @@ where
     #[must_use = "method returns a new vector and does not mutate the original inputs"]
     pub fn rotate_lanes_right<const OFFSET: usize>(self) -> Self {
         const fn rotate_index<const OFFSET: usize, const LANES: usize>() -> [usize; LANES] {
-            let
+            let offset = LANES - OFFSET % LANES;
+            let mut index = [0; LANES];
+            let mut i = 0;
+            while i < LANES {
+                index[i] = (i + offset) % LANES;
+           
