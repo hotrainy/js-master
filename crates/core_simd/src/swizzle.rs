@@ -242,4 +242,6 @@ where
     /// the element previously at index `LANES - OFFSET` will become the first element in the slice.
     #[inline]
     #[must_use = "method returns a new vector and does not mutate the original inputs"]
- 
+    pub fn rotate_lanes_right<const OFFSET: usize>(self) -> Self {
+        const fn rotate_index<const OFFSET: usize, const LANES: usize>() -> [usize; LANES] {
+            let
