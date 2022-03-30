@@ -249,4 +249,11 @@ where
             let mut i = 0;
             while i < LANES {
                 index[i] = (i + offset) % LANES;
-           
+                i += 1;
+            }
+            index
+        }
+
+        struct Rotate<const OFFSET: usize>;
+
+        impl<const OFFSET: usize, const LANES: usize> Swizzle<LANES, LANES> for Rotate<OFFSET
