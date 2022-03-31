@@ -265,4 +265,7 @@ where
 
     /// Interleave two vectors.
     ///
-    /// The resultin
+    /// The resulting vectors contain lanes taken alternatively from `self` and `other`, first
+    /// filling the first result, and then the second.
+    ///
+    /// The reverse of this operation is [`
