@@ -268,4 +268,10 @@ where
     /// The resulting vectors contain lanes taken alternatively from `self` and `other`, first
     /// filling the first result, and then the second.
     ///
-    /// The reverse of this operation is [`
+    /// The reverse of this operation is [`Simd::deinterleave`].
+    ///
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::Simd;
+    /// let a = Simd::from_array([0, 1, 2, 3]);
+    /// let b = Simd::from_array([4, 5,
