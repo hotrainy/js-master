@@ -280,4 +280,6 @@ where
     /// assert_eq!(y.to_array(), [2, 6, 3, 7]);
     /// ```
     #[inline]
-    #[must_use = "meth
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+    pub fn interleave(self, other: Self) -> (Self, Self) {
+        const fn interleave<const LANES: usize>(hi
