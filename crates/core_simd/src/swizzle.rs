@@ -282,4 +282,8 @@ where
     #[inline]
     #[must_use = "method returns a new vector and does not mutate the original inputs"]
     pub fn interleave(self, other: Self) -> (Self, Self) {
-        const fn interleave<const LANES: usize>(hi
+        const fn interleave<const LANES: usize>(high: bool) -> [Which; LANES] {
+            let mut idx = [Which::First(0); LANES];
+            let mut i = 0;
+            while i < LANES {
+                // Treat the source as
