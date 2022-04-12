@@ -295,4 +295,12 @@ where
                     Which::Second(src_index % LANES)
                 };
                 i += 1;
-          
+            }
+            idx
+        }
+
+        struct Lo;
+        struct Hi;
+
+        impl<const LANES: usize> Swizzle2<LANES, LANES> for Lo {
+            const INDEX: [Which; LANES] = interle
