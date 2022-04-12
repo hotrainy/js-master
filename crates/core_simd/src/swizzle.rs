@@ -289,4 +289,10 @@ where
                 // Treat the source as a concatenated vector
                 let dst_index = if high { i + LANES } else { i };
                 let src_index = dst_index / 2 + (dst_index % 2) * LANES;
-                idx
+                idx[i] = if src_index < LANES {
+                    Which::First(src_index)
+                } else {
+                    Which::Second(src_index % LANES)
+                };
+                i += 1;
+          
