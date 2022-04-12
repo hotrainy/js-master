@@ -286,4 +286,7 @@ where
             let mut idx = [Which::First(0); LANES];
             let mut i = 0;
             while i < LANES {
-                // Treat the source as
+                // Treat the source as a concatenated vector
+                let dst_index = if high { i + LANES } else { i };
+                let src_index = dst_index / 2 + (dst_index % 2) * LANES;
+                idx
