@@ -303,4 +303,11 @@ where
         struct Hi;
 
         impl<const LANES: usize> Swizzle2<LANES, LANES> for Lo {
-            const INDEX: [Which; LANES] = interle
+            const INDEX: [Which; LANES] = interleave::<LANES>(false);
+        }
+
+        impl<const LANES: usize> Swizzle2<LANES, LANES> for Hi {
+            const INDEX: [Which; LANES] = interleave::<LANES>(true);
+        }
+
+      
