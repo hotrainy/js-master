@@ -310,4 +310,9 @@ where
             const INDEX: [Which; LANES] = interleave::<LANES>(true);
         }
 
-      
+        (Lo::swizzle2(self, other), Hi::swizzle2(self, other))
+    }
+
+    /// Deinterleave two vectors.
+    ///
+    /// The first result takes every other lane of `self` 
