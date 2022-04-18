@@ -320,3 +320,10 @@ where
     ///
     /// The second result takes every other lane of `self` and then `other`, starting with
     /// the second lane.
+    ///
+    /// The reverse of this operation is [`Simd::interleave`].
+    ///
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::Simd;
+    /// let a = Simd::fro
