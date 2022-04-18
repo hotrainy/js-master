@@ -315,4 +315,8 @@ where
 
     /// Deinterleave two vectors.
     ///
-    /// The first result takes every other lane of `self` 
+    /// The first result takes every other lane of `self` and then `other`, starting with
+    /// the first lane.
+    ///
+    /// The second result takes every other lane of `self` and then `other`, starting with
+    /// the second lane.
