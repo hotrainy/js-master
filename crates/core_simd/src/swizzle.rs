@@ -330,4 +330,8 @@ where
     /// let b = Simd::from_array([2, 6, 3, 7]);
     /// let (x, y) = a.deinterleave(b);
     /// assert_eq!(x.to_array(), [0, 1, 2, 3]);
-    /// assert_eq!(y.to_array(), [4, 5,
+    /// assert_eq!(y.to_array(), [4, 5, 6, 7]);
+    /// ```
+    #[inline]
+    #[must_use = "method returns a new vector and does not mutate the original inputs"]
+    pub fn deinterleave(self, other: Self) -> (Self, Sel
