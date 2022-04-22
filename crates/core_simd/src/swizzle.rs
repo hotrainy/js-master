@@ -334,4 +334,8 @@ where
     /// ```
     #[inline]
     #[must_use = "method returns a new vector and does not mutate the original inputs"]
-    pub fn deinterleave(self, other: Self) -> (Self, Sel
+    pub fn deinterleave(self, other: Self) -> (Self, Self) {
+        const fn deinterleave<const LANES: usize>(second: bool) -> [Which; LANES] {
+            let mut idx = [Which::First(0); LANES];
+            let mut i = 0;
+         
