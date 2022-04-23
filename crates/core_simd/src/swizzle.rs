@@ -338,4 +338,7 @@ where
         const fn deinterleave<const LANES: usize>(second: bool) -> [Which; LANES] {
             let mut idx = [Which::First(0); LANES];
             let mut i = 0;
-         
+            while i < LANES {
+                // Treat the source as a concatenated vector
+                let src_index = i * 2 + second as usize;
+                idx[i] = if src_index 
