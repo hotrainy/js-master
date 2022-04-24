@@ -341,4 +341,9 @@ where
             while i < LANES {
                 // Treat the source as a concatenated vector
                 let src_index = i * 2 + second as usize;
-                idx[i] = if src_index 
+                idx[i] = if src_index < LANES {
+                    Which::First(src_index)
+                } else {
+                    Which::Second(src_index % LANES)
+                };
+                i += 
