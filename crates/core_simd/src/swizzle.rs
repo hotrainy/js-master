@@ -346,4 +346,13 @@ where
                 } else {
                     Which::Second(src_index % LANES)
                 };
-                i += 
+                i += 1;
+            }
+            idx
+        }
+
+        struct Even;
+        struct Odd;
+
+        impl<const LANES: usize> Swizzle2<LANES, LANES> for Even {
+            const INDEX: [Which; LAN
