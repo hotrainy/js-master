@@ -355,4 +355,9 @@ where
         struct Odd;
 
         impl<const LANES: usize> Swizzle2<LANES, LANES> for Even {
-            const INDEX: [Which; LAN
+            const INDEX: [Which; LANES] = deinterleave::<LANES>(false);
+        }
+
+        impl<const LANES: usize> Swizzle2<LANES, LANES> for Odd {
+            const INDEX: [Which; LANES] = deinterleave::<LANES>(true);
+ 
