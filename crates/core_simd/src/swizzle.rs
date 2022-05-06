@@ -360,4 +360,8 @@ where
 
         impl<const LANES: usize> Swizzle2<LANES, LANES> for Odd {
             const INDEX: [Which; LANES] = deinterleave::<LANES>(true);
- 
+        }
+
+        (Even::swizzle2(self, other), Odd::swizzle2(self, other))
+    }
+}
