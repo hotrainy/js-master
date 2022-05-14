@@ -12,4 +12,6 @@ macro_rules! impl_to_bytes {
                 unsafe { core::mem::transmute_copy(&self) }
             }
 
-            /// Creat
+            /// Create a native endian integer value from its memory representation as a byte array
+            /// in native endianness.
+            pub fn from_ne_bytes(bytes: crate::simd::Simd<u8, {{ $size * LANES }}>) -
