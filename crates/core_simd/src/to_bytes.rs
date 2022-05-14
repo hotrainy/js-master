@@ -20,3 +20,12 @@ macro_rules! impl_to_bytes {
             }
         }
     }
+}
+
+impl_to_bytes! { u8, 1 }
+impl_to_bytes! { u16, 2 }
+impl_to_bytes! { u32, 4 }
+impl_to_bytes! { u64, 8 }
+#[cfg(target_pointer_width = "32")]
+impl_to_bytes! { usize, 4 }
+#[cfg(target_po
