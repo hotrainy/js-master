@@ -7,4 +7,9 @@ macro_rules! impl_to_bytes {
         {
             /// Return the memory representation of this integer as a byte array in native byte
             /// order.
-            pub fn to_ne_bytes(self) -> crate::simd::Simd<u
+            pub fn to_ne_bytes(self) -> crate::simd::Simd<u8, {{ $size * LANES }}> {
+                // Safety: transmuting between vectors is safe
+                unsafe { core::mem::transmute_copy(&self) }
+            }
+
+            /// Creat
