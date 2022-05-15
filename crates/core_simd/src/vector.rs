@@ -81,3 +81,185 @@ use crate::simd::{
 pub struct Simd<T, const LANES: usize>([T; LANES])
 where
     T: SimdElement,
+    LaneCount<LANES>: SupportedLaneCount;
+
+impl<T, const LANES: usize> Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    /// Number of lanes in this vector.
+    pub const LANES: usize = LANES;
+
+    /// Returns the number of lanes in this SIMD vector.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::u32x4;
+    /// let v = u32x4::splat(0);
+    /// assert_eq!(v.lanes(), 4);
+    /// ```
+    pub const fn lanes(&self) -> usize {
+        LANES
+    }
+
+    /// Constructs a new SIMD vector with all lanes set to the given value.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::u32x4;
+    /// let v = u32x4::splat(8);
+    /// assert_eq!(v.as_array(), &[8, 8, 8, 8]);
+    /// ```
+    pub fn splat(value: T) -> Self {
+        // This is preferred over `[value; LANES]`, since it's explicitly a splat:
+        // https://github.com/rust-lang/rust/issues/97804
+        struct Splat;
+        impl<const LANES: usize> Swizzle<1, LANES> for Splat {
+            const INDEX: [usize; LANES] = [0; LANES];
+        }
+        Splat::swizzle(Simd::<T, 1>::from([value]))
+    }
+
+    /// Returns an array reference containing the entire SIMD vector.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::{Simd, u64x4};
+    /// let v: u64x4 = Simd::from_array([0, 1, 2, 3]);
+    /// assert_eq!(v.as_array(), &[0, 1, 2, 3]);
+    /// ```
+    pub const fn as_array(&self) -> &[T; LANES] {
+        &self.0
+    }
+
+    /// Returns a mutable array reference containing the entire SIMD vector.
+    pub fn as_mut_array(&mut self) -> &mut [T; LANES] {
+        &mut self.0
+    }
+
+    /// Converts an array to a SIMD vector.
+    pub const fn from_array(array: [T; LANES]) -> Self {
+        Self(array)
+    }
+
+    /// Converts a SIMD vector to an array.
+    pub const fn to_array(self) -> [T; LANES] {
+        self.0
+    }
+
+    /// Converts a slice to a SIMD vector containing `slice[..LANES]`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the slice's length is less than the vector's `Simd::LANES`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::u32x4;
+    /// let source = vec![1, 2, 3, 4, 5, 6];
+    /// let v = u32x4::from_slice(&source);
+    /// assert_eq!(v.as_array(), &[1, 2, 3, 4]);
+    /// ```
+    #[must_use]
+    pub const fn from_slice(slice: &[T]) -> Self {
+        assert!(
+            slice.len() >= LANES,
+            "slice length must be at least the number of lanes"
+        );
+        // Safety:
+        // - We've checked the length is sufficient.
+        // - `T` and `Simd<T, N>` are Copy types.
+        unsafe { slice.as_ptr().cast::<Self>().read_unaligned() }
+    }
+
+    /// Performs lanewise conversion of a SIMD vector's elements to another SIMD-valid type.
+    ///
+    /// This follows the semantics of Rust's `as` conversion for casting
+    /// integers to unsigned integers (interpreting as the other type, so `-1` to `MAX`),
+    /// and from floats to integers (truncating, or saturating at the limits) for each lane,
+    /// or vice versa.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::Simd;
+    /// let floats: Simd<f32, 4> = Simd::from_array([1.9, -4.5, f32::INFINITY, f32::NAN]);
+    /// let ints = floats.cast::<i32>();
+    /// assert_eq!(ints, Simd::from_array([1, -4, i32::MAX, 0]));
+    ///
+    /// // Formally equivalent, but `Simd::cast` can optimize better.
+    /// assert_eq!(ints, Simd::from_array(floats.to_array().map(|x| x as i32)));
+    ///
+    /// // The float conversion does not round-trip.
+    /// let floats_again = ints.cast();
+    /// assert_ne!(floats, floats_again);
+    /// assert_eq!(floats_again, Simd::from_array([1.0, -4.0, 2147483647.0, 0.0]));
+    /// ```
+    #[must_use]
+    #[inline]
+    #[cfg(not(bootstrap))]
+    pub fn cast<U: SimdCast>(self) -> Simd<U, LANES>
+    where
+        T: SimdCast,
+    {
+        // Safety: supported types are guaranteed by SimdCast
+        unsafe { intrinsics::simd_as(self) }
+    }
+
+    /// Lanewise casts pointers to another pointer type.
+    #[must_use]
+    #[inline]
+    pub fn cast_ptr<U>(self) -> Simd<U, LANES>
+    where
+        T: SimdCastPtr<U>,
+        U: SimdElement,
+    {
+        // Safety: supported types are guaranteed by SimdCastPtr
+        unsafe { intrinsics::simd_cast_ptr(self) }
+    }
+
+    /// Rounds toward zero and converts to the same-width integer type, assuming that
+    /// the value is finite and fits in that type.
+    ///
+    /// # Safety
+    /// The value must:
+    ///
+    /// * Not be NaN
+    /// * Not be infinite
+    /// * Be representable in the return type, after truncating off its fractional part
+    ///
+    /// If these requirements are infeasible or costly, consider using the safe function [cast],
+    /// which saturates on conversion.
+    ///
+    /// [cast]: Simd::cast
+    #[inline]
+    #[cfg_attr(miri, track_caller)] // even without panics, this helps for Miri backtraces
+    pub unsafe fn to_int_unchecked<I>(self) -> Simd<I, LANES>
+    where
+        T: core::convert::FloatToInt<I> + SimdCast,
+        I: SimdCast,
+    {
+        // Safety: supported types are guaranteed by SimdCast, the caller is responsible for the extra invariants
+        unsafe { intrinsics::simd_cast(self) }
+    }
+
+    /// Reads from potentially discontiguous indices in `slice` to construct a SIMD vector.
+    /// If an index is out-of-bounds, the lane is instead selected from the `or` vector.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::Simd;
+    /// let vec: Vec<i32> = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+    /// let idxs = Simd::from_array([9, 3, 0, 5]);
+    /// let alt = Simd::from_array([-5, -4, -3, -2]);
+    ///
