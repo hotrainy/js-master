@@ -35,4 +35,7 @@ impl_to_bytes! { i8, 1 }
 impl_to_bytes! { i16, 2 }
 impl_to_bytes! { i32, 4 }
 impl_to_bytes! { i64, 8 }
-#[cfg(target_pointer_width = "32
+#[cfg(target_pointer_width = "32")]
+impl_to_bytes! { isize, 4 }
+#[cfg(target_pointer_width = "64")]
+impl_to_bytes! { isize, 8 }
