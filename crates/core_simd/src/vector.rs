@@ -263,3 +263,185 @@ where
     /// let idxs = Simd::from_array([9, 3, 0, 5]);
     /// let alt = Simd::from_array([-5, -4, -3, -2]);
     ///
+    /// let result = Simd::gather_or(&vec, idxs, alt); // Note the lane that is out-of-bounds.
+    /// assert_eq!(result, Simd::from_array([-5, 13, 10, 15]));
+    /// ```
+    #[must_use]
+    #[inline]
+    pub fn gather_or(slice: &[T], idxs: Simd<usize, LANES>, or: Self) -> Self {
+        Self::gather_select(slice, Mask::splat(true), idxs, or)
+    }
+
+    /// Reads from potentially discontiguous indices in `slice` to construct a SIMD vector.
+    /// If an index is out-of-bounds, the lane is set to the default value for the type.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::Simd;
+    /// let vec: Vec<i32> = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+    /// let idxs = Simd::from_array([9, 3, 0, 5]);
+    ///
+    /// let result = Simd::gather_or_default(&vec, idxs); // Note the lane that is out-of-bounds.
+    /// assert_eq!(result, Simd::from_array([0, 13, 10, 15]));
+    /// ```
+    #[must_use]
+    #[inline]
+    pub fn gather_or_default(slice: &[T], idxs: Simd<usize, LANES>) -> Self
+    where
+        T: Default,
+    {
+        Self::gather_or(slice, idxs, Self::splat(T::default()))
+    }
+
+    /// Reads from potentially discontiguous indices in `slice` to construct a SIMD vector.
+    /// The mask `enable`s all `true` lanes and disables all `false` lanes.
+    /// If an index is disabled or is out-of-bounds, the lane is selected from the `or` vector.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::{Simd, Mask};
+    /// let vec: Vec<i32> = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+    /// let idxs = Simd::from_array([9, 3, 0, 5]);
+    /// let alt = Simd::from_array([-5, -4, -3, -2]);
+    /// let enable = Mask::from_array([true, true, true, false]); // Note the mask of the last lane.
+    ///
+    /// let result = Simd::gather_select(&vec, enable, idxs, alt); // Note the lane that is out-of-bounds.
+    /// assert_eq!(result, Simd::from_array([-5, 13, 10, -2]));
+    /// ```
+    #[must_use]
+    #[inline]
+    pub fn gather_select(
+        slice: &[T],
+        enable: Mask<isize, LANES>,
+        idxs: Simd<usize, LANES>,
+        or: Self,
+    ) -> Self {
+        let enable: Mask<isize, LANES> = enable & idxs.simd_lt(Simd::splat(slice.len()));
+        // Safety: We have masked-off out-of-bounds lanes.
+        unsafe { Self::gather_select_unchecked(slice, enable, idxs, or) }
+    }
+
+    /// Reads from potentially discontiguous indices in `slice` to construct a SIMD vector.
+    /// The mask `enable`s all `true` lanes and disables all `false` lanes.
+    /// If an index is disabled, the lane is selected from the `or` vector.
+    ///
+    /// # Safety
+    ///
+    /// Calling this function with an `enable`d out-of-bounds index is *[undefined behavior]*
+    /// even if the resulting value is not used.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # #[cfg(feature = "as_crate")] use core_simd::simd;
+    /// # #[cfg(not(feature = "as_crate"))] use core::simd;
+    /// # use simd::{Simd, SimdPartialOrd, Mask};
+    /// let vec: Vec<i32> = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+    /// let idxs = Simd::from_array([9, 3, 0, 5]);
+    /// let alt = Simd::from_array([-5, -4, -3, -2]);
+    /// let enable = Mask::from_array([true, true, true, false]); // Note the final mask lane.
+    /// // If this mask was used to gather, it would be unsound. Let's fix that.
+    /// let enable = enable & idxs.simd_lt(Simd::splat(vec.len()));
+    ///
+    /// // We have masked the OOB lane, so it's safe to gather now.
+    /// let result = unsafe { Simd::gather_select_unchecked(&vec, enable, idxs, alt) };
+    /// assert_eq!(result, Simd::from_array([-5, 13, 10, -2]));
+    /// ```
+    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    #[must_use]
+    #[inline]
+    #[cfg_attr(miri, track_caller)] // even without panics, this helps for Miri backtraces
+    pub unsafe fn gather_select_unchecked(
+        slice: &[T],
+        enable: Mask<isize, LANES>,
+        idxs: Simd<usize, LANES>,
+        or: Self,
+    ) -> Self {
+        let base_ptr = Simd::<*const T, LANES>::splat(slice.as_ptr());
+        // Ferris forgive me, I have done pointer arithmetic here.
+        let ptrs = base_ptr.wrapping_add(idxs);
+        // Safety: The caller is responsible for determining the indices are okay to read
+        unsafe { Self::gather_select_ptr(ptrs, enable, or) }
+    }
+
+    /// Read pointers elementwise into a SIMD vector.
+    ///
+    /// # Safety
+    ///
+    /// Each read must satisfy the same conditions as [`core::ptr::read`].
+    ///
+    /// # Example
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # #[cfg(feature = "as_crate")] use core_simd::simd;
+    /// # #[cfg(not(feature = "as_crate"))] use core::simd;
+    /// # use simd::{Simd, SimdConstPtr};
+    /// let values = [6, 2, 4, 9];
+    /// let offsets = Simd::from_array([1, 0, 0, 3]);
+    /// let source = Simd::splat(values.as_ptr()).wrapping_add(offsets);
+    /// let gathered = unsafe { Simd::gather_ptr(source) };
+    /// assert_eq!(gathered, Simd::from_array([2, 6, 6, 9]));
+    /// ```
+    #[must_use]
+    #[inline]
+    #[cfg_attr(miri, track_caller)] // even without panics, this helps for Miri backtraces
+    pub unsafe fn gather_ptr(source: Simd<*const T, LANES>) -> Self
+    where
+        T: Default,
+    {
+        // TODO: add an intrinsic that doesn't use a passthru vector, and remove the T: Default bound
+        // Safety: The caller is responsible for upholding all invariants
+        unsafe { Self::gather_select_ptr(source, Mask::splat(true), Self::default()) }
+    }
+
+    /// Conditionally read pointers elementwise into a SIMD vector.
+    /// The mask `enable`s all `true` lanes and disables all `false` lanes.
+    /// If a lane is disabled, the lane is selected from the `or` vector and no read is performed.
+    ///
+    /// # Safety
+    ///
+    /// Enabled lanes must satisfy the same conditions as [`core::ptr::read`].
+    ///
+    /// # Example
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # #[cfg(feature = "as_crate")] use core_simd::simd;
+    /// # #[cfg(not(feature = "as_crate"))] use core::simd;
+    /// # use simd::{Mask, Simd, SimdConstPtr};
+    /// let values = [6, 2, 4, 9];
+    /// let enable = Mask::from_array([true, true, false, true]);
+    /// let offsets = Simd::from_array([1, 0, 0, 3]);
+    /// let source = Simd::splat(values.as_ptr()).wrapping_add(offsets);
+    /// let gathered = unsafe { Simd::gather_select_ptr(source, enable, Simd::splat(0)) };
+    /// assert_eq!(gathered, Simd::from_array([2, 6, 0, 9]));
+    /// ```
+    #[must_use]
+    #[inline]
+    #[cfg_attr(miri, track_caller)] // even without panics, this helps for Miri backtraces
+    pub unsafe fn gather_select_ptr(
+        source: Simd<*const T, LANES>,
+        enable: Mask<isize, LANES>,
+        or: Self,
+    ) -> Self {
+        // Safety: The caller is responsible for upholding all invariants
+        unsafe { intrinsics::simd_gather(or, source, enable.to_int()) }
+    }
+
+    /// Writes the values in a SIMD vector to potentially discontiguous indices in `slice`.
+    /// If two lanes in the scattered vector would write to the same index
+    /// only the last lane is guaranteed to actually be written.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # use core::simd::Simd;
+    /// let mut vec: Vec<i32> = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+    /// let idxs = Simd::from_array([9, 3, 0, 0]);
+    /// let vals = Simd::from_array([-27, 82, -41, 124]);
+    ///
+    /// vals.scatter(&mut vec, idxs); // index 0 receives two writes.
+    /// assert_eq!(vec, vec![124, 11, 12, 82, 14, 15, 16, 17, 18]);
+    /// ```
+    #[inline]
