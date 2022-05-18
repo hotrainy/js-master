@@ -445,3 +445,188 @@ where
     /// assert_eq!(vec, vec![124, 11, 12, 82, 14, 15, 16, 17, 18]);
     /// ```
     #[inline]
+    pub fn scatter(self, slice: &mut [T], idxs: Simd<usize, LANES>) {
+        self.scatter_select(slice, Mask::splat(true), idxs)
+    }
+
+    /// Writes the values in a SIMD vector to multiple potentially discontiguous indices in `slice`.
+    /// The mask `enable`s all `true` lanes and disables all `false` lanes.
+    /// If an enabled index is out-of-bounds, the lane is not written.
+    /// If two enabled lanes in the scattered vector would write to the same index,
+    /// only the last lane is guaranteed to actually be written.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # #[cfg(feature = "as_crate")] use core_simd::simd;
+    /// # #[cfg(not(feature = "as_crate"))] use core::simd;
+    /// # use simd::{Simd, Mask};
+    /// let mut vec: Vec<i32> = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+    /// let idxs = Simd::from_array([9, 3, 0, 0]);
+    /// let vals = Simd::from_array([-27, 82, -41, 124]);
+    /// let enable = Mask::from_array([true, true, true, false]); // Note the mask of the last lane.
+    ///
+    /// vals.scatter_select(&mut vec, enable, idxs); // index 0's second write is masked, thus omitted.
+    /// assert_eq!(vec, vec![-41, 11, 12, 82, 14, 15, 16, 17, 18]);
+    /// ```
+    #[inline]
+    pub fn scatter_select(
+        self,
+        slice: &mut [T],
+        enable: Mask<isize, LANES>,
+        idxs: Simd<usize, LANES>,
+    ) {
+        let enable: Mask<isize, LANES> = enable & idxs.simd_lt(Simd::splat(slice.len()));
+        // Safety: We have masked-off out-of-bounds lanes.
+        unsafe { self.scatter_select_unchecked(slice, enable, idxs) }
+    }
+
+    /// Writes the values in a SIMD vector to multiple potentially discontiguous indices in `slice`.
+    /// The mask `enable`s all `true` lanes and disables all `false` lanes.
+    /// If two enabled lanes in the scattered vector would write to the same index,
+    /// only the last lane is guaranteed to actually be written.
+    ///
+    /// # Safety
+    ///
+    /// Calling this function with an enabled out-of-bounds index is *[undefined behavior]*,
+    /// and may lead to memory corruption.
+    ///
+    /// # Examples
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # #[cfg(feature = "as_crate")] use core_simd::simd;
+    /// # #[cfg(not(feature = "as_crate"))] use core::simd;
+    /// # use simd::{Simd, SimdPartialOrd, Mask};
+    /// let mut vec: Vec<i32> = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+    /// let idxs = Simd::from_array([9, 3, 0, 0]);
+    /// let vals = Simd::from_array([-27, 82, -41, 124]);
+    /// let enable = Mask::from_array([true, true, true, false]); // Note the mask of the last lane.
+    /// // If this mask was used to scatter, it would be unsound. Let's fix that.
+    /// let enable = enable & idxs.simd_lt(Simd::splat(vec.len()));
+    ///
+    /// // We have masked the OOB lane, so it's safe to scatter now.
+    /// unsafe { vals.scatter_select_unchecked(&mut vec, enable, idxs); }
+    /// // index 0's second write is masked, thus was omitted.
+    /// assert_eq!(vec, vec![-41, 11, 12, 82, 14, 15, 16, 17, 18]);
+    /// ```
+    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    #[inline]
+    #[cfg_attr(miri, track_caller)] // even without panics, this helps for Miri backtraces
+    pub unsafe fn scatter_select_unchecked(
+        self,
+        slice: &mut [T],
+        enable: Mask<isize, LANES>,
+        idxs: Simd<usize, LANES>,
+    ) {
+        // Safety: This block works with *mut T derived from &mut 'a [T],
+        // which means it is delicate in Rust's borrowing model, circa 2021:
+        // &mut 'a [T] asserts uniqueness, so deriving &'a [T] invalidates live *mut Ts!
+        // Even though this block is largely safe methods, it must be exactly this way
+        // to prevent invalidating the raw ptrs while they're live.
+        // Thus, entering this block requires all values to use being already ready:
+        // 0. idxs we want to write to, which are used to construct the mask.
+        // 1. enable, which depends on an initial &'a [T] and the idxs.
+        // 2. actual values to scatter (self).
+        // 3. &mut [T] which will become our base ptr.
+        unsafe {
+            // Now Entering ☢️ *mut T Zone
+            let base_ptr = Simd::<*mut T, LANES>::splat(slice.as_mut_ptr());
+            // Ferris forgive me, I have done pointer arithmetic here.
+            let ptrs = base_ptr.wrapping_add(idxs);
+            // The ptrs have been bounds-masked to prevent memory-unsafe writes insha'allah
+            self.scatter_select_ptr(ptrs, enable);
+            // Cleared ☢️ *mut T Zone
+        }
+    }
+
+    /// Write pointers elementwise into a SIMD vector.
+    ///
+    /// # Safety
+    ///
+    /// Each write must satisfy the same conditions as [`core::ptr::write`].
+    ///
+    /// # Example
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # #[cfg(feature = "as_crate")] use core_simd::simd;
+    /// # #[cfg(not(feature = "as_crate"))] use core::simd;
+    /// # use simd::{Simd, SimdMutPtr};
+    /// let mut values = [0; 4];
+    /// let offset = Simd::from_array([3, 2, 1, 0]);
+    /// let ptrs = Simd::splat(values.as_mut_ptr()).wrapping_add(offset);
+    /// unsafe { Simd::from_array([6, 3, 5, 7]).scatter_ptr(ptrs); }
+    /// assert_eq!(values, [7, 5, 3, 6]);
+    /// ```
+    #[inline]
+    #[cfg_attr(miri, track_caller)] // even without panics, this helps for Miri backtraces
+    pub unsafe fn scatter_ptr(self, dest: Simd<*mut T, LANES>) {
+        // Safety: The caller is responsible for upholding all invariants
+        unsafe { self.scatter_select_ptr(dest, Mask::splat(true)) }
+    }
+
+    /// Conditionally write pointers elementwise into a SIMD vector.
+    /// The mask `enable`s all `true` lanes and disables all `false` lanes.
+    /// If a lane is disabled, the write to that lane is skipped.
+    ///
+    /// # Safety
+    ///
+    /// Enabled lanes must satisfy the same conditions as [`core::ptr::write`].
+    ///
+    /// # Example
+    /// ```
+    /// # #![feature(portable_simd)]
+    /// # #[cfg(feature = "as_crate")] use core_simd::simd;
+    /// # #[cfg(not(feature = "as_crate"))] use core::simd;
+    /// # use simd::{Mask, Simd, SimdMutPtr};
+    /// let mut values = [0; 4];
+    /// let offset = Simd::from_array([3, 2, 1, 0]);
+    /// let ptrs = Simd::splat(values.as_mut_ptr()).wrapping_add(offset);
+    /// let enable = Mask::from_array([true, true, false, false]);
+    /// unsafe { Simd::from_array([6, 3, 5, 7]).scatter_select_ptr(ptrs, enable); }
+    /// assert_eq!(values, [0, 0, 3, 6]);
+    /// ```
+    #[inline]
+    #[cfg_attr(miri, track_caller)] // even without panics, this helps for Miri backtraces
+    pub unsafe fn scatter_select_ptr(self, dest: Simd<*mut T, LANES>, enable: Mask<isize, LANES>) {
+        // Safety: The caller is responsible for upholding all invariants
+        unsafe { intrinsics::simd_scatter(self, dest, enable.to_int()) }
+    }
+}
+
+impl<T, const LANES: usize> Copy for Simd<T, LANES>
+where
+    T: SimdElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+}
+
+impl<T, const LANES: usize> Clone for Simd<T, LANES>
+where
+    T: SimdElement,
+    LaneCount<LANES>: SupportedLaneCount,
+{
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<T, const LANES: usize> Default for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement + Default,
+{
+    #[inline]
+    fn default() -> Self {
+        Self::splat(T::default())
+    }
+}
+
+impl<T, const LANES: usize> PartialEq for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement + PartialEq,
+{
+    #[inline]
+    fn eq(&self, other: &Self) -> bool {
+        // Safety: All SIMD vectors are SimdPartialEq, and the comparison produces a valid mask.
+        let mask = unsafe {
