@@ -630,3 +630,168 @@ where
     fn eq(&self, other: &Self) -> bool {
         // Safety: All SIMD vectors are SimdPartialEq, and the comparison produces a valid mask.
         let mask = unsafe {
+            let tfvec: Simd<<T as SimdElement>::Mask, LANES> = intrinsics::simd_eq(*self, *other);
+            Mask::from_int_unchecked(tfvec)
+        };
+
+        // Two vectors are equal if all lanes tested true for vertical equality.
+        mask.all()
+    }
+
+    #[allow(clippy::partialeq_ne_impl)]
+    #[inline]
+    fn ne(&self, other: &Self) -> bool {
+        // Safety: All SIMD vectors are SimdPartialEq, and the comparison produces a valid mask.
+        let mask = unsafe {
+            let tfvec: Simd<<T as SimdElement>::Mask, LANES> = intrinsics::simd_ne(*self, *other);
+            Mask::from_int_unchecked(tfvec)
+        };
+
+        // Two vectors are non-equal if any lane tested true for vertical non-equality.
+        mask.any()
+    }
+}
+
+impl<T, const LANES: usize> PartialOrd for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement + PartialOrd,
+{
+    #[inline]
+    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
+        // TODO use SIMD equality
+        self.to_array().partial_cmp(other.as_ref())
+    }
+}
+
+impl<T, const LANES: usize> Eq for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement + Eq,
+{
+}
+
+impl<T, const LANES: usize> Ord for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement + Ord,
+{
+    #[inline]
+    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
+        // TODO use SIMD equality
+        self.to_array().cmp(other.as_ref())
+    }
+}
+
+impl<T, const LANES: usize> core::hash::Hash for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement + core::hash::Hash,
+{
+    #[inline]
+    fn hash<H>(&self, state: &mut H)
+    where
+        H: core::hash::Hasher,
+    {
+        self.as_array().hash(state)
+    }
+}
+
+// array references
+impl<T, const LANES: usize> AsRef<[T; LANES]> for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    #[inline]
+    fn as_ref(&self) -> &[T; LANES] {
+        &self.0
+    }
+}
+
+impl<T, const LANES: usize> AsMut<[T; LANES]> for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    #[inline]
+    fn as_mut(&mut self) -> &mut [T; LANES] {
+        &mut self.0
+    }
+}
+
+// slice references
+impl<T, const LANES: usize> AsRef<[T]> for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    #[inline]
+    fn as_ref(&self) -> &[T] {
+        &self.0
+    }
+}
+
+impl<T, const LANES: usize> AsMut<[T]> for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    #[inline]
+    fn as_mut(&mut self) -> &mut [T] {
+        &mut self.0
+    }
+}
+
+// vector/array conversion
+impl<T, const LANES: usize> From<[T; LANES]> for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    fn from(array: [T; LANES]) -> Self {
+        Self(array)
+    }
+}
+
+impl<T, const LANES: usize> From<Simd<T, LANES>> for [T; LANES]
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    fn from(vector: Simd<T, LANES>) -> Self {
+        vector.to_array()
+    }
+}
+
+impl<T, const LANES: usize> TryFrom<&[T]> for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    type Error = core::array::TryFromSliceError;
+
+    fn try_from(slice: &[T]) -> Result<Self, Self::Error> {
+        Ok(Self::from_array(slice.try_into()?))
+    }
+}
+
+impl<T, const LANES: usize> TryFrom<&mut [T]> for Simd<T, LANES>
+where
+    LaneCount<LANES>: SupportedLaneCount,
+    T: SimdElement,
+{
+    type Error = core::array::TryFromSliceError;
+
+    fn try_from(slice: &mut [T]) -> Result<Self, Self::Error> {
+        Ok(Self::from_array(slice.try_into()?))
+    }
+}
+
+mod sealed {
+    pub trait Sealed {}
+}
+use sealed::Sealed;
+
+/// Marker trait for types that may be used as SIMD vector elements.
+///
