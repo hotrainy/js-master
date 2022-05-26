@@ -17,4 +17,8 @@ mod neon {
     from_transmute! { unsafe f32x2 => float32x2_t }
     from_transmute! { unsafe f32x4 => float32x4_t }
 
-    from_transmute! { unsafe u8
+    from_transmute! { unsafe u8x8 => uint8x8_t }
+    from_transmute! { unsafe u8x16 => uint8x16_t }
+    from_transmute! { unsafe i8x8 => int8x8_t }
+    from_transmute! { unsafe i8x16 => int8x16_t }
+    from_transmute! { unsafe u8x8 =
