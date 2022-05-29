@@ -21,4 +21,9 @@ mod neon {
     from_transmute! { unsafe u8x16 => uint8x16_t }
     from_transmute! { unsafe i8x8 => int8x8_t }
     from_transmute! { unsafe i8x16 => int8x16_t }
-    from_transmute! { unsafe u8x8 =
+    from_transmute! { unsafe u8x8 => poly8x8_t }
+    from_transmute! { unsafe u8x16 => poly8x16_t }
+
+    from_transmute! { unsafe u16x4 => uint16x4_t }
+    from_transmute! { unsafe u16x8 => uint16x8_t }
+    from_transm
