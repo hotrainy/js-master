@@ -31,4 +31,7 @@ mod neon {
     from_transmute! { unsafe u16x4 => poly16x4_t }
     from_transmute! { unsafe u16x8 => poly16x8_t }
 
-    from_transmute
+    from_transmute! { unsafe u32x2 => uint32x2_t }
+    from_transmute! { unsafe u32x4 => uint32x4_t }
+    from_transmute! { unsafe i32x2 => int32x2_t }
+    from_transmute! { unsafe i32x4 => int3
