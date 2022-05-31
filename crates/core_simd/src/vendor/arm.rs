@@ -45,4 +45,10 @@ mod neon {
 }
 
 #[cfg(any(
-    all(target_
+    all(target_feature = "v5te", not(target_feature = "mclass")),
+    all(target_feature = "mclass", target_feature = "dsp"),
+))]
+mod dsp {
+    use super::*;
+
+    from_transmute
