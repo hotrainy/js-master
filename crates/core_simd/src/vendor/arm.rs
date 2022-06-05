@@ -51,4 +51,10 @@ mod neon {
 mod dsp {
     use super::*;
 
-    from_transmute
+    from_transmute! { unsafe Simd<u16, 2> => uint16x2_t }
+    from_transmute! { unsafe Simd<i16, 2> => int16x2_t }
+}
+
+#[cfg(any(
+    all(target_feature = "v6", not(target_feature = "mclass")),
+    all(target_f
