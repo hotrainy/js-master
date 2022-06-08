@@ -57,4 +57,10 @@ mod dsp {
 
 #[cfg(any(
     all(target_feature = "v6", not(target_feature = "mclass")),
-    all(target_f
+    all(target_feature = "mclass", target_feature = "dsp"),
+))]
+mod simd32 {
+    use super::*;
+
+    from_transmute! { unsafe Simd<u8, 4> => uint8x4_t }
+    from_transmute! { unsafe Simd<i8, 4> =
