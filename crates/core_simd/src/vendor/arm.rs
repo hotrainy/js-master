@@ -72,4 +72,5 @@ mod aarch64 {
     use super::*;
 
     from_transmute! { unsafe Simd<f64, 1> => float64x1_t }
-    from_tran
+    from_transmute! { unsafe f64x2 => float64x2_t }
+}
