@@ -63,4 +63,13 @@ mod simd32 {
     use super::*;
 
     from_transmute! { unsafe Simd<u8, 4> => uint8x4_t }
-    from_transmute! { unsafe Simd<i8, 4> =
+    from_transmute! { unsafe Simd<i8, 4> => int8x4_t }
+}
+
+#[cfg(target_arch = "aarch64")]
+mod aarch64 {
+    use super::neon::*;
+    use super::*;
+
+    from_transmute! { unsafe Simd<f64, 1> => float64x1_t }
+    from_tran
