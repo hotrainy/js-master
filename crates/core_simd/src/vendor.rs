@@ -5,4 +5,8 @@ macro_rules! from_transmute {
         from_transmute!{ @impl $a => $b }
         from_transmute!{ @impl $b => $a }
     };
-    { @impl $from:ty => $to:ty }
+    { @impl $from:ty => $to:ty } => {
+        impl core::convert::From<$from> for $to {
+            #[inline]
+            fn from(value: $from) -> $to {
+                // Safety: transmuting between
