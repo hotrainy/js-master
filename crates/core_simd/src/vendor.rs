@@ -16,3 +16,12 @@ macro_rules! from_transmute {
         }
     };
 }
+
+/// Conversions to x86's SIMD types.
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+mod x86;
+
+#[cfg(any(target_arch = "wasm32"))]
+mod wasm32;
+
+#[cfg(any(target_arch = "aarch64", target_arch = "arm",))]
