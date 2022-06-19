@@ -16,4 +16,7 @@ fn deref() {
     let a = &x;
     let b = &y;
     assert_eq!(f32x4::splat(3.0), x + y);
-    assert_eq!(f32x4::splat(3.0), x
+    assert_eq!(f32x4::splat(3.0), x + b);
+    assert_eq!(f32x4::splat(3.0), a + y);
+    assert_eq!(f32x4::splat(3.0), a + b);
+}
