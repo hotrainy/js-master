@@ -11,4 +11,8 @@ macro_rules! mask_tests {
             #[cfg(target_arch = "wasm32")]
             wasm_bindgen_test_configure!(run_in_browser);
 
-            fn from_slice(slice
+            fn from_slice(slice: &[bool]) -> Vector {
+                let mut value = Vector::default();
+                for (i, b) in slice.iter().take(LANES).enumerate() {
+                    value.set(i, *b);
+        
