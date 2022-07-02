@@ -25,4 +25,8 @@ macro_rules! mask_tests {
                     value.set(i, f(x.test(i)));
                 }
                 value
-      
+            }
+
+            fn apply_binary_lanewise(x: Vector, y: Vector, f: impl Fn(bool, bool) -> bool) -> Vector {
+                let mut value = Vector::default();
+                for i in 0
