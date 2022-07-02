@@ -15,4 +15,9 @@ macro_rules! mask_tests {
                 let mut value = Vector::default();
                 for (i, b) in slice.iter().take(LANES).enumerate() {
                     value.set(i, *b);
-        
+                }
+                value
+            }
+
+            fn apply_unary_lanewise(x: Vector, f: impl Fn(bool) -> bool) -> Vector {
+                let mut val
