@@ -20,4 +20,9 @@ macro_rules! mask_tests {
             }
 
             fn apply_unary_lanewise(x: Vector, f: impl Fn(bool) -> bool) -> Vector {
-                let mut val
+                let mut value = Vector::default();
+                for i in 0..LANES {
+                    value.set(i, f(x.test(i)));
+                }
+                value
+      
