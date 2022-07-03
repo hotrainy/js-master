@@ -35,4 +35,11 @@ macro_rules! mask_tests {
                 value
             }
 
-            fn apply_binary_scalar_lhs_lanewise(x: bool, mut y: Vector, f: impl Fn
+            fn apply_binary_scalar_lhs_lanewise(x: bool, mut y: Vector, f: impl Fn(bool, bool) -> bool) -> Vector {
+                for i in 0..LANES {
+                    y.set(i, f(x, y.test(i)));
+                }
+                y
+            }
+
+   
