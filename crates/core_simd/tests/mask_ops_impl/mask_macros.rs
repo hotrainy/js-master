@@ -44,4 +44,11 @@ macro_rules! mask_tests {
 
             fn apply_binary_scalar_rhs_lanewise(mut x: Vector, y: bool, f: impl Fn(bool, bool) -> bool) -> Vector {
                 for i in 0..LANES {
-                    x.set(i, f(x.test(i),
+                    x.set(i, f(x.test(i), y));
+                }
+                x
+            }
+
+            const A: [bool; 64] = [
+                false, true, false, true, false, false, true, true,
+                false, true, false, true,
