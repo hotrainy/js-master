@@ -54,4 +54,7 @@ macro_rules! mask_tests {
                 false, true, false, true, false, false, true, true,
                 false, true, false, true, false, false, true, true,
                 false, true, false, true, false, false, true, true,
-                false, true, fal
+                false, true, false, true, false, false, true, true,
+                false, true, false, true, false, false, true, true,
+                false, true, false, true, false, false, true, true,
+  
