@@ -57,4 +57,8 @@ macro_rules! mask_tests {
                 false, true, false, true, false, false, true, true,
                 false, true, false, true, false, false, true, true,
                 false, true, false, true, false, false, true, true,
-  
+                false, true, false, true, false, false, true, true,
+            ];
+            const B: [bool; 64] = [
+                false, false, true, true, false, true, false, true,
+                fals
