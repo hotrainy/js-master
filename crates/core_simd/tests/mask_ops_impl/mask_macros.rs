@@ -92,3 +92,10 @@ macro_rules! mask_tests {
             #[test]
             #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
             fn bitand_scalar_rhs() {
+                let a = from_slice(&A);
+                let expected = a;
+                assert_eq!(a & true, expected);
+                assert_eq!(a & false, Vector::splat(false));
+            }
+
+            #[te
