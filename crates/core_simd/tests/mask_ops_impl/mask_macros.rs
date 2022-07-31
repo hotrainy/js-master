@@ -98,4 +98,8 @@ macro_rules! mask_tests {
                 assert_eq!(a & false, Vector::splat(false));
             }
 
-            #[te
+            #[test]
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitand_scalar_lhs() {
+                let a = from_slice(&A);
+                let expected = a;
