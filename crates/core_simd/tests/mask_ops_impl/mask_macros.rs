@@ -103,3 +103,9 @@ macro_rules! mask_tests {
             fn bitand_scalar_lhs() {
                 let a = from_slice(&A);
                 let expected = a;
+                assert_eq!(true & a, expected);
+                assert_eq!(false & a, Vector::splat(false));
+            }
+
+            #[test]
+            #[cfg_attr(target_arch = "was
