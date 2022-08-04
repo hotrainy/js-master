@@ -108,4 +108,9 @@ macro_rules! mask_tests {
             }
 
             #[test]
-            #[cfg_attr(target_arch = "was
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitand_assign_scalar() {
+                let mut a = from_slice(&A);
+                let expected = a;
+                a &= true;
+    
