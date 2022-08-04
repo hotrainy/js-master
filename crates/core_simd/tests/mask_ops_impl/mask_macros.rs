@@ -113,4 +113,10 @@ macro_rules! mask_tests {
                 let mut a = from_slice(&A);
                 let expected = a;
                 a &= true;
-    
+                assert_eq!(a, expected);
+                a &= false;
+                assert_eq!(a, Vector::splat(false));
+            }
+
+            #[test]
+            #[cfg_attr(target_arch = "w
