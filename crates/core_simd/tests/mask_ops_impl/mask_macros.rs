@@ -134,3 +134,10 @@ macro_rules! mask_tests {
                 let b = from_slice(&B);
                 let expected = apply_binary_lanewise(a, b, core::ops::BitOr::bitor);
                 a |= b;
+                assert_eq!(a, expected);
+            }
+
+            #[test]
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitor_scalar_rhs() {
+          
