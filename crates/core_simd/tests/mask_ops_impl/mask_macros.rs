@@ -151,4 +151,9 @@ macro_rules! mask_tests {
                 let a = from_slice(&A);
                 assert_eq!(false | a, a);
                 assert_eq!(true | a, Vector::splat(true));
-   
+            }
+
+            #[test]
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitor_assign_scalar() {
+                let mut a = from_s
