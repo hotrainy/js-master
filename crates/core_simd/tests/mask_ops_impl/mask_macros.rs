@@ -146,4 +146,9 @@ macro_rules! mask_tests {
             }
 
             #[test]
-            #[cfg_attr(target_arch = "wasm32", wasm
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitor_scalar_lhs() {
+                let a = from_slice(&A);
+                assert_eq!(false | a, a);
+                assert_eq!(true | a, Vector::splat(true));
+   
