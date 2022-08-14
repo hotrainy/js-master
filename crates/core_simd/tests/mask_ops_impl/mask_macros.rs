@@ -178,4 +178,9 @@ macro_rules! mask_tests {
             fn bitxor_assign() {
                 let mut a = from_slice(&A);
                 let b = from_slice(&B);
-           
+                let expected = apply_binary_lanewise(a, b, core::ops::BitXor::bitxor);
+                a ^= b;
+                assert_eq!(a, expected);
+            }
+
+            #[t
