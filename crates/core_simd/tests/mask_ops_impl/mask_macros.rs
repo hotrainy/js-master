@@ -161,4 +161,11 @@ macro_rules! mask_tests {
                 a |= false;
                 assert_eq!(a, expected);
                 a |= true;
-                assert_eq!(a, Vector::splat(t
+                assert_eq!(a, Vector::splat(true));
+            }
+
+            #[test]
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitxor() {
+                let a = from_slice(&A);
+    
