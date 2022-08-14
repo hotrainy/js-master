@@ -174,4 +174,8 @@ macro_rules! mask_tests {
             }
 
             #[test]
-      
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitxor_assign() {
+                let mut a = from_slice(&A);
+                let b = from_slice(&B);
+           
