@@ -187,4 +187,10 @@ macro_rules! mask_tests {
             #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
             fn bitxor_scalar_rhs() {
                 let a = from_slice(&A);
-                let expected = apply
+                let expected = apply_binary_scalar_rhs_lanewise(a, true, core::ops::BitXor::bitxor);
+                assert_eq!(a ^ false, a);
+                assert_eq!(a ^ true, expected);
+            }
+
+            #[test]
+            #[
