@@ -206,4 +206,8 @@ macro_rules! mask_tests {
             fn bitxor_assign_scalar() {
                 let mut a = from_slice(&A);
                 let expected_unset = a;
-                let expect
+                let expected_set = apply_binary_scalar_rhs_lanewise(a, true, core::ops::BitXor::bitxor);
+                a ^= false;
+                assert_eq!(a, expected_unset);
+                a ^= true;
+     
