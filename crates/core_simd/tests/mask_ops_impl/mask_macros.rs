@@ -210,4 +210,9 @@ macro_rules! mask_tests {
                 a ^= false;
                 assert_eq!(a, expected_unset);
                 a ^= true;
-     
+                assert_eq!(a, expected_set);
+            }
+
+            #[test]
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            
