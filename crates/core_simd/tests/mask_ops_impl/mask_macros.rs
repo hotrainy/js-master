@@ -202,4 +202,8 @@ macro_rules! mask_tests {
             }
 
             #[test]
-            #[cfg_a
+            #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+            fn bitxor_assign_scalar() {
+                let mut a = from_slice(&A);
+                let expected_unset = a;
+                let expect
