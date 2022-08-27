@@ -215,4 +215,8 @@ macro_rules! mask_tests {
 
             #[test]
             #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
-            
+            fn not() {
+                let v = from_slice(&A);
+                let expected = apply_unary_lanewise(v, core::ops::Not::not);
+                assert_eq!(!v, expected);
+    
