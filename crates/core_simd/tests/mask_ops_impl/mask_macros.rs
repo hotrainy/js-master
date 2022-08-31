@@ -219,4 +219,7 @@ macro_rules! mask_tests {
                 let v = from_slice(&A);
                 let expected = apply_unary_lanewise(v, core::ops::Not::not);
                 assert_eq!(!v, expected);
-    
+            }
+        }
+    }
+}
