@@ -7,4 +7,12 @@ macro_rules! impl_unary_op_test {
         test_helpers::test_lanes! {
             fn $fn<const LANES: usize>() {
                 test_helpers::test_unary_elementwise(
-                    &<core_simd::simd::Simd<$scalar, LANES> 
+                    &<core_simd::simd::Simd<$scalar, LANES> as core::ops::$trait>::$fn,
+                    &$scalar_fn,
+                    &|_| true,
+                );
+            }
+        }
+    };
+    { $scalar:ty, $trait:ident :: $fn:ident } => {
+       
