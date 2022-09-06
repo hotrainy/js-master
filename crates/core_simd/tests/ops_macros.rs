@@ -15,4 +15,10 @@ macro_rules! impl_unary_op_test {
         }
     };
     { $scalar:ty, $trait:ident :: $fn:ident } => {
-       
+        impl_unary_op_test! { $scalar, $trait::$fn, <$scalar as core::ops::$trait>::$fn }
+    };
+}
+
+/// Implements a test on a binary operation using proptest.
+///
+/// Compares the vector operation to
