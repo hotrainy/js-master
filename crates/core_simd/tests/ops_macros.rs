@@ -21,4 +21,7 @@ macro_rules! impl_unary_op_test {
 
 /// Implements a test on a binary operation using proptest.
 ///
-/// Compares the vector operation to
+/// Compares the vector operation to the equivalent scalar operation.
+#[macro_export]
+macro_rules! impl_binary_op_test {
+    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign:ident, $scalar_f
