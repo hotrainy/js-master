@@ -30,4 +30,7 @@ macro_rules! impl_binary_op_test {
             use core_simd::simd::Simd;
 
             test_helpers::test_lanes! {
-                fn normal<const LANES: usize>() 
+                fn normal<const LANES: usize>() {
+                    test_helpers::test_binary_elementwise(
+                        &<Simd<$scalar, LANES> as core::ops::$trait>::$fn,
+                        &$scalar_fn
