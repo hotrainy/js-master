@@ -24,4 +24,10 @@ macro_rules! impl_unary_op_test {
 /// Compares the vector operation to the equivalent scalar operation.
 #[macro_export]
 macro_rules! impl_binary_op_test {
-    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign:ident, $scalar_f
+    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign:ident, $scalar_fn:expr } => {
+        mod $fn {
+            use super::*;
+            use core_simd::simd::Simd;
+
+            test_helpers::test_lanes! {
+                fn normal<const LANES: usize>() 
