@@ -42,4 +42,10 @@ macro_rules! impl_binary_op_test {
                     test_helpers::test_binary_elementwise(
                         &|mut a, b| { <Simd<$scalar, LANES> as core::ops::$trait_assign>::$fn_assign(&mut a, b); a },
                         &$scalar_fn,
- 
+                        &|_, _| true,
+                    );
+                }
+            }
+        }
+    };
+    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign
