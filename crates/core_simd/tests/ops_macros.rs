@@ -53,4 +53,9 @@ macro_rules! impl_binary_op_test {
     };
 }
 
-/// Implements a test on a binary operation using prop
+/// Implements a test on a binary operation using proptest.
+///
+/// Like `impl_binary_op_test`, but allows providing a function for rejecting particular inputs
+/// (like the `proptest_assume` macro).
+///
+/// Compares the vector operation 
