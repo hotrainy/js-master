@@ -48,4 +48,9 @@ macro_rules! impl_binary_op_test {
             }
         }
     };
-    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign
+    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign:ident } => {
+        impl_binary_op_test! { $scalar, $trait::$fn, $trait_assign::$fn_assign, <$scalar as core::ops::$trait>::$fn }
+    };
+}
+
+/// Implements a test on a binary operation using prop
