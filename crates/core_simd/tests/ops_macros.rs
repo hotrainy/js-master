@@ -58,4 +58,7 @@ macro_rules! impl_binary_op_test {
 /// Like `impl_binary_op_test`, but allows providing a function for rejecting particular inputs
 /// (like the `proptest_assume` macro).
 ///
-/// Compares the vector operation 
+/// Compares the vector operation to the equivalent scalar operation.
+#[macro_export]
+macro_rules! impl_binary_checked_op_test {
+    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign:ident, $scalar_
