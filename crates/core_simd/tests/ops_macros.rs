@@ -70,4 +70,9 @@ macro_rules! impl_binary_checked_op_test {
                 fn normal<const LANES: usize>() {
                     test_helpers::test_binary_elementwise(
                         &<Simd<$scalar, LANES> as core::ops::$trait>::$fn,
-           
+                        &$scalar_fn,
+                        &|x, y| x.iter().zip(y.iter()).all(|(x, y)| $check_fn(*x, *y)),
+                    );
+                }
+
+                fn 
