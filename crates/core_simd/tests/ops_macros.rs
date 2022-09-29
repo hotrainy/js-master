@@ -75,4 +75,7 @@ macro_rules! impl_binary_checked_op_test {
                     );
                 }
 
-                fn 
+                fn assign<const LANES: usize>() {
+                    test_helpers::test_binary_elementwise(
+                        &|mut a, b| { <Simd<$scalar, LANES> as core::ops::$trait_assign>::$fn_assign(&mut a, b); a },
+  
