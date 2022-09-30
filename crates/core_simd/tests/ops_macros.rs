@@ -84,3 +84,6 @@ macro_rules! impl_binary_checked_op_test {
                 }
             }
         }
+    };
+    { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign:ident, $check_fn:expr } => {
+        impl_binary_checked_op_test! { $scalar, $trait::$fn, $trait_assign::$fn_ass
