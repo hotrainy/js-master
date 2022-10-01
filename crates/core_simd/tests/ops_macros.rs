@@ -86,4 +86,11 @@ macro_rules! impl_binary_checked_op_test {
         }
     };
     { $scalar:ty, $trait:ident :: $fn:ident, $trait_assign:ident :: $fn_assign:ident, $check_fn:expr } => {
-        impl_binary_checked_op_test! { $scalar, $trait::$fn, $trait_assign::$fn_ass
+        impl_binary_checked_op_test! { $scalar, $trait::$fn, $trait_assign::$fn_assign, <$scalar as core::ops::$trait>::$fn, $check_fn }
+    };
+}
+
+#[macro_export]
+macro_rules! impl_common_integer_tests {
+    { $vector:ident, $scalar:ident } => {
+        test_helpers::tes
