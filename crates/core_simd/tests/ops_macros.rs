@@ -93,4 +93,8 @@ macro_rules! impl_binary_checked_op_test {
 #[macro_export]
 macro_rules! impl_common_integer_tests {
     { $vector:ident, $scalar:ident } => {
-        test_helpers::tes
+        test_helpers::test_lanes! {
+            fn reduce_sum<const LANES: usize>() {
+                test_helpers::test_1(&|x| {
+                    test_helpers::prop_assert_biteq! (
+                        $vector::<LANES>::from_arra
