@@ -102,4 +102,9 @@ macro_rules! impl_common_integer_tests {
                     );
                     Ok(())
                 });
-         
+            }
+
+            fn reduce_product<const LANES: usize>() {
+                test_helpers::test_1(&|x| {
+                    test_helpers::prop_assert_biteq! (
+                      
