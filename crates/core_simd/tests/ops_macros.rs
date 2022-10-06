@@ -107,4 +107,8 @@ macro_rules! impl_common_integer_tests {
             fn reduce_product<const LANES: usize>() {
                 test_helpers::test_1(&|x| {
                     test_helpers::prop_assert_biteq! (
-                      
+                        $vector::<LANES>::from_array(x).reduce_product(),
+                        x.iter().copied().fold(1 as $scalar, $scalar::wrapping_mul),
+                    );
+                    Ok(())
+       
