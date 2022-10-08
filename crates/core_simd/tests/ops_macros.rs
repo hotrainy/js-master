@@ -111,4 +111,10 @@ macro_rules! impl_common_integer_tests {
                         x.iter().copied().fold(1 as $scalar, $scalar::wrapping_mul),
                     );
                     Ok(())
-       
+                });
+            }
+
+            fn reduce_and<const LANES: usize>() {
+                test_helpers::test_1(&|x| {
+                    test_helpers::prop_assert_biteq! (
+          
