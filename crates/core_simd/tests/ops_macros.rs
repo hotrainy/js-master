@@ -138,4 +138,10 @@ macro_rules! impl_common_integer_tests {
                 test_helpers::test_1(&|x| {
                     test_helpers::prop_assert_biteq! (
                         $vector::<LANES>::from_array(x).reduce_xor(),
-                     
+                        x.iter().copied().fold(0 as $scalar, <$scalar as core::ops::BitXor>::bitxor),
+                    );
+                    Ok(())
+                });
+            }
+
+        
