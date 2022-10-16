@@ -128,4 +128,11 @@ macro_rules! impl_common_integer_tests {
                 test_helpers::test_1(&|x| {
                     test_helpers::prop_assert_biteq! (
                         $vector::<LANES>::from_array(x).reduce_or(),
-                        x.iter().copied().fold(0 as $scalar, <$scalar as core::o
+                        x.iter().copied().fold(0 as $scalar, <$scalar as core::ops::BitOr>::bitor),
+                    );
+                    Ok(())
+                });
+            }
+
+            fn reduce_xor<const LANES: usize>() {
+                test_helpers:
