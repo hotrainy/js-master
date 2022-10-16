@@ -147,4 +147,11 @@ macro_rules! impl_common_integer_tests {
             fn reduce_max<const LANES: usize>() {
                 test_helpers::test_1(&|x| {
                     test_helpers::prop_assert_biteq! (
-                        $vector::<LANES>::from_array(x
+                        $vector::<LANES>::from_array(x).reduce_max(),
+                        x.iter().copied().max().unwrap(),
+                    );
+                    Ok(())
+                });
+            }
+
+            fn redu
