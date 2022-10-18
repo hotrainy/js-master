@@ -181,4 +181,8 @@ macro_rules! impl_signed_tests {
             test_helpers::test_lanes! {
                 fn neg<const LANES: usize>() {
                     test_helpers::test_unary_elementwise(
-                        &<Vector::<
+                        &<Vector::<LANES> as core::ops::Neg>::neg,
+                        &<Scalar as core::ops::Neg>::neg,
+                        &|x| !x.contains(&Scalar::MIN),
+                    );
+               
