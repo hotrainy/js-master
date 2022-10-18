@@ -176,4 +176,9 @@ macro_rules! impl_signed_tests {
             type Vector<const LANES: usize> = core_simd::simd::Simd<Scalar, LANES>;
             type Scalar = $scalar;
 
-            impl_common_integer_tests! { Vector,
+            impl_common_integer_tests! { Vector, Scalar }
+
+            test_helpers::test_lanes! {
+                fn neg<const LANES: usize>() {
+                    test_helpers::test_unary_elementwise(
+                        &<Vector::<
