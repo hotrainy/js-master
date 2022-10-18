@@ -164,3 +164,13 @@ macro_rules! impl_common_integer_tests {
                 });
             }
         }
+    }
+}
+
+/// Implement tests for signed integers.
+#[macro_export]
+macro_rules! impl_signed_tests {
+    { $scalar:tt } => {
+        mod $scalar {
+            use core_simd::simd::SimdInt;
+ 
