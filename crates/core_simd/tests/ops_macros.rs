@@ -185,4 +185,9 @@ macro_rules! impl_signed_tests {
                         &<Scalar as core::ops::Neg>::neg,
                         &|x| !x.contains(&Scalar::MIN),
                     );
-               
+                }
+
+                fn is_positive<const LANES: usize>() {
+                    test_helpers::test_unary_mask_elementwise(
+                        &Vector::<LANES>::is_positive,
+      
