@@ -200,3 +200,10 @@ macro_rules! impl_signed_tests {
                         &Vector::<LANES>::is_negative,
                         &Scalar::is_negative,
                         &|_| true,
+                    );
+                }
+
+                fn signum<const LANES: usize>() {
+                    test_helpers::test_unary_elementwise(
+                        &Vector::<LANES>::signum,
+    
