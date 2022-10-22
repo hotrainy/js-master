@@ -196,4 +196,7 @@ macro_rules! impl_signed_tests {
                 }
 
                 fn is_negative<const LANES: usize>() {
-              
+                    test_helpers::test_unary_mask_elementwise(
+                        &Vector::<LANES>::is_negative,
+                        &Scalar::is_negative,
+                        &|_| true,
