@@ -206,4 +206,9 @@ macro_rules! impl_signed_tests {
                 fn signum<const LANES: usize>() {
                     test_helpers::test_unary_elementwise(
                         &Vector::<LANES>::signum,
-    
+                        &Scalar::signum,
+                        &|_| true,
+                    )
+                }
+
+                fn div_min_may_overflow<const LANES: usize>
