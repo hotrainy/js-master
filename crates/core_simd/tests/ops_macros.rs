@@ -217,4 +217,7 @@ macro_rules! impl_signed_tests {
                     assert_eq!(a / b, a);
                 }
 
- 
+                fn rem_min_may_overflow<const LANES: usize>() {
+                    let a = Vector::<LANES>::splat(Scalar::MIN);
+                    let b = Vector::<LANES>::splat(-1);
+   
