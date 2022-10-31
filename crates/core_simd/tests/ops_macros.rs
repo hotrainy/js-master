@@ -228,4 +228,9 @@ macro_rules! impl_signed_tests {
                     let a = Vector::<LANES>::splat(Scalar::MIN);
                     let b = Vector::<LANES>::splat(0);
                     assert_eq!(a.simd_min(b), a);
-  
+                    let a = Vector::<LANES>::splat(Scalar::MAX);
+                    let b = Vector::<LANES>::splat(0);
+                    assert_eq!(a.simd_min(b), b);
+                }
+
+      
