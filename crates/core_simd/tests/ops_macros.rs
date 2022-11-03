@@ -240,4 +240,9 @@ macro_rules! impl_signed_tests {
                     assert_eq!(a.simd_max(b), b);
                     let a = Vector::<LANES>::splat(Scalar::MAX);
                     let b = Vector::<LANES>::splat(0);
-        
+                    assert_eq!(a.simd_max(b), a);
+                }
+
+                fn simd_clamp<const LANES: usize>() {
+                    use core_simd::simd::SimdOrd;
+                    let min = Vector::
