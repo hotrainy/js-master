@@ -248,4 +248,7 @@ macro_rules! impl_signed_tests {
                     let min = Vector::<LANES>::splat(Scalar::MIN);
                     let max = Vector::<LANES>::splat(Scalar::MAX);
                     let zero = Vector::<LANES>::splat(0);
-  
+                    let one = Vector::<LANES>::splat(1);
+                    let negone = Vector::<LANES>::splat(-1);
+                    assert_eq!(zero.simd_clamp(min, max), zero);
+                  
