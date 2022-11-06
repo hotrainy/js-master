@@ -245,4 +245,7 @@ macro_rules! impl_signed_tests {
 
                 fn simd_clamp<const LANES: usize>() {
                     use core_simd::simd::SimdOrd;
-                    let min = Vector::
+                    let min = Vector::<LANES>::splat(Scalar::MIN);
+                    let max = Vector::<LANES>::splat(Scalar::MAX);
+                    let zero = Vector::<LANES>::splat(0);
+  
