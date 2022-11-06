@@ -251,4 +251,7 @@ macro_rules! impl_signed_tests {
                     let one = Vector::<LANES>::splat(1);
                     let negone = Vector::<LANES>::splat(-1);
                     assert_eq!(zero.simd_clamp(min, max), zero);
-                  
+                    assert_eq!(zero.simd_clamp(min, one), zero);
+                    assert_eq!(zero.simd_clamp(one, max), one);
+                    assert_eq!(zero.simd_clamp(min, negone), negone);
+                
