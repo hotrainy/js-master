@@ -260,4 +260,9 @@ macro_rules! impl_signed_tests {
             test_helpers::test_lanes_panic! {
                 fn div_by_all_zeros_panics<const LANES: usize>() {
                     let a = Vector::<LANES>::splat(42);
-   
+                    let b = Vector::<LANES>::splat(0);
+                    let _ = a / b;
+                }
+
+                fn div_by_one_zero_panics<const LANES: usize>() {
+                    let a = Vecto
