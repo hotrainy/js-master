@@ -254,4 +254,10 @@ macro_rules! impl_signed_tests {
                     assert_eq!(zero.simd_clamp(min, one), zero);
                     assert_eq!(zero.simd_clamp(one, max), one);
                     assert_eq!(zero.simd_clamp(min, negone), negone);
-                
+                }
+            }
+
+            test_helpers::test_lanes_panic! {
+                fn div_by_all_zeros_panics<const LANES: usize>() {
+                    let a = Vector::<LANES>::splat(42);
+   
