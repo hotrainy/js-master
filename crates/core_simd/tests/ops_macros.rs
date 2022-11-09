@@ -271,4 +271,7 @@ macro_rules! impl_signed_tests {
                     let _ = a / b;
                 }
 
-       
+                fn rem_zero_panic<const LANES: usize>() {
+                    let a = Vector::<LANES>::splat(42);
+                    let b = Vector::<LANES>::splat(0);
+        
