@@ -265,4 +265,10 @@ macro_rules! impl_signed_tests {
                 }
 
                 fn div_by_one_zero_panics<const LANES: usize>() {
-                    let a = Vecto
+                    let a = Vector::<LANES>::splat(42);
+                    let mut b = Vector::<LANES>::splat(21);
+                    b[0] = 0 as _;
+                    let _ = a / b;
+                }
+
+       
