@@ -280,4 +280,10 @@ macro_rules! impl_signed_tests {
 
             test_helpers::test_lanes! {
                 fn div_neg_one_no_panic<const LANES: usize>() {
-                   
+                    let a = Vector::<LANES>::splat(42);
+                    let b = Vector::<LANES>::splat(-1);
+                    let _ = a / b;
+                }
+
+                fn rem_neg_one_no_panic<const LANES: usize>() {
+  
