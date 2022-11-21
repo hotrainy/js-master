@@ -297,4 +297,5 @@ macro_rules! impl_signed_tests {
             impl_binary_op_test!(Scalar, Mul::mul, MulAssign::mul_assign, Scalar::wrapping_mul);
 
             // Exclude Div and Rem panicking cases
-            impl_binary_checked_op_test!(Scala
+            impl_binary_checked_op_test!(Scalar, Div::div, DivAssign::div_assign, Scalar::wrapping_div, |x, y| y != 0 && !(x == Scalar::MIN && y == -1));
+            impl_binary_checked_op_test!(Scalar, Rem::rem, RemAssign:
