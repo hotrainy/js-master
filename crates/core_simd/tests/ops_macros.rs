@@ -301,4 +301,6 @@ macro_rules! impl_signed_tests {
             impl_binary_checked_op_test!(Scalar, Rem::rem, RemAssign::rem_assign, Scalar::wrapping_rem, |x, y| y != 0 && !(x == Scalar::MIN && y == -1));
 
             impl_unary_op_test!(Scalar, Not::not);
-            impl_binary_op_tes
+            impl_binary_op_test!(Scalar, BitAnd::bitand, BitAndAssign::bitand_assign);
+            impl_binary_op_test!(Scalar, BitOr::bitor, BitOrAssign::bitor_assign);
+            impl_bina
