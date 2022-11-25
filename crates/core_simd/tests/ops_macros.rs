@@ -315,4 +315,10 @@ macro_rules! impl_unsigned_tests {
         mod $scalar {
             use core_simd::simd::SimdUint;
             type Vector<const LANES: usize> = core_simd::simd::Simd<Scalar, LANES>;
-            type Scala
+            type Scalar = $scalar;
+
+            impl_common_integer_tests! { Vector, Scalar }
+
+            test_helpers::test_lanes_panic! {
+                fn rem_zero_panic<const LANES: usize>() {
+          
