@@ -311,4 +311,8 @@ macro_rules! impl_signed_tests {
 /// Implement tests for unsigned integers.
 #[macro_export]
 macro_rules! impl_unsigned_tests {
-    { $scalar
+    { $scalar:tt } => {
+        mod $scalar {
+            use core_simd::simd::SimdUint;
+            type Vector<const LANES: usize> = core_simd::simd::Simd<Scalar, LANES>;
+            type Scala
