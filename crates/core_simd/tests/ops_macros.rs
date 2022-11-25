@@ -303,4 +303,12 @@ macro_rules! impl_signed_tests {
             impl_unary_op_test!(Scalar, Not::not);
             impl_binary_op_test!(Scalar, BitAnd::bitand, BitAndAssign::bitand_assign);
             impl_binary_op_test!(Scalar, BitOr::bitor, BitOrAssign::bitor_assign);
-            impl_bina
+            impl_binary_op_test!(Scalar, BitXor::bitxor, BitXorAssign::bitxor_assign);
+        }
+    }
+}
+
+/// Implement tests for unsigned integers.
+#[macro_export]
+macro_rules! impl_unsigned_tests {
+    { $scalar
