@@ -321,4 +321,10 @@ macro_rules! impl_unsigned_tests {
 
             test_helpers::test_lanes_panic! {
                 fn rem_zero_panic<const LANES: usize>() {
-          
+                    let a = Vector::<LANES>::splat(42);
+                    let b = Vector::<LANES>::splat(0);
+                    let _ = a % b;
+                }
+            }
+
+   
