@@ -328,4 +328,8 @@ macro_rules! impl_unsigned_tests {
             }
 
             impl_binary_op_test!(Scalar, Add::add, AddAssign::add_assign, Scalar::wrapping_add);
-            impl_binary_op_test!(Scalar, Sub::sub, SubAssign::sub_assign, Scalar:
+            impl_binary_op_test!(Scalar, Sub::sub, SubAssign::sub_assign, Scalar::wrapping_sub);
+            impl_binary_op_test!(Scalar, Mul::mul, MulAssign::mul_assign, Scalar::wrapping_mul);
+
+            // Exclude Div and Rem panicking cases
+            impl_binary
