@@ -332,4 +332,5 @@ macro_rules! impl_unsigned_tests {
             impl_binary_op_test!(Scalar, Mul::mul, MulAssign::mul_assign, Scalar::wrapping_mul);
 
             // Exclude Div and Rem panicking cases
-            impl_binary
+            impl_binary_checked_op_test!(Scalar, Div::div, DivAssign::div_assign, Scalar::wrapping_div, |_, y| y != 0);
+            impl_binary_checked_op_test!(Scalar, Rem::rem, RemAssign::rem_as
