@@ -355,4 +355,6 @@ macro_rules! impl_float_tests {
             impl_unary_op_test!(Scalar, Neg::neg);
             impl_binary_op_test!(Scalar, Add::add, AddAssign::add_assign);
             impl_binary_op_test!(Scalar, Sub::sub, SubAssign::sub_assign);
-    
+            impl_binary_op_test!(Scalar, Mul::mul, MulAssign::mul_assign);
+            impl_binary_op_test!(Scalar, Div::div, DivAssign::div_assign);
+            impl_binary_op_test!(Scal
