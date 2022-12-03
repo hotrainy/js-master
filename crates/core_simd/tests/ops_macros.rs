@@ -352,4 +352,7 @@ macro_rules! impl_float_tests {
             type Vector<const LANES: usize> = core_simd::simd::Simd<Scalar, LANES>;
             type Scalar = $scalar;
 
-            impl_unary_op_test!(Scalar, Neg::neg)
+            impl_unary_op_test!(Scalar, Neg::neg);
+            impl_binary_op_test!(Scalar, Add::add, AddAssign::add_assign);
+            impl_binary_op_test!(Scalar, Sub::sub, SubAssign::sub_assign);
+    
