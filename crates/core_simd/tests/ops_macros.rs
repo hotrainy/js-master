@@ -343,4 +343,9 @@ macro_rules! impl_unsigned_tests {
     }
 }
 
-/// 
+/// Implement tests for floating point numbers.
+#[macro_export]
+macro_rules! impl_float_tests {
+    { $scalar:tt, $int_scalar:tt } => {
+        mod $scalar {
+            use core_
