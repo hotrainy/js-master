@@ -348,4 +348,8 @@ macro_rules! impl_unsigned_tests {
 macro_rules! impl_float_tests {
     { $scalar:tt, $int_scalar:tt } => {
         mod $scalar {
-            use core_
+            use core_simd::simd::SimdFloat;
+            type Vector<const LANES: usize> = core_simd::simd::Simd<Scalar, LANES>;
+            type Scalar = $scalar;
+
+            impl_unary_op_test!(Scalar, Neg::neg)
