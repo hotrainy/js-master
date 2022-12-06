@@ -357,4 +357,8 @@ macro_rules! impl_float_tests {
             impl_binary_op_test!(Scalar, Sub::sub, SubAssign::sub_assign);
             impl_binary_op_test!(Scalar, Mul::mul, MulAssign::mul_assign);
             impl_binary_op_test!(Scalar, Div::div, DivAssign::div_assign);
-            impl_binary_op_test!(Scal
+            impl_binary_op_test!(Scalar, Rem::rem, RemAssign::rem_assign);
+
+            test_helpers::test_lanes! {
+                fn is_sign_positive<const LANES: usize>() {
+                    test_helpers::
