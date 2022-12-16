@@ -366,4 +366,9 @@ macro_rules! impl_float_tests {
                         &Scalar::is_sign_positive,
                         &|_| true,
                     );
-              
+                }
+
+                fn is_sign_negative<const LANES: usize>() {
+                    test_helpers::test_unary_mask_elementwise(
+                        &Vector::<LANES>::is_sign_negative,
+          
