@@ -380,4 +380,10 @@ macro_rules! impl_float_tests {
                     test_helpers::test_unary_mask_elementwise(
                         &Vector::<LANES>::is_finite,
                         &Scalar::is_finite,
-                        
+                        &|_| true,
+                    );
+                }
+
+                fn is_infinite<const LANES: usize>() {
+                    test_helpers::test_unary_mask_elementwise(
+                        &Vector::<LANES>:
