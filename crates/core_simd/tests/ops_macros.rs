@@ -393,4 +393,7 @@ macro_rules! impl_float_tests {
                 }
 
                 fn is_nan<const LANES: usize>() {
- 
+                    test_helpers::test_unary_mask_elementwise(
+                        &Vector::<LANES>::is_nan,
+                        &Scalar::is_nan,
+  
