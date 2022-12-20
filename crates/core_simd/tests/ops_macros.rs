@@ -386,4 +386,11 @@ macro_rules! impl_float_tests {
 
                 fn is_infinite<const LANES: usize>() {
                     test_helpers::test_unary_mask_elementwise(
-                        &Vector::<LANES>:
+                        &Vector::<LANES>::is_infinite,
+                        &Scalar::is_infinite,
+                        &|_| true,
+                    );
+                }
+
+                fn is_nan<const LANES: usize>() {
+ 
