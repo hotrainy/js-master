@@ -401,4 +401,8 @@ macro_rules! impl_float_tests {
                 }
 
                 fn is_normal<const LANES: usize>() {
-                    test_helpers::test_unary_
+                    test_helpers::test_unary_mask_elementwise(
+                        &Vector::<LANES>::is_normal,
+                        &Scalar::is_normal,
+                        &|_| true,
+                    )
