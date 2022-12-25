@@ -410,4 +410,10 @@ macro_rules! impl_float_tests {
 
                 fn is_subnormal<const LANES: usize>() {
                     test_helpers::test_unary_mask_elementwise(
-                        &Vector:
+                        &Vector::<LANES>::is_subnormal,
+                        &Scalar::is_subnormal,
+                        &|_| true,
+                    );
+                }
+
+                fn abs<const LANES:
