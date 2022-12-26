@@ -422,4 +422,8 @@ macro_rules! impl_float_tests {
                         &Scalar::abs,
                         &|_| true,
                     )
-  
+                }
+
+                fn recip<const LANES: usize>() {
+                    test_helpers::test_unary_elementwise(
+                        &Vector::<LANE
