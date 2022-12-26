@@ -416,4 +416,10 @@ macro_rules! impl_float_tests {
                     );
                 }
 
-                fn abs<const LANES:
+                fn abs<const LANES: usize>() {
+                    test_helpers::test_unary_elementwise(
+                        &Vector::<LANES>::abs,
+                        &Scalar::abs,
+                        &|_| true,
+                    )
+  
