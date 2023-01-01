@@ -426,4 +426,10 @@ macro_rules! impl_float_tests {
 
                 fn recip<const LANES: usize>() {
                     test_helpers::test_unary_elementwise(
-                        &Vector::<LANE
+                        &Vector::<LANES>::recip,
+                        &Scalar::recip,
+                        &|_| true,
+                    )
+                }
+
+                fn to_degrees<const 
