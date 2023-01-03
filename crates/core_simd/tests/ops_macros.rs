@@ -451,4 +451,10 @@ macro_rules! impl_float_tests {
                 fn signum<const LANES: usize>() {
                     test_helpers::test_unary_elementwise(
                         &Vector::<LANES>::signum,
-                        &Scal
+                        &Scalar::signum,
+                        &|_| true,
+                    )
+                }
+
+                fn copysign<const LANES: usize>() {
+                    te
