@@ -457,4 +457,8 @@ macro_rules! impl_float_tests {
                 }
 
                 fn copysign<const LANES: usize>() {
-                    te
+                    test_helpers::test_binary_elementwise(
+                        &Vector::<LANES>::copysign,
+                        &Scalar::copysign,
+                        &|_, _| true,
+         
