@@ -461,4 +461,9 @@ macro_rules! impl_float_tests {
                         &Vector::<LANES>::copysign,
                         &Scalar::copysign,
                         &|_, _| true,
-         
+                    )
+                }
+
+                fn simd_min<const LANES: usize>() {
+                    // Regular conditions (both values aren't zero)
+                    test_helpers::test_bin
