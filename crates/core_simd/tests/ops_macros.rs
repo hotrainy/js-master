@@ -432,4 +432,8 @@ macro_rules! impl_float_tests {
                     )
                 }
 
-                fn to_degrees<const 
+                fn to_degrees<const LANES: usize>() {
+                    test_helpers::test_unary_elementwise(
+                        &Vector::<LANES>::to_degrees,
+                        &Scalar::to_degrees,
+            
