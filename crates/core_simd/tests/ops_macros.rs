@@ -446,4 +446,9 @@ macro_rules! impl_float_tests {
                         &Scalar::to_radians,
                         &|_| true,
                     )
-         
+                }
+
+                fn signum<const LANES: usize>() {
+                    test_helpers::test_unary_elementwise(
+                        &Vector::<LANES>::signum,
+                        &Scal
