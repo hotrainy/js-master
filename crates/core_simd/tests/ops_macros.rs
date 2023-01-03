@@ -442,3 +442,8 @@ macro_rules! impl_float_tests {
 
                 fn to_radians<const LANES: usize>() {
                     test_helpers::test_unary_elementwise(
+                        &Vector::<LANES>::to_radians,
+                        &Scalar::to_radians,
+                        &|_| true,
+                    )
+         
