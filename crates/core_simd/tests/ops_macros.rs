@@ -480,3 +480,7 @@ macro_rules! impl_float_tests {
                         }
                     );
 
+                    // Special case where both values are zero
+                    let p_zero = Vector::<LANES>::splat(0.);
+                    let n_zero = Vector::<LANES>::splat(-0.);
+              
