@@ -472,4 +472,11 @@ macro_rules! impl_float_tests {
                         // Reject the case where both values are zero with different signs
                         &|a, b| {
                             for (a, b) in a.iter().zip(b.iter()) {
-                                if *a == 0. && *b == 0. && a.signum() != b.si
+                                if *a == 0. && *b == 0. && a.signum() != b.signum() {
+                                    return false;
+                                }
+                            }
+                            true
+                        }
+                    );
+
