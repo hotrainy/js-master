@@ -466,4 +466,7 @@ macro_rules! impl_float_tests {
 
                 fn simd_min<const LANES: usize>() {
                     // Regular conditions (both values aren't zero)
-                    test_helpers::test_bin
+                    test_helpers::test_binary_elementwise(
+                        &Vector::<LANES>::simd_min,
+                        &Scalar::min,
+                        // Reject the case where both values are zero with different signs
