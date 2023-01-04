@@ -489,4 +489,7 @@ macro_rules! impl_float_tests {
 
                 fn simd_max<const LANES: usize>() {
                     // Regular conditions (both values aren't zero)
-                    test_helpers::test
+                    test_helpers::test_binary_elementwise(
+                        &Vector::<LANES>::simd_max,
+                        &Scalar::max,
+                        // Reject the case where both values are 
