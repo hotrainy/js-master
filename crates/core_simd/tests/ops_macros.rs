@@ -485,4 +485,8 @@ macro_rules! impl_float_tests {
                     let n_zero = Vector::<LANES>::splat(-0.);
                     assert!(p_zero.simd_min(n_zero).to_array().iter().all(|x| *x == 0.));
                     assert!(n_zero.simd_min(p_zero).to_array().iter().all(|x| *x == 0.));
-    
+                }
+
+                fn simd_max<const LANES: usize>() {
+                    // Regular conditions (both values aren't zero)
+                    test_helpers::test
