@@ -470,3 +470,6 @@ macro_rules! impl_float_tests {
                         &Vector::<LANES>::simd_min,
                         &Scalar::min,
                         // Reject the case where both values are zero with different signs
+                        &|a, b| {
+                            for (a, b) in a.iter().zip(b.iter()) {
+                                if *a == 0. && *b == 0. && a.signum() != b.si
