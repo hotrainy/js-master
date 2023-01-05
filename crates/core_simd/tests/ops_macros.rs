@@ -505,4 +505,6 @@ macro_rules! impl_float_tests {
 
                     // Special case where both values are zero
                     let p_zero = Vector::<LANES>::splat(0.);
-                    let 
+                    let n_zero = Vector::<LANES>::splat(-0.);
+                    assert!(p_zero.simd_max(n_zero).to_array().iter().all(|x| *x == 0.));
+                    assert!(n_zero.simd_max(p_zero).to_array().iter().all(|x| *x == 0.));
