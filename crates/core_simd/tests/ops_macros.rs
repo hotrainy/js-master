@@ -508,3 +508,7 @@ macro_rules! impl_float_tests {
                     let n_zero = Vector::<LANES>::splat(-0.);
                     assert!(p_zero.simd_max(n_zero).to_array().iter().all(|x| *x == 0.));
                     assert!(n_zero.simd_max(p_zero).to_array().iter().all(|x| *x == 0.));
+                }
+
+                fn simd_clamp<const LANES: usize>() {
+                    test_helpers::test_3(&|value: [Scalar; LANES], mut min: [Scalar; LANES], mut max: [Scalar; LANES]| 
