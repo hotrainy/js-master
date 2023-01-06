@@ -511,4 +511,8 @@ macro_rules! impl_float_tests {
                 }
 
                 fn simd_clamp<const LANES: usize>() {
-                    test_helpers::test_3(&|value: [Scalar; LANES], mut min: [Scalar; LANES], mut max: [Scalar; LANES]| 
+                    test_helpers::test_3(&|value: [Scalar; LANES], mut min: [Scalar; LANES], mut max: [Scalar; LANES]| {
+                        for (min, max) in min.iter_mut().zip(max.iter_mut()) {
+                            if max < min {
+                                core::mem::swap(min, max);
+                          
