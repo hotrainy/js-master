@@ -519,4 +519,9 @@ macro_rules! impl_float_tests {
                             if min.is_nan() {
                                 *min = Scalar::NEG_INFINITY;
                             }
-                            if max.is
+                            if max.is_nan() {
+                                *max = Scalar::INFINITY;
+                            }
+                        }
+
+                        let mut result_scalar = [Scalar::def
