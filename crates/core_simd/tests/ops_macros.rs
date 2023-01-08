@@ -530,3 +530,9 @@ macro_rules! impl_float_tests {
                         }
                         let result_vector = Vector::from_array(value).simd_clamp(min.into(), max.into()).to_array();
                         test_helpers::prop_assert_biteq!(result_scalar, result_vector);
+                        Ok(())
+                    })
+                }
+
+                fn reduce_sum<const LANES: usize>() {
+                    test_helpers::te
