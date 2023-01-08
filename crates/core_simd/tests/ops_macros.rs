@@ -528,4 +528,5 @@ macro_rules! impl_float_tests {
                         for i in 0..LANES {
                             result_scalar[i] = value[i].clamp(min[i], max[i]);
                         }
-           
+                        let result_vector = Vector::from_array(value).simd_clamp(min.into(), max.into()).to_array();
+                        test_helpers::prop_assert_biteq!(result_scalar, result_vector);
