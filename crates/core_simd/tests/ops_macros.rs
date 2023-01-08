@@ -524,4 +524,8 @@ macro_rules! impl_float_tests {
                             }
                         }
 
-                        let mut result_scalar = [Scalar::def
+                        let mut result_scalar = [Scalar::default(); LANES];
+                        for i in 0..LANES {
+                            result_scalar[i] = value[i].clamp(min[i], max[i]);
+                        }
+           
