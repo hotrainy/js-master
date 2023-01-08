@@ -515,4 +515,8 @@ macro_rules! impl_float_tests {
                         for (min, max) in min.iter_mut().zip(max.iter_mut()) {
                             if max < min {
                                 core::mem::swap(min, max);
-                          
+                            }
+                            if min.is_nan() {
+                                *min = Scalar::NEG_INFINITY;
+                            }
+                            if max.is
