@@ -547,4 +547,11 @@ macro_rules! impl_float_tests {
                 fn reduce_product<const LANES: usize>() {
                     test_helpers::test_1(&|x| {
                         test_helpers::prop_assert_biteq! (
-                            Vector::<LANES>::from_array(x).reduce_product(
+                            Vector::<LANES>::from_array(x).reduce_product(),
+                            x.iter().product(),
+                        );
+                        Ok(())
+                    });
+                }
+
+                fn reduce_max<const
