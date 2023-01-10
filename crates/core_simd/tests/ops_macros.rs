@@ -554,4 +554,7 @@ macro_rules! impl_float_tests {
                     });
                 }
 
-                fn reduce_max<const
+                fn reduce_max<const LANES: usize>() {
+                    test_helpers::test_1(&|x| {
+                        let vmax = Vector::<LANES>::from_array(x).reduce_max();
+                        let smax = x
