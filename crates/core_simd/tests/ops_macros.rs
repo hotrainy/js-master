@@ -557,4 +557,6 @@ macro_rules! impl_float_tests {
                 fn reduce_max<const LANES: usize>() {
                     test_helpers::test_1(&|x| {
                         let vmax = Vector::<LANES>::from_array(x).reduce_max();
-                        let smax = x
+                        let smax = x.iter().copied().fold(Scalar::NAN, Scalar::max);
+                        // 0 and -0 are treated the same
+                        if !(x.contains(&0.) && x.contains(&-0.) && vmax.abs() == 0.
