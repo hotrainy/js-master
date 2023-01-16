@@ -568,4 +568,7 @@ macro_rules! impl_float_tests {
 
                 fn reduce_min<const LANES: usize>() {
                     test_helpers::test_1(&|x| {
-                        let vmax = Vector::<LAN
+                        let vmax = Vector::<LANES>::from_array(x).reduce_min();
+                        let smax = x.iter().copied().fold(Scalar::NAN, Scalar::min);
+                        // 0 and -0 are treated the same
+     
