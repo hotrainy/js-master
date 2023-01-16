@@ -574,3 +574,13 @@ macro_rules! impl_float_tests {
                         if !(x.contains(&0.) && x.contains(&-0.) && vmax.abs() == 0. && smax.abs() == 0.) {
                             test_helpers::prop_assert_biteq!(vmax, smax);
                         }
+                        Ok(())
+                    });
+                }
+            }
+
+            #[cfg(feature = "std")]
+            mod std {
+                use std_float::StdFloat;
+
+  
