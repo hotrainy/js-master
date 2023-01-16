@@ -587,4 +587,10 @@ macro_rules! impl_float_tests {
                 test_helpers::test_lanes! {
                     fn sqrt<const LANES: usize>() {
                         test_helpers::test_unary_elementwise(
-          
+                            &Vector::<LANES>::sqrt,
+                            &Scalar::sqrt,
+                            &|_| true,
+                        )
+                    }
+
+               
