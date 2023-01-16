@@ -596,4 +596,12 @@ macro_rules! impl_float_tests {
                     fn mul_add<const LANES: usize>() {
                         test_helpers::test_ternary_elementwise(
                             &Vector::<LANES>::mul_add,
-                
+                            &Scalar::mul_add,
+                            &|_, _, _| true,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
