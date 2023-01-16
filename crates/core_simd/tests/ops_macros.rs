@@ -564,4 +564,8 @@ macro_rules! impl_float_tests {
                         }
                         Ok(())
                     });
-      
+                }
+
+                fn reduce_min<const LANES: usize>() {
+                    test_helpers::test_1(&|x| {
+                        let vmax = Vector::<LAN
