@@ -583,4 +583,8 @@ macro_rules! impl_float_tests {
             mod std {
                 use std_float::StdFloat;
 
-  
+                use super::*;
+                test_helpers::test_lanes! {
+                    fn sqrt<const LANES: usize>() {
+                        test_helpers::test_unary_elementwise(
+          
