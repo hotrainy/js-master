@@ -571,4 +571,6 @@ macro_rules! impl_float_tests {
                         let vmax = Vector::<LANES>::from_array(x).reduce_min();
                         let smax = x.iter().copied().fold(Scalar::NAN, Scalar::min);
                         // 0 and -0 are treated the same
-     
+                        if !(x.contains(&0.) && x.contains(&-0.) && vmax.abs() == 0. && smax.abs() == 0.) {
+                            test_helpers::prop_assert_biteq!(vmax, smax);
+                        }
