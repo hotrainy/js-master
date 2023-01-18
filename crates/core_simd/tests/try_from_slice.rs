@@ -20,3 +20,7 @@ fn try_from_slice() {
 
     // Slice length > vector length
     assert!(i32x4::try_from([1, 2, 3, 4, 5].as_slice()).is_err());
+
+    // Slice length < vector length
+    assert!(i32x4::try_from([1, 2, 3].as_slice()).is_err());
+}
