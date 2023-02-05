@@ -4,4 +4,10 @@ version = "0.1.0"
 edition = "2021"
 publish = false
 
-[dependenci
+[dependencies.proptest]
+version = "0.10"
+default-features = false
+features = ["alloc"]
+
+[features]
+all_lane_counts = []
