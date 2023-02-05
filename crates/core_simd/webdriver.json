@@ -1,2 +1,7 @@
 {
-    "goog:c
+    "goog:chromeOptions": {
+        "args": [
+            "--enable-features=WebAssemblySimd"
+        ]
+    }
+}
