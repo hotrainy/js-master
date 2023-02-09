@@ -9,4 +9,12 @@ use proptest::{
     test_runner::TestRunner,
 };
 
-#[must_use = "strategies do nothing unless u
+#[must_use = "strategies do nothing unless used"]
+#[derive(Clone, Copy, Debug)]
+pub struct UniformArrayStrategy<S, T> {
+    strategy: S,
+    _marker: PhantomData<T>,
+}
+
+impl<S, T> UniformArrayStrategy<S, T> {
+    pub const fn new(strategy:
