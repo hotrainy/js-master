@@ -17,4 +17,15 @@ pub struct UniformArrayStrategy<S, T> {
 }
 
 impl<S, T> UniformArrayStrategy<S, T> {
-    pub const fn new(strategy:
+    pub const fn new(strategy: S) -> Self {
+        Self {
+            strategy,
+            _marker: PhantomData,
+        }
+    }
+}
+
+pub struct ArrayValueTree<T> {
+    tree: T,
+    shrinker: usize,
+    last_shrinker: Option<
