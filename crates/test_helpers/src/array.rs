@@ -28,4 +28,12 @@ impl<S, T> UniformArrayStrategy<S, T> {
 pub struct ArrayValueTree<T> {
     tree: T,
     shrinker: usize,
-    last_shrinker: Option<
+    last_shrinker: Option<usize>,
+}
+
+impl<T, S, const LANES: usize> Strategy for UniformArrayStrategy<S, [T; LANES]>
+where
+    T: core::fmt::Debug,
+    S: Strategy<Value = T>,
+{
+    type Tree = ArrayValueTree<[S::Tree; LANES]
