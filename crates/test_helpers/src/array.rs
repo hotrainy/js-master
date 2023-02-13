@@ -36,4 +36,9 @@ where
     T: core::fmt::Debug,
     S: Strategy<Value = T>,
 {
-    type Tree = ArrayValueTree<[S::Tree; LANES]
+    type Tree = ArrayValueTree<[S::Tree; LANES]>;
+    type Value = [T; LANES];
+
+    fn new_tree(&self, runner: &mut TestRunner) -> NewTree<Self> {
+        let tree: [S::Tree; LANES] = unsafe {
+            let mut tree: [MaybeUninit<
