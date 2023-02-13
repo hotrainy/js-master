@@ -41,4 +41,7 @@ where
 
     fn new_tree(&self, runner: &mut TestRunner) -> NewTree<Self> {
         let tree: [S::Tree; LANES] = unsafe {
-            let mut tree: [MaybeUninit<
+            let mut tree: [MaybeUninit<S::Tree>; LANES] = MaybeUninit::uninit().assume_init();
+            for t in tree.iter_mut() {
+                *t = MaybeUninit::new(self.strategy.new_tree(runner)?)
+            }
