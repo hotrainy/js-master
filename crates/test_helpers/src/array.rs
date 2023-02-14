@@ -45,3 +45,14 @@ where
             for t in tree.iter_mut() {
                 *t = MaybeUninit::new(self.strategy.new_tree(runner)?)
             }
+            core::mem::transmute_copy(&tree)
+        };
+        Ok(ArrayValueTree {
+            tree,
+            shrinker: 0,
+            last_shrinker: None,
+        })
+    }
+}
+
+im
