@@ -55,4 +55,9 @@ where
     }
 }
 
-im
+impl<T: ValueTree, const LANES: usize> ValueTree for ArrayValueTree<[T; LANES]> {
+    type Value = [T::Value; LANES];
+
+    fn current(&self) -> Self::Value {
+        unsafe {
+          
