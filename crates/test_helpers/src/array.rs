@@ -60,4 +60,5 @@ impl<T: ValueTree, const LANES: usize> ValueTree for ArrayValueTree<[T; LANES]> 
 
     fn current(&self) -> Self::Value {
         unsafe {
-          
+            let mut value: [MaybeUninit<T::Value>; LANES] = MaybeUninit::uninit().assume_init();
+            for (tree_elem, value_elem) in self.tree.iter().zip(value.ite
