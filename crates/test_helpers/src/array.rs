@@ -68,4 +68,8 @@ impl<T: ValueTree, const LANES: usize> ValueTree for ArrayValueTree<[T; LANES]> 
         }
     }
 
-    fn simpli
+    fn simplify(&mut self) -> bool {
+        while self.shrinker < LANES {
+            if self.tree[self.shrinker].simplify() {
+                self.last_shrinker = Some(self.shrinker);
+   
