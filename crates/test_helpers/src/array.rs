@@ -72,4 +72,14 @@ impl<T: ValueTree, const LANES: usize> ValueTree for ArrayValueTree<[T; LANES]> 
         while self.shrinker < LANES {
             if self.tree[self.shrinker].simplify() {
                 self.last_shrinker = Some(self.shrinker);
-   
+                return true;
+            } else {
+                self.shrinker += 1;
+            }
+        }
+
+        false
+    }
+
+    fn complicate(&mut self) -> bool {
+        if let Som
