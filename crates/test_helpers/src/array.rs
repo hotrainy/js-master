@@ -82,4 +82,9 @@ impl<T: ValueTree, const LANES: usize> ValueTree for ArrayValueTree<[T; LANES]> 
     }
 
     fn complicate(&mut self) -> bool {
-        if let Som
+        if let Some(shrinker) = self.last_shrinker {
+            self.shrinker = shrinker;
+            if self.tree[shrinker].complicate() {
+                true
+            } else {
+                self.last_shrin
