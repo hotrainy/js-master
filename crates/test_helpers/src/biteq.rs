@@ -18,4 +18,10 @@ impl BitEq for bool {
 macro_rules! impl_integer_biteq {
     { $($type:ty),* } => {
         $(
-        impl BitEq for $
+        impl BitEq for $type {
+            fn biteq(&self, other: &Self) -> bool {
+                self == other
+            }
+
+            fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+           
