@@ -87,4 +87,11 @@ impl<T: ValueTree, const LANES: usize> ValueTree for ArrayValueTree<[T; LANES]> 
             if self.tree[shrinker].complicate() {
                 true
             } else {
-                self.last_shrin
+                self.last_shrinker = None;
+                false
+            }
+        } else {
+            false
+        }
+    }
+}
