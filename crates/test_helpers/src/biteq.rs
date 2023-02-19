@@ -10,4 +10,12 @@ impl BitEq for bool {
         self == other
     }
 
-    fn fmt(&self,
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+macro_rules! impl_integer_biteq {
+    { $($type:ty),* } => {
+        $(
+        impl BitEq for $
