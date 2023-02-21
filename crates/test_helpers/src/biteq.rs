@@ -39,4 +39,10 @@ macro_rules! impl_float_biteq {
         impl BitEq for $type {
             fn biteq(&self, other: &Self) -> bool {
                 if self.is_nan() && other.is_nan() {
-              
+                    true // exact nan bits don't matter
+                } else {
+                    self.to_bits() == other.to_bits()
+                }
+            }
+
+            fn fmt(&self, f: &mut core::fmt::Formatte
