@@ -45,4 +45,15 @@ macro_rules! impl_float_biteq {
                 }
             }
 
-            fn fmt(&self, f: &mut core::fmt::Formatte
+            fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+                write!(f, "{:?} ({:x})", self, self.to_bits())
+            }
+        }
+        )*
+    };
+}
+
+impl_float_biteq! { f32, f64 }
+
+impl<T> BitEq for *const T {
+ 
