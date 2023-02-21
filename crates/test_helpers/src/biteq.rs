@@ -33,4 +33,10 @@ macro_rules! impl_integer_biteq {
 
 impl_integer_biteq! { u8, u16, u32, u64, u128, usize, i8, i16, i32, i64, i128, isize }
 
-macro_r
+macro_rules! impl_float_biteq {
+    { $($type:ty),* } => {
+        $(
+        impl BitEq for $type {
+            fn biteq(&self, other: &Self) -> bool {
+                if self.is_nan() && other.is_nan() {
+              
