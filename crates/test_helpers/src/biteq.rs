@@ -65,4 +65,10 @@ impl<T> BitEq for *const T {
     }
 }
 
-impl<T
+impl<T> BitEq for *mut T {
+    fn biteq(&self, other: &Self) -> bool {
+        self == other
+    }
+
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        write!(f
