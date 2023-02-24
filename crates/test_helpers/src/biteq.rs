@@ -84,4 +84,8 @@ impl<T: BitEq, const N: usize> BitEq for [T; N] {
 
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         #[repr(transparent)]
-   
+        struct Wrapper<'a, T: BitEq>(&'a T);
+
+        impl<T: BitEq> core::fmt::Debug for Wrapper<'_, T> {
+            fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+      
