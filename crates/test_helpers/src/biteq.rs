@@ -98,4 +98,9 @@ impl<T: BitEq, const N: usize> BitEq for [T; N] {
     }
 }
 
-#[doc(h
+#[doc(hidden)]
+pub struct BitEqWrapper<'a, T>(pub &'a T);
+
+impl<T: BitEq> PartialEq for BitEqWrapper<'_, T> {
+    fn eq(&self, other: &Self) -> bool {
+        s
