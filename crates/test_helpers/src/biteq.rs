@@ -88,4 +88,14 @@ impl<T: BitEq, const N: usize> BitEq for [T; N] {
 
         impl<T: BitEq> core::fmt::Debug for Wrapper<'_, T> {
             fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-      
+                self.0.fmt(f)
+            }
+        }
+
+        f.debug_list()
+            .entries(self.iter().map(|x| Wrapper(x)))
+            .finish()
+    }
+}
+
+#[doc(h
