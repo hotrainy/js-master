@@ -79,4 +79,9 @@ impl<T: BitEq, const N: usize> BitEq for [T; N] {
     fn biteq(&self, other: &Self) -> bool {
         self.iter()
             .zip(other.iter())
+            .fold(true, |value, (left, right)| value && left.biteq(right))
+    }
+
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        #[repr(transparent)]
    
