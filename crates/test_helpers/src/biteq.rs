@@ -120,4 +120,7 @@ macro_rules! prop_assert_biteq {
             use $crate::biteq::BitEqWrapper;
             let a = $a;
             let b = $b;
-   
+            proptest::prop_assert_eq!(BitEqWrapper(&a), BitEqWrapper(&b));
+        }
+    }
+}
