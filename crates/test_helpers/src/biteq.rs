@@ -110,3 +110,14 @@ impl<T: BitEq> PartialEq for BitEqWrapper<'_, T> {
 impl<T: BitEq> core::fmt::Debug for BitEqWrapper<'_, T> {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         self.0.fmt(f)
+    }
+}
+
+#[macro_export]
+macro_rules! prop_assert_biteq {
+    { $a:expr, $b:expr $(,)? } => {
+        {
+            use $crate::biteq::BitEqWrapper;
+            let a = $a;
+            let b = $b;
+   
