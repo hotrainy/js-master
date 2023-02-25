@@ -103,4 +103,10 @@ pub struct BitEqWrapper<'a, T>(pub &'a T);
 
 impl<T: BitEq> PartialEq for BitEqWrapper<'_, T> {
     fn eq(&self, other: &Self) -> bool {
-        s
+        self.0.biteq(other.0)
+    }
+}
+
+impl<T: BitEq> core::fmt::Debug for BitEqWrapper<'_, T> {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        self.0.fmt(f)
