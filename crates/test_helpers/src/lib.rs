@@ -84,3 +84,193 @@ impl DefaultStrategy for u128 {
         crate::wasm::u128::ANY
     }
 }
+
+#[cfg(target_arch = "wasm32")]
+impl DefaultStrategy for i128 {
+    type Strategy = crate::wasm::i128::Any;
+    fn default_strategy() -> Self::Strategy {
+        crate::wasm::i128::ANY
+    }
+}
+
+impl<T: core::fmt::Debug + DefaultStrategy, const LANES: usize> DefaultStrategy for [T; LANES] {
+    type Strategy = crate::array::UniformArrayStrategy<T::Strategy, Self>;
+    fn default_strategy() -> Self::Strategy {
+        Self::Strategy::new(T::default_strategy())
+    }
+}
+
+#[cfg(not(miri))]
+pub fn make_runner() -> proptest::test_runner::TestRunner {
+    Default::default()
+}
+#[cfg(miri)]
+pub fn make_runner() -> proptest::test_runner::TestRunner {
+    // Only run a few tests on Miri
+    proptest::test_runner::TestRunner::new(proptest::test_runner::Config::with_cases(4))
+}
+
+/// Test a function that takes a single value.
+pub fn test_1<A: core::fmt::Debug + DefaultStrategy>(
+    f: &dyn Fn(A) -> proptest::test_runner::TestCaseResult,
+) {
+    let mut runner = make_runner();
+    runner.run(&A::default_strategy(), f).unwrap();
+}
+
+/// Test a function that takes two values.
+pub fn test_2<A: core::fmt::Debug + DefaultStrategy, B: core::fmt::Debug + DefaultStrategy>(
+    f: &dyn Fn(A, B) -> proptest::test_runner::TestCaseResult,
+) {
+    let mut runner = make_runner();
+    runner
+        .run(&(A::default_strategy(), B::default_strategy()), |(a, b)| {
+            f(a, b)
+        })
+        .unwrap();
+}
+
+/// Test a function that takes two values.
+pub fn test_3<
+    A: core::fmt::Debug + DefaultStrategy,
+    B: core::fmt::Debug + DefaultStrategy,
+    C: core::fmt::Debug + DefaultStrategy,
+>(
+    f: &dyn Fn(A, B, C) -> proptest::test_runner::TestCaseResult,
+) {
+    let mut runner = make_runner();
+    runner
+        .run(
+            &(
+                A::default_strategy(),
+                B::default_strategy(),
+                C::default_strategy(),
+            ),
+            |(a, b, c)| f(a, b, c),
+        )
+        .unwrap();
+}
+
+/// Test a unary vector function against a unary scalar function, applied elementwise.
+#[inline(never)]
+pub fn test_unary_elementwise<Scalar, ScalarResult, Vector, VectorResult, const LANES: usize>(
+    fv: &dyn Fn(Vector) -> VectorResult,
+    fs: &dyn Fn(Scalar) -> ScalarResult,
+    check: &dyn Fn([Scalar; LANES]) -> bool,
+) where
+    Scalar: Copy + core::fmt::Debug + DefaultStrategy,
+    ScalarResult: Copy + biteq::BitEq + core::fmt::Debug + DefaultStrategy,
+    Vector: Into<[Scalar; LANES]> + From<[Scalar; LANES]> + Copy,
+    VectorResult: Into<[ScalarResult; LANES]> + From<[ScalarResult; LANES]> + Copy,
+{
+    test_1(&|x: [Scalar; LANES]| {
+        proptest::prop_assume!(check(x));
+        let result_1: [ScalarResult; LANES] = fv(x.into()).into();
+        let result_2: [ScalarResult; LANES] = x
+            .iter()
+            .copied()
+            .map(fs)
+            .collect::<Vec<_>>()
+            .try_into()
+            .unwrap();
+        crate::prop_assert_biteq!(result_1, result_2);
+        Ok(())
+    });
+}
+
+/// Test a unary vector function against a unary scalar function, applied elementwise.
+#[inline(never)]
+pub fn test_unary_mask_elementwise<Scalar, Vector, Mask, const LANES: usize>(
+    fv: &dyn Fn(Vector) -> Mask,
+    fs: &dyn Fn(Scalar) -> bool,
+    check: &dyn Fn([Scalar; LANES]) -> bool,
+) where
+    Scalar: Copy + core::fmt::Debug + DefaultStrategy,
+    Vector: Into<[Scalar; LANES]> + From<[Scalar; LANES]> + Copy,
+    Mask: Into<[bool; LANES]> + From<[bool; LANES]> + Copy,
+{
+    test_1(&|x: [Scalar; LANES]| {
+        proptest::prop_assume!(check(x));
+        let result_1: [bool; LANES] = fv(x.into()).into();
+        let result_2: [bool; LANES] = {
+            let mut result = [false; LANES];
+            for (i, o) in x.iter().zip(result.iter_mut()) {
+                *o = fs(*i);
+            }
+            result
+        };
+        crate::prop_assert_biteq!(result_1, result_2);
+        Ok(())
+    });
+}
+
+/// Test a binary vector function against a binary scalar function, applied elementwise.
+#[inline(never)]
+pub fn test_binary_elementwise<
+    Scalar1,
+    Scalar2,
+    ScalarResult,
+    Vector1,
+    Vector2,
+    VectorResult,
+    const LANES: usize,
+>(
+    fv: &dyn Fn(Vector1, Vector2) -> VectorResult,
+    fs: &dyn Fn(Scalar1, Scalar2) -> ScalarResult,
+    check: &dyn Fn([Scalar1; LANES], [Scalar2; LANES]) -> bool,
+) where
+    Scalar1: Copy + core::fmt::Debug + DefaultStrategy,
+    Scalar2: Copy + core::fmt::Debug + DefaultStrategy,
+    ScalarResult: Copy + biteq::BitEq + core::fmt::Debug + DefaultStrategy,
+    Vector1: Into<[Scalar1; LANES]> + From<[Scalar1; LANES]> + Copy,
+    Vector2: Into<[Scalar2; LANES]> + From<[Scalar2; LANES]> + Copy,
+    VectorResult: Into<[ScalarResult; LANES]> + From<[ScalarResult; LANES]> + Copy,
+{
+    test_2(&|x: [Scalar1; LANES], y: [Scalar2; LANES]| {
+        proptest::prop_assume!(check(x, y));
+        let result_1: [ScalarResult; LANES] = fv(x.into(), y.into()).into();
+        let result_2: [ScalarResult; LANES] = x
+            .iter()
+            .copied()
+            .zip(y.iter().copied())
+            .map(|(x, y)| fs(x, y))
+            .collect::<Vec<_>>()
+            .try_into()
+            .unwrap();
+        crate::prop_assert_biteq!(result_1, result_2);
+        Ok(())
+    });
+}
+
+/// Test a binary vector-scalar function against a binary scalar function, applied elementwise.
+#[inline(never)]
+pub fn test_binary_scalar_rhs_elementwise<
+    Scalar1,
+    Scalar2,
+    ScalarResult,
+    Vector,
+    VectorResult,
+    const LANES: usize,
+>(
+    fv: &dyn Fn(Vector, Scalar2) -> VectorResult,
+    fs: &dyn Fn(Scalar1, Scalar2) -> ScalarResult,
+    check: &dyn Fn([Scalar1; LANES], Scalar2) -> bool,
+) where
+    Scalar1: Copy + Default + core::fmt::Debug + DefaultStrategy,
+    Scalar2: Copy + Default + core::fmt::Debug + DefaultStrategy,
+    ScalarResult: Copy + Default + biteq::BitEq + core::fmt::Debug + DefaultStrategy,
+    Vector: Into<[Scalar1; LANES]> + From<[Scalar1; LANES]> + Copy,
+    VectorResult: Into<[ScalarResult; LANES]> + From<[ScalarResult; LANES]> + Copy,
+{
+    test_2(&|x: [Scalar1; LANES], y: Scalar2| {
+        proptest::prop_assume!(check(x, y));
+        let result_1: [ScalarResult; LANES] = fv(x.into(), y).into();
+        let result_2: [ScalarResult; LANES] = {
+            let mut result = [ScalarResult::default(); LANES];
+            for (i, o) in x.iter().zip(result.iter_mut()) {
+                *o = fs(*i, y);
+            }
+            result
+        };
+        crate::prop_assert_biteq!(result_1, result_2);
+        Ok(())
